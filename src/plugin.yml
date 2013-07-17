@@ -1,0 +1,10 @@
+name: VArenas
+main: net.vectorgaming.varenas.VArenas
+version: 0.1
+author: Kenny Williams
+website: http://vectorgaming.net
+description: Player versus player arena manager
+
+commands:
+  arena:
+    description: arena command

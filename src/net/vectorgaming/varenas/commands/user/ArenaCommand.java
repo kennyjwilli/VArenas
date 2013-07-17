@@ -2,7 +2,7 @@
 package net.vectorgaming.varenas.commands.user;
 
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.commands.admin.ArenaCreateCommand;
+import net.vectorgaming.varenas.commands.admin.*;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -40,6 +40,12 @@ public class ArenaCommand extends VCommand
     @Override
     public void setupSubCommands() {
         this.addSubCommand("create", ArenaCreateCommand.class);
+        this.addSubCommand("addspawn", ArenaAddSpawnPointCommand.class);
+        this.addSubCommand("deletespawn", ArenaDeleteSpawnPointCommand.class);
+        this.addSubCommand("setregion", SetArenaBoxCommand.class);
+        this.addSubCommand("setlobby", ArenaSetLobbySpawnCommand.class);
+        this.addSubCommand("setspectatorbox", ArenaSetSpectateSpawnCommand.class);
+        this.addSubCommand("arenaready", ArenaReadyArenaCommand.class);
     }
 
     @Override

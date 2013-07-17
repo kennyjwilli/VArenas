@@ -67,6 +67,7 @@ public abstract class VCommand
                         return;
                     }
                     cmd.run(cs, args);
+                    return;
                 } catch (InstantiationException | IllegalAccessException ex) {
                     Logger.getLogger(VCommand.class.getName()).log(Level.SEVERE, null, ex);
                 }
