@@ -19,20 +19,17 @@ public class VArenas extends JavaPlugin
     private CommandManager cm = new CommandManager();
     private PlayerDeathListener dl = new PlayerDeathListener();
     private SLAPI slapi = new SLAPI(this);
+    private ArenaManager am = new ArenaManager(this);
     
+    @Override
     public void onEnable()
     {
         setupCommands();
         setupEvents();
-        try
-        {
-            slapi.loadAllArenas();
-        } catch (Exception ex)
-        {
-            Logger.getLogger(VArenas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        slapi.loadAllArenas();
     }
     
+    @Override
     public void onDisable()
     {
         slapi.saveAllArenas();

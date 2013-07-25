@@ -14,24 +14,49 @@ import org.bukkit.entity.Player;
  */
 public class ArenaLobby extends VRegion
 {
-    private int duration;
-    private ArrayList<String> interval;
+    private int duration = 120;
+    private ArrayList<String> interval = new ArrayList<>();
     private int timeLeftLobby = duration;
     private int TASK_ID;
     private boolean isLobbyTimerRunning = false;
     
+    public ArenaLobby()
+    {
+        setupDefaultInterval();
+    }
+    
+    /**
+     * Gets the duration until the lobby is closed and the match starts
+     * @return Integer
+     */
     public int getLobbyDuration(){return duration;}
     
+    /**
+     * Sets how long the duration the lobby is open until the match starts
+     * @param t Integer
+     */
     public void setLobbyDuration(int t){duration = t;}
     
+    /**
+     * Gets the interval for the plugin to relay the match starting notice
+     * @return ArrayList<String>
+     */
     public ArrayList<String> getInterval(){return interval;}
     
+    /**
+     * Sets the interval for the plugin to relay the match starting notice
+     * @param interval ArrayList<String>
+     */
     public void setInterval(ArrayList<String> interval) {this.interval = interval;} 
     
+    /**
+     * Starts the timer until the match starts. 
+     * CAUTION: DO NOT USE THIS UNLESS.. NOPE NO EXCEPTIONS UNLESS YOU WANT FREE CRASHES
+     */
     public void startLobbyTimer()
     {
         //When VChat is done add sendChannelMessage method and use it here.
-        TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVEventsPlugin(), new Runnable()
+        TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
         {
             public void run()
             {
@@ -55,6 +80,25 @@ public class ArenaLobby extends VRegion
         }, 0L, 20L);
     }
     
+    /**
+     * Gets if the lobby timer is still running. If true then players are still in the lobby and
+     * the game has not yet started
+     * @return boolean
+     */
     public boolean isLobbyTimerRunning(){return isLobbyTimerRunning;}
+    
+    private void setupDefaultInterval()
+    {
+        interval.add("120");
+        interval.add("60");
+        interval.add("30");
+        interval.add("15");
+        interval.add("10");
+        interval.add("5");
+        interval.add("4");
+        interval.add("3");
+        interval.add("2");
+        interval.add("1");
+    }
             
 }

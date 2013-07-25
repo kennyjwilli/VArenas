@@ -12,8 +12,10 @@ import net.vectorgaming.vevents.EventManager;
 import net.vectorgaming.vevents.VEvents;
 import net.vectorgaming.vevents.event.VEvent;
 import net.vectorgaming.vevents.event.type.EventType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 /**
  *
@@ -24,40 +26,33 @@ public class ArenaManager
     private static HashMap<String, VArena> arenas = new HashMap<>();
     private static ArrayList<String> readyArenas = new ArrayList<>();
     private static ArrayList<Player> arenaPlayers = new ArrayList<>();
-    private static VEvents plugin;
+    private static VArenas plugin;
     
-    public ArenaManager(VEvents instance)
+    public ArenaManager(VArenas instance)
     {
         plugin = instance;
     }
     
     public static void createArena(String name, EventType type) throws Exception
     {
-        String temp = "";
-        try
-        {
-            EventManager.getEventClass(type.toString()).newInstance();
-        }catch(Exception e)
-        {
-            
-        }
+//        String temp = "";
+//        try
+//        {
+//            EventManager.getEventClass(type.toString()).newInstance();
+//        }catch(Exception e)
+//        {
+//            
+//        }
         
         switch(type)
         {
             case PVP_ARENA:
-                System.out.println("4");
                 arenas.put(name, new PVPArena(name));
-                System.out.println("3");
             case MOB_ARENA:
-                System.out.println("5");
                 //arenas.put(name, new MobArena(name));
-                return;
+                //return;
             case TDM:
-                System.out.println("6");
-                return;
             case CTF:
-                System.out.println("7");
-                return;
             default:
         }
         System.out.println("1");
@@ -79,16 +74,26 @@ public class ArenaManager
         return false;
     }
     
+    public static boolean arenaExists(VArena arena) {return arenaExists(arena.getName());}
+    
     public static ArrayList<String> getReadyArenas() {return readyArenas;}
     
     public static boolean isArenaReady(String name)
     {
-        if(readyArenas.contains(name))
+        if(readyArenas.contains(name) && !getArena(name).isEditModeEnabled())
             return true;
         return false;
     }
     
     public static boolean isArenaReady(VArena arena) {return isArenaReady(arena.getName());}
+    
+    public static void readyArena(String arena)
+    {
+        if(!readyArenas.contains(arena))
+            readyArenas.add(arena);
+    }
+    
+    public static void readyArena(VArena arena) {readyArena(arena.getName());}
     
     public static ArrayList<Player> getAllArenaPlayers() {return arenaPlayers;}
     
@@ -139,7 +144,7 @@ public class ArenaManager
         return result;
     }
     
-    public static VEvents getVEventsPlugin()
+    public static VArenas getVArenasPlugin()
     {
         return plugin;
     }

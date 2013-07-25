@@ -80,16 +80,15 @@ public class SetArenaBoxCommand extends VCommand
             };
             
             arena.setArenaBox(box);
-            
-            
-            cs.sendMessage(ChatColor.GREEN+"Region for arena "+arena.getName()+" has been set.");
-            arena.checkArenaSetup((Player) cs);
         }catch(Exception e)
         {
             e.printStackTrace();
             cs.sendMessage(ChatColor.RED+"Error: Could not create region");
+            return true;
         }
-
+        
+        cs.sendMessage(ChatColor.GREEN+"Region for arena "+arena.getName()+" has been set.");
+        arena.checkArenaSetup((Player) cs);
         
         
         

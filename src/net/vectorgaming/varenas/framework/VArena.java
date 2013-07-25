@@ -23,20 +23,29 @@ public abstract class VArena extends VEvent
     private boolean blockBreakEnabler = false;
     private boolean editMode = false;
     private boolean tntEnabled = false;
-    private Location lobbyLoc;
-    private Location spectateLoc;
+    private int maxPlayers;
+    private ArrayList<String> authors;
+    private String objective;
     private HashMap<String, Location> spawnPoints = new HashMap<>();
     private TriggerBox arenaBox;
-    private TriggerBox lobbyBox;
-    private TriggerBox spectateBox;
     private ArenaLobby lobby;
     private ArenaSpectatorBox spectatorBox;
     
+    /**
+     *
+     * @param name Name of arena
+     * @param lobby ArenaLobby
+     * @param spectatorBox ArenaSpectatorBox
+     */
     public VArena(String name, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
     {
         super(name);
     }
     
+    /**
+     * 
+     * @param name Name of arena
+     */
     public VArena(String name)
     {
         super(name);
@@ -54,9 +63,53 @@ public abstract class VArena extends VEvent
      */
     public void setBlockBreak(boolean value){this.blockBreakEnabler = value;}
     
-    public boolean isTnTEnabled() {return tntEnabled;}
+    /**
+     * Gets if TNT is enabled for the arena
+     * @return boolean value
+     */
+    public boolean isTNTEnabled() {return tntEnabled;}
     
+    /**
+     * Sets the use of TNT in the arena
+     * @param value boolean value
+     */
     public void setTnTUse(boolean value) {this.tntEnabled = value;}
+    
+    /**
+     * Gets the max amount of players for the arena
+     * @return Integer
+     */
+    public Integer getMaxPlayers() {return maxPlayers;}
+    
+    /**
+     * Sets the max amount of players for the arena
+     * @param maxPlayers Integer
+     */
+    public void setMaxPlayers(int maxPlayers) {this.maxPlayers = maxPlayers;}
+    
+    /**
+     * Gets the authors for the arena map
+     * @return ArrayList<String>
+     */
+    public ArrayList<String> getAuthors() {return this.authors;}
+    
+    /**
+     * Sets the authors for the arena map
+     * @param authors ArrayList<String>
+     */
+    public void setAuthors(ArrayList<String> authors) {this.authors = authors;}
+    
+    /**
+     * Gets the objective for the arena.
+     * @return String
+     */
+    public String getObjective() {return objective;}
+    
+    /**
+     * Sets the objective for the arena
+     * @param objective String
+     */
+    public void setObjective(String objective) {this.objective = objective;}
     
     /**
      * Checks to see if the arena is currently in edit mode. Edit mode disables the
@@ -71,6 +124,11 @@ public abstract class VArena extends VEvent
      */
     public void setEditMode(boolean value){editMode = value;}
     
+    /**
+     * A function used by the plugin to tell the player what elements are missing
+     * before the arena can be ready
+     * @param p Player object to send the messages to
+     */
     public void checkArenaSetup(Player p)
     {
         ArrayList<String> result = new ArrayList<>();
@@ -163,23 +221,43 @@ public abstract class VArena extends VEvent
         return false;
     }
     
+    /**
+     * Gets the HashMap of spawnpoints and their location
+     * @return HashMap<String, Location>
+     */
     public HashMap<String,Location> getSpawnPointMap() {return spawnPoints;}
     
+    /**
+     * Sets the arena lobby object
+     * @param lobby ArenaLobby
+     */
     public void setLobby(ArenaLobby lobby)
     {
         this.lobby = lobby;
     }
     
+    /**
+     * Get the arena lobby object
+     * @return ArenaLobby
+     */
     public ArenaLobby getLobby()
     {
         return lobby;
     }
     
+    /**
+     * Sets the arena spectator box 
+     * @param spectatorBox ArenaSpectatorBox
+     */
     public void setSpectatorBox(ArenaSpectatorBox spectatorBox)
     {
         this.spectatorBox = spectatorBox;
     }
     
+    /**
+     * Gets the spectator box object for the arena
+     * @return ArenaSpectatorBox
+     */
     public ArenaSpectatorBox getSpectatorBox()
     {
         return this.spectatorBox;

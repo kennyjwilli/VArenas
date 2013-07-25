@@ -41,7 +41,7 @@ public class PVPArena extends VArena
         
         this.getLobby().startLobbyTimer();
         
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVEventsPlugin(), new Runnable()
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
         {
             public void run()
             {
@@ -65,7 +65,7 @@ public class PVPArena extends VArena
         
         
         
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVEventsPlugin(), new Runnable()
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
         {
             public void run()
             {
@@ -76,7 +76,7 @@ public class PVPArena extends VArena
 
     @Override
     public void readyArena() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArenaManager.readyArena(this.getName());
     }
 
     @Override

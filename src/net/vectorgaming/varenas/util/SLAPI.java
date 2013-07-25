@@ -1,6 +1,8 @@
 
 package net.vectorgaming.varenas.util;
 
+import info.jeppes.ZoneCore.TriggerBoxes.PolygonTriggerBox;
+import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +28,9 @@ public class SLAPI
     {
         plugin = instance;
     }
+    /**
+     * Saves all the arenas to the config files
+     */
     public void saveAllArenas()
     {
         List<String> enabledArenas = new ArrayList<>();
@@ -39,8 +44,8 @@ public class SLAPI
             /*
              * Arena settings
              */
-            config.set("settings.type", arena.getEventType());
-            config.set("settings.tnt-enabled", arena.isTnTEnabled());
+            config.set("settings.type", arena.getEventType().toString());
+            config.set("settings.tnt-enabled", arena.isTNTEnabled());
             config.set("settings.block-break", arena.isBlockBreakEnabled());
             /*
              * Lobby Settings
@@ -61,6 +66,11 @@ public class SLAPI
                 config.set("spawns.arena."+kv.getKey(), SLAPI.saveLocation(loc));
             }
             
+            /*
+             * Arena Regions
+             */
+            
+            config.set("region.arena", arena.getArenaBox().toSaveString());
             //config.set("region.arena", arena.getArenaBox().getSaveFormat());
             //config.set("region.lobby", arena.getLobbyBox().getSaveFormat());
             //config.set("region.spectator-box", arena.getSpectateBox().getSaveFormat());
@@ -69,12 +79,18 @@ public class SLAPI
             enabledArenas.add(s);
         }
         
+        /*
+         * Save enabled arenas
+         */
         plugin.getConfig().set("enabled-arenas", enabledArenas);
         plugin.saveConfig();
     }
 
     
-    public void loadAllArenas() throws Exception
+    /**
+     * Loads all arenas from their config files
+     */
+    public void loadAllArenas()
     {
         if(!plugin.getConfig().contains("enabled-arenas"))
         {
@@ -84,7 +100,7 @@ public class SLAPI
         for(String s : plugin.getConfig().getStringList("enabled-arenas"))
         {
             VArena arena = new PVPArena(s);
-            ZoneConfig config = new ZoneConfig(plugin, new File(plugin.getDataFolder().getAbsoluteFile()+File.separator+"arenas"+s+".yml"));
+            ZoneConfig config = new ZoneConfig(plugin, new File(plugin.getDataFolder().getAbsoluteFile()+File.separator+"arenas"+File.separator+s+".yml"));
             
             /*
              * Loads spawns
@@ -106,13 +122,23 @@ public class SLAPI
             arena.getLobby().setInterval((ArrayList<String>)config.getStringList("settings.lobby.messsage-interval"));
             arena.getLobby().setLobbyDuration(config.getInt("settings.lobby.time"));
             
+            /*
+             * Loads regions
+             */
+            arena.setArenaBox(PolygonTriggerBox.getPolygonTriggerBox(config.getString("region.arena")));
+            
             //arena.setArenaBox(VRegion.loadSaveFormat(config.getStringList("region.arena")));
+            
+            /*
+             * Ready loaded arenas
+             */
+            ArenaManager.readyArena(s);
         }
     }
     
     public static String saveLocation(Location location)
     {
-        return location.getWorld().getName()+location.getBlockX()+";"+location.getBlockY()+";"+location.getBlockZ();
+        return location.getWorld().getName()+";"+location.getBlockX()+";"+location.getBlockY()+";"+location.getBlockZ();
     }
     
     public static Location getLocationFromSave(String save)
