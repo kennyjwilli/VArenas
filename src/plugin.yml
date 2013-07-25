@@ -5,6 +5,8 @@ author: Kenny Williams
 website: http://vectorgaming.net
 description: Player versus player arena manager
 
+depend: [VEvents]
+
 commands:
   arena:
     description: arena command

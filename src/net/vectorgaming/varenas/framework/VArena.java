@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public abstract class Arena extends VEvent
+public abstract class VArena extends VEvent
 {
     /*
      * Need to load these valuse from the config later
@@ -26,11 +26,18 @@ public abstract class Arena extends VEvent
     private Location lobbyLoc;
     private Location spectateLoc;
     private HashMap<String, Location> spawnPoints = new HashMap<>();
-    private VRegion arenaBox;
-    private VRegion lobbyBox;
-    private VRegion spectateBox;
+    private TriggerBox arenaBox;
+    private TriggerBox lobbyBox;
+    private TriggerBox spectateBox;
+    private ArenaLobby lobby;
+    private ArenaSpectatorBox spectatorBox;
     
-    public Arena(String name) throws Exception
+    public VArena(String name, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
+    {
+        super(name);
+    }
+    
+    public VArena(String name)
     {
         super(name);
     }
@@ -71,9 +78,9 @@ public abstract class Arena extends VEvent
             result.add("Arena Region");
         if(getSpawnPoints().isEmpty())
             result.add("Arena Spawn Points");
-        if(getLobbyLocation() == null)
+        if(this.getLobby().getSpawn() == null)
             result.add("Lobby Location");
-        if(getSpectateLocation() == null)
+        if(this.getSpectatorBox().getSpawn() == null)
             result.add("Spectator Box Location");
         
         if(result.isEmpty())
@@ -156,68 +163,37 @@ public abstract class Arena extends VEvent
         return false;
     }
     
-    /**
-     * Gets the spawn point for the Lobby
-     * @return Location Object
-     */
-    public Location getLobbyLocation(){return lobbyLoc;}
+    public HashMap<String,Location> getSpawnPointMap() {return spawnPoints;}
     
-    /**
-     * Sets the spawn point for the Lobby
-     * @param loc Location Object
-     */
-    public void setLobbyLocation(Location loc){lobbyLoc = loc;}
+    public void setLobby(ArenaLobby lobby)
+    {
+        this.lobby = lobby;
+    }
     
-    /**
-     * Gets the spawn point for the Spectator Box
-     * @return Location
-     */
-    public Location getSpectateLocation(){return spectateLoc;}
+    public ArenaLobby getLobby()
+    {
+        return lobby;
+    }
     
-    /**
-     * Sets the spawn point for the Spectator Box
-     * @param loc Location
-     */
-    public void setSpectateLocation(Location loc){spectateLoc = loc;}
+    public void setSpectatorBox(ArenaSpectatorBox spectatorBox)
+    {
+        this.spectatorBox = spectatorBox;
+    }
+    
+    public ArenaSpectatorBox getSpectatorBox()
+    {
+        return this.spectatorBox;
+    }
     
     /**
      * Gets the entire area the arena is located in
      * @return PolygonTriggerBox
      */
-    public VRegion getArenaBox(){return arenaBox;}
+    public TriggerBox getArenaBox(){return arenaBox;}
     
     /**
      * Sets the area for the arena
      * @param polygon PloygonTriggerBox
      */
-    public void setArenaBox(VRegion polygon){arenaBox = polygon;}
-    
-    /**
-     * Gets the entire area the lobby is located in. This is not required in arena setup
-     * and may return null. If null then the lobby is included in the arena area.
-     * @return PolygonTriggerBox
-     */
-    public VRegion getLobbyBox(){return lobbyBox;}
-    
-    /**
-     * Sets the area for the lobby
-     * @param polygon PolygonTriggerBox
-     */
-    public void setLobbyBox(VRegion polygon){lobbyBox = polygon;}
-    
-    /**
-     * Gets the entire area the lobby is located in. This is not required in arena setup
-     * and may return null. If null then the Spectator Box is included in the arena area.
-     * @return PolygonTriggerBox
-     */
-    public VRegion getSpectateBox(){return spectateBox;}
-    
-    /**
-     * Sets the area for the Spectator Box
-     * @param polygon PolygonTriggerBox
-     */
-    public void setSpectateBox(VRegion polygon){spectateBox = polygon;}
-    
-    
-        
+    public void setArenaBox(TriggerBox polygon){arenaBox = polygon;}
 }

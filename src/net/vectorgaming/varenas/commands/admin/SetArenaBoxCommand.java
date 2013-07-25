@@ -3,15 +3,19 @@ package net.vectorgaming.varenas.commands.admin;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
+import info.jeppes.ZoneCore.TriggerBoxes.PolygonTriggerBox;
+import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
+import java.util.ArrayList;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.varenas.framework.VArena;
 import net.vectorgaming.varenas.framework.VRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 /**
@@ -37,29 +41,55 @@ public class SetArenaBoxCommand extends VCommand
             return true;
         }
         
-        Arena arena = ArenaManager.getArena(args[0]);
+        VArena arena = ArenaManager.getArena(args[0]);
         
         WorldEditPlugin we = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
+        Selection selection = we.getSelection((Player) cs);
+        Location maxY;
+        Location minY;
         try
         {
-            Selection selection = we.getSelection((Player) cs);
-            Location maxY = selection.getMaximumPoint();
-            Location minY = selection.getMinimumPoint();
-
-
-    //        arena.addPolygonPoint(maxY);
-    //        arena.addPolygonPoint(minY);
-
-            VRegion region = new VRegion(maxY, minY);
-            arena.setArenaBox(region);
-            
-            cs.sendMessage(ChatColor.GREEN+"Region for arena "+arena.getName()+" has been set.");
-            arena.checkArenaSetup((Player) cs);
+            maxY = selection.getMaximumPoint();
+            minY = selection.getMinimumPoint();
         }catch(Exception e)
         {
             cs.sendMessage(ChatColor.RED+"Error: Two points must be selected to set the arena box.");
             return true;
         }
+            
+
+    //        arena.addPolygonPoint(maxY);
+    //        arena.addPolygonPoint(minY);
+        try
+        {
+            TriggerBox box = new PolygonTriggerBox(ArenaManager.getPolygonPoints(minY, maxY), arena.getName(), minY.getBlockY(), maxY.getBlockY()) {
+
+                @Override
+                public void entered(Entity entity)
+                {
+                    //add stuff later
+                    return;
+                }
+
+                @Override
+                public void left(Entity entity)
+                {
+                    //add stuff later
+                    return;
+                }
+            };
+            
+            arena.setArenaBox(box);
+            
+            
+            cs.sendMessage(ChatColor.GREEN+"Region for arena "+arena.getName()+" has been set.");
+            arena.checkArenaSetup((Player) cs);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            cs.sendMessage(ChatColor.RED+"Error: Could not create region");
+        }
+
         
         
         

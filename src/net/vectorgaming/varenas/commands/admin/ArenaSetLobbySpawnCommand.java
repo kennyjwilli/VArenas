@@ -4,7 +4,7 @@ package net.vectorgaming.varenas.commands.admin;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.varenas.framework.VArena;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,9 +33,9 @@ public class ArenaSetLobbySpawnCommand extends VCommand
             cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
         }
         
-        Arena arena = ArenaManager.getArena(args[0]);
+        VArena arena = ArenaManager.getArena(args[0]);
         
-        arena.setLobbyLocation(p.getLocation());
+        arena.getLobby().setSpawn(p.getLocation());
         cs.sendMessage(ChatColor.GREEN+"Successfully set lobby location for arena "+ChatColor.YELLOW+arena.getName()+ChatColor.GREEN+".");
         arena.checkArenaSetup(p);
         return true;
