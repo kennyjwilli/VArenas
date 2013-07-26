@@ -5,6 +5,7 @@ import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.VArena;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -36,7 +37,7 @@ public class ArenaInfoCommand extends VCommand
         
         cs.sendMessage(ChatColor.BLUE+"========== "+ChatColor.GOLD+arena.getName()+" Info"+ChatColor.BLUE+" ==========");
         cs.sendMessage("Author(s): "+arena.getAuthors());
-        cs.sendMessage("Map Type: "+arena.getT);
+        cs.sendMessage("Map Type: "+WordUtils.capitalizeFully(arena.getEventType().replaceAll("_", " ")));
         cs.sendMessage("Objective: "+arena.getObjective());
         cs.sendMessage("Max Players: "+arena.getMaxPlayers());
         cs.sendMessage("TNT Enabled: "+arena.isTNTEnabled());

@@ -105,8 +105,10 @@ public class SLAPI
         
         for(String s : plugin.getConfig().getStringList("enabled-arenas"))
         {
-            VArena arena = new PVPArena(s);
+            
             ZoneConfig config = new ZoneConfig(plugin, new File(plugin.getDataFolder().getAbsoluteFile()+File.separator+"arenas"+File.separator+s+".yml"));
+            String type = config.getString("settings.type");
+            VArena arena = ArenaManager.createArena(s, type);
             
             /*
              * Loads spawns

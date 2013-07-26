@@ -3,6 +3,7 @@ package net.vectorgaming.varenas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 import net.vectorgaming.varenas.framework.ArenaLobby;
 import net.vectorgaming.varenas.framework.ArenaSpectatorBox;
 import net.vectorgaming.varenas.framework.MobArena;
@@ -33,17 +34,19 @@ public class ArenaManager
         plugin = instance;
     }
     
-    public static void createArena(String name, String type) throws Exception
+    public static VArena createArena(String name, String type)
     {
         try
         {
-            EventManager.getEventClass(type.toString()).newInstance();
+            VArena arena = (VArena) EventManager.getEventClass(type.toString()).newInstance();
+            arena.setLobby(new ArenaLobby());
+            arena.setSpectatorBox(new ArenaSpectatorBox());
         }catch(Exception e)
         {
-            
+            Bukkit.getLogger().log(Level.SEVERE, "[VArenas] Class must extend VArena to use createArena!");
+            e.printStackTrace();
         }
-        getArena(name).setLobby(new ArenaLobby());
-        getArena(name).setSpectatorBox(new ArenaSpectatorBox());
+        return null;
     }
     
     public static void addArena(String name, VArena arena){arenas.put(name, arena);}

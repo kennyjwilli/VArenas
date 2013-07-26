@@ -19,9 +19,9 @@ public class PVPArena extends VArena
     private int TASK_ID;
     private int timeLeftLobby = 120;
     
-    public PVPArena(String name)
+    public PVPArena(String name, String type)
     {
-        super(name);
+        super(name, type);
     }
 
     @Override
@@ -91,9 +91,6 @@ public class PVPArena extends VArena
         Bukkit.getScheduler().cancelTask(TASK_ID);
         isRunning = false;
     }
-
-    @Override
-    public EventType getEventType() {return EventType.PVP_ARENA;}
 
     @Override
     public void sendEndMessage() {

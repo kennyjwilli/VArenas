@@ -34,7 +34,7 @@ public class ArenaCreateCommand extends VCommand
         if(args.length == 1)
         {
             try {
-                ArenaManager.createArena(args[0], EventType.PVP_ARENA);
+                ArenaManager.createArena(args[0], EventType.PVP_ARENA.toString());
                 cs.sendMessage(ChatColor.GREEN+"Created PvP Arena "+ChatColor.YELLOW+args[0]+" successfully!");
                 ArenaManager.getArena(args[0]).checkArenaSetup((Player) cs);
             } catch (Exception ex) {

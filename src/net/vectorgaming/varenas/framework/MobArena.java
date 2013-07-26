@@ -27,9 +27,9 @@ public class MobArena extends VArena
     private Arena mobArena;
     private ArrayList<Location> polygon;
     
-    public MobArena(String arenaName)
+    public MobArena(String arenaName, String type)
     {
-        super(arenaName);
+        super(arenaName, type);
         this.arenaName = arenaName;
         if(Bukkit.getPluginManager().getPlugin("MobArena") == null || !Bukkit.getPluginManager().getPlugin("MobArena").isEnabled())
         {
@@ -87,9 +87,6 @@ public class MobArena extends VArena
     
     @Override
     public void readyArena(){}
-    
-    @Override
-    public EventType getEventType(){return EventType.MOB_ARENA;}
     
     @Override
     public void sendEndMessage(){}
