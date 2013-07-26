@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import net.vectorgaming.varenas.util.Msg;
+import net.vectorgaming.vevents.event.EventResult;
 import net.vectorgaming.vevents.event.VEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,11 +17,14 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public abstract class VArena extends VEvent
+public abstract class VArena
 {
     /*
      * Need to load these valuse from the config later
      */
+    private String name;
+    private String type;
+    private ArrayList<Player> players = new ArrayList<>();
     private boolean blockBreakEnabler = false;
     private boolean editMode = false;
     private boolean tntEnabled = false;
@@ -39,7 +44,10 @@ public abstract class VArena extends VEvent
      */
     public VArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
     {
-        super(name, type);
+        this.name = name;
+        this.type = type;
+        this.lobby = lobby;
+        this.spectatorBox = spectatorBox;
     }
     
     /**
@@ -48,7 +56,141 @@ public abstract class VArena extends VEvent
      */
     public VArena(String name, String type)
     {
-        super(name, type);
+        this.name = name;
+        this.type = type;
+    }
+    
+    /**
+     * Gets the name of the arena
+     * @return String
+     */
+    public String getName(){return name;}
+    
+    /**
+     * Sets the name of the arena
+     * @param name String
+     */
+    public void setName(String name){this.name = name;}
+    
+    /**
+     * Starts the arena. Usually all players will be teleported to the lobby
+     */
+    public abstract void start();
+    
+    /**
+     * Readys the arena so that it can be used. 
+     */
+    public abstract void readyArena();
+    
+    /**
+     * Gets if the arena is currently running
+     * @return boolean
+     */
+    public abstract boolean isRunning();
+    
+    /**
+     * Force stops the arena from running. No stats should be kept and inventories should be reset. There is no 
+     * TP out and no rewards given
+     */
+    public abstract void forceStop();
+    
+    /**
+     * Sends all the players in the arena a message when the round is over
+     */
+    public abstract void sendEndMessage();
+    
+    /**
+     * Ends the match with all normal procedures
+     */
+    public void end()
+    {
+        endTeleportAction();
+        resetInventory();
+        //rewardPlayers(null);
+        recordStats();
+    }
+    
+    /**
+     * Gets the event type for the arena. This value should be in all caps and spaces should
+     * be underscores
+     * @return String
+     */
+    public String getEventType() {return type;}
+            
+    /**
+     * Gets the result of the game
+     * @return EventResult
+     */
+    public EventResult getResult()
+    {
+        if(isRunning())
+            return EventResult.GAME_RUNNING;
+        return EventResult.ONE_WINNER;
+    }
+    
+    /**
+     * Gets the players in the arena
+     * @return ArrayList<Player>
+     */
+    public ArrayList<Player> getPlayers(){return players;}
+    
+    /**
+     * Adds a player directly to the arena. 
+     * WARNING: To add a player the proper way ArenaManager.addPlayerToArena should be used
+     * @param p Player
+     */
+    public void addPlayer(Player p)
+    {
+        if(!players.contains(p))
+            players.add(p);
+    }
+    
+    /**
+     * Removes a player directly from the Arena
+     * WARNING: To removed a player the proper way ArenaManager.removePlayerFromArena should be used
+     * @param p Player
+     */
+    public void removePlayer(Player p)
+    {
+        if(players.contains(p))
+            players.remove(p);
+    }
+    
+    /**
+     * Gets if the player is joined to the arena
+     * @param p Player
+     * @return Boolean
+     */
+    public boolean isActivePlayer(Player p)
+    {
+        if(players.contains(p))
+            return true;
+        return false;
+    }
+    
+    /**
+     * Teleports all players to a default location
+     */
+    public void endTeleportAction()
+    {
+        Location loc = Bukkit.getWorld("spawn").getSpawnLocation();
+        for(Player p : players){p.teleport(loc);}
+    }
+    
+    /**
+     * Resets all players inventories to the state before the match
+     */
+    public void resetInventory()
+    {
+        
+    }
+    
+    /**
+     * Records all stats from the match
+     */
+    public void recordStats()
+    {
+        
     }
 
     /**
