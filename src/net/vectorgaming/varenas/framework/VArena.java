@@ -24,7 +24,7 @@ public abstract class VArena extends VEvent
     private boolean editMode = false;
     private boolean tntEnabled = false;
     private int maxPlayers;
-    private ArrayList<String> authors;
+    private String authors;
     private String objective;
     private HashMap<String, Location> spawnPoints = new HashMap<>();
     private TriggerBox arenaBox;
@@ -37,18 +37,18 @@ public abstract class VArena extends VEvent
      * @param lobby ArenaLobby
      * @param spectatorBox ArenaSpectatorBox
      */
-    public VArena(String name, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
+    public VArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
     {
-        super(name);
+        super(name, type);
     }
     
     /**
      * 
      * @param name Name of arena
      */
-    public VArena(String name)
+    public VArena(String name, String type)
     {
-        super(name);
+        super(name, type);
     }
 
     /**
@@ -89,15 +89,15 @@ public abstract class VArena extends VEvent
     
     /**
      * Gets the authors for the arena map
-     * @return ArrayList<String>
+     * @return String
      */
-    public ArrayList<String> getAuthors() {return this.authors;}
+    public String getAuthors() {return this.authors;}
     
     /**
      * Sets the authors for the arena map
-     * @param authors ArrayList<String>
+     * @param authors String
      */
-    public void setAuthors(ArrayList<String> authors) {this.authors = authors;}
+    public void setAuthors(String authors) {this.authors = authors;}
     
     /**
      * Gets the objective for the arena.

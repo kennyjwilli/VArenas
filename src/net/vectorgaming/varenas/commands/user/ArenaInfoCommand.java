@@ -35,12 +35,12 @@ public class ArenaInfoCommand extends VCommand
         }
         
         cs.sendMessage(ChatColor.BLUE+"========== "+ChatColor.GOLD+arena.getName()+" Info"+ChatColor.BLUE+" ==========");
-        cs.sendMessage("Author(s): ");
-        cs.sendMessage("Map Type: "+arena.getEventType().toString());
-        cs.sendMessage("Objective: ");
-        cs.sendMessage("Max Players: ");
-        cs.sendMessage("TNT Enabled: ");
-        cs.sendMessage("Block Break: ");
+        cs.sendMessage("Author(s): "+arena.getAuthors());
+        cs.sendMessage("Map Type: "+arena.getT);
+        cs.sendMessage("Objective: "+arena.getObjective());
+        cs.sendMessage("Max Players: "+arena.getMaxPlayers());
+        cs.sendMessage("TNT Enabled: "+arena.isTNTEnabled());
+        cs.sendMessage("Block Break: "+arena.isBlockBreakEnabled());
         return true;
     }
 

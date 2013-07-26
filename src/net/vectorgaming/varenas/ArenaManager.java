@@ -33,32 +33,17 @@ public class ArenaManager
         plugin = instance;
     }
     
-    public static void createArena(String name, EventType type) throws Exception
+    public static void createArena(String name, String type) throws Exception
     {
-//        String temp = "";
-//        try
-//        {
-//            EventManager.getEventClass(type.toString()).newInstance();
-//        }catch(Exception e)
-//        {
-//            
-//        }
-        
-        switch(type)
+        try
         {
-            case PVP_ARENA:
-                arenas.put(name, new PVPArena(name));
-            case MOB_ARENA:
-                //arenas.put(name, new MobArena(name));
-                //return;
-            case TDM:
-            case CTF:
-            default:
+            EventManager.getEventClass(type.toString()).newInstance();
+        }catch(Exception e)
+        {
+            
         }
-        System.out.println("1");
         getArena(name).setLobby(new ArenaLobby());
         getArena(name).setSpectatorBox(new ArenaSpectatorBox());
-        System.out.println("2");
     }
     
     public static void addArena(String name, VArena arena){arenas.put(name, arena);}

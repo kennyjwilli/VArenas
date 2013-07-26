@@ -42,9 +42,15 @@ public class SLAPI
             
             config.set("name", arena.getName());
             /*
+             * Arena info 
+             */
+            config.set("info.authors", arena.getAuthors());
+            config.set("info.objective", arena.getObjective());
+            /*
              * Arena settings
              */
             config.set("settings.type", arena.getEventType().toString());
+            config.set("settings.max-players", arena.getMaxPlayers());
             config.set("settings.tnt-enabled", arena.isTNTEnabled());
             config.set("settings.block-break", arena.isBlockBreakEnabled());
             /*
@@ -121,6 +127,12 @@ public class SLAPI
             
             arena.getLobby().setInterval((ArrayList<String>)config.getStringList("settings.lobby.messsage-interval"));
             arena.getLobby().setLobbyDuration(config.getInt("settings.lobby.time"));
+            arena.setMaxPlayers(config.getInt("settings.max-players"));
+            /*
+             * Loads arena info
+             */
+            arena.setAuthors(config.getString("info.authors"));
+            arena.setObjective(config.getString("info.objective"));
             
             /*
              * Loads regions
