@@ -218,3 +218,13 @@ pip-log.txt
 /nbproject
 /lib/nblibraries.properties
 /lib/CopyLibs
+
+#maven if used
+/build.xml
+/target
+
+# various other potential build files
+/build
+/bin
+/dist
+/manifest.mf
