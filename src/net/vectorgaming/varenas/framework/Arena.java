@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public abstract class VArena
+public abstract class Arena
 {
     /*
      * Need to load these valuse from the config later
@@ -28,7 +28,9 @@ public abstract class VArena
     private boolean blockBreakEnabler = false;
     private boolean editMode = false;
     private boolean tntEnabled = false;
+    private boolean isRunning = false;
     private int maxPlayers;
+    private int TP_TASK_ID;
     private String authors;
     private String objective;
     private HashMap<String, Location> spawnPoints = new HashMap<>();
@@ -43,7 +45,7 @@ public abstract class VArena
      * @param lobby ArenaLobby
      * @param spectatorBox ArenaSpectatorBox
      */
-    public VArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
+    public Arena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
     {
         this.name = name;
         this.type = type;
@@ -55,7 +57,7 @@ public abstract class VArena
      * 
      * @param name Name of arena
      */
-    public VArena(String name, String type)
+    public Arena(String name, String type)
     {
         this.name = name;
         this.type = type;
@@ -76,7 +78,43 @@ public abstract class VArena
     /**
      * Starts the arena. Usually all players will be teleported to the lobby
      */
-    public abstract void start();
+    public void start()
+    {
+        for(Player p : getPlayers())
+        {
+            p.teleport(this.getLobby().getSpawn());
+            //temp fix until VChat is done
+            p.sendMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
+        }
+        
+        //Add all players to Arena Chat Channel
+        //Silence other channels
+        
+        this.getLobby().startLobbyTimer();
+        
+        TP_TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
+        {
+            public void run()
+            {
+                if(!getLobby().isLobbyTimerRunning())
+                {
+                    /*
+                    * Teleport all players into the arena at each spawn point
+                    * Need some sort of check for if all the spawn points have been used.
+                    * Maybe like a max players per arena or a random spawn point in the arena
+                    */
+                   int i = 0;
+                   for(Player p : getPlayers())
+                   {
+                       if(i > getSpawnPoints().size()) i = 0;
+                       p.teleport(getSpawnPoints().get(i));
+                       i++;
+                   }
+                   Bukkit.getScheduler().cancelTask(TP_TASK_ID);
+                }
+            }
+        }, 0L, 20L);
+    }
     
     /**
      * Readys the arena so that it can be used. 
@@ -86,13 +124,7 @@ public abstract class VArena
         stats = new ArenaStats();
         ArenaManager.readyArena(this.getName());
     }
-    
-    /**
-     * Gets if the arena is currently running
-     * @return boolean
-     */
-    public abstract boolean isRunning();
-    
+        
     /**
      * Force stops the arena from running. No stats should be kept and inventories should be reset. There is no 
      * TP out and no rewards given
@@ -104,6 +136,10 @@ public abstract class VArena
      */
     public abstract void sendEndMessage();
     
+    public abstract void onDeath(Player p);
+    
+    public abstract void onRespawn(Player p);
+    
     /**
      * Ends the match with all normal procedures
      */
@@ -114,6 +150,18 @@ public abstract class VArena
         //rewardPlayers(null);
         recordStats();
     }
+    
+    public void setRunning(boolean value)
+    {
+        isRunning = value;
+    }
+    
+    /**
+     * Gets if the arena is currently running
+     * @return boolean
+     */
+    public boolean isRunning() {return isRunning;}
+    
     
     /**
      * Gets the event type for the arena. This value should be in all caps and spaces should
@@ -293,8 +341,8 @@ public abstract class VArena
     public void checkArenaSetup(Player p)
     {
         ArrayList<String> result = new ArrayList<>();
-        if(getArenaBox() == null)
-            result.add("Arena Region");
+//        if(getArenaBox() == null)
+//            result.add("Arena Region");
         if(getSpawnPoints().isEmpty())
             result.add("Arena Spawn Points");
         if(this.getLobby().getSpawn() == null)

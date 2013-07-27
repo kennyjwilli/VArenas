@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public class MobArena extends net.vectorgaming.varenas.framework.VArena
+public class MobArena extends net.vectorgaming.varenas.framework.Arena
 {
     private ArenaMaster am;
     private String arenaName;
@@ -88,5 +88,17 @@ public class MobArena extends net.vectorgaming.varenas.framework.VArena
     
     @Override
     public void sendEndMessage(){}
+
+    @Override
+    public void onDeath(Player p)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onRespawn(Player p)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

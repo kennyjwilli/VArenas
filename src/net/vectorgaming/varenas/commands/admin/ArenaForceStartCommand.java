@@ -4,7 +4,7 @@ package net.vectorgaming.varenas.commands.admin;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.VArena;
+import net.vectorgaming.varenas.framework.Arena;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -34,7 +34,7 @@ public class ArenaForceStartCommand extends VCommand
                 return true;
             }
             
-            VArena arena = ArenaManager.getArena(args[0]);
+            Arena arena = ArenaManager.getArena(args[0]);
             if(!ArenaManager.isArenaReady(arena))
             {
                 cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+arena.getName()+ChatColor.RED+" is not ready to be used.");

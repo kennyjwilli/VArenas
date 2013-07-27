@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 public class ArenaLobby extends VRegion
 {
-    private int duration = 120;
+    private int duration = 30;
     private ArrayList<String> interval = new ArrayList<>();
     private int timeLeftLobby = duration;
     private int TASK_ID;

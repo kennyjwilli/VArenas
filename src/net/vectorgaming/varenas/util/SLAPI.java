@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.VArenas;
-import net.vectorgaming.varenas.framework.VArena;
+import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.PVPArena;
 import net.vectorgaming.varenas.framework.VRegion;
 import org.bukkit.Bukkit;
@@ -37,7 +37,7 @@ public class SLAPI
         
         for(String s : ArenaManager.getReadyArenas())
         {
-            VArena arena = ArenaManager.getArena(s);
+            Arena arena = ArenaManager.getArena(s);
             ZoneConfig config = new ZoneConfig(plugin, new File(plugin.getDataFolder().getAbsoluteFile()+File.separator+"arenas"+File.separator+s+".yml"));
             
             config.set("name", arena.getName());
@@ -108,7 +108,7 @@ public class SLAPI
             
             ZoneConfig config = new ZoneConfig(plugin, new File(plugin.getDataFolder().getAbsoluteFile()+File.separator+"arenas"+File.separator+s+".yml"));
             String type = config.getString("settings.type");
-            VArena arena = ArenaManager.createArena(s, type);
+            Arena arena = ArenaManager.createArena(s, type);
             
             /*
              * Loads spawns

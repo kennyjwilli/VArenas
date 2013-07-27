@@ -8,7 +8,7 @@ import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.VArena;
+import net.vectorgaming.varenas.framework.Arena;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -39,7 +39,7 @@ public class SetArenaBoxCommand extends VCommand
             return true;
         }
         
-        VArena arena = ArenaManager.getArena(args[0]);
+        Arena arena = ArenaManager.getArena(args[0]);
         
         WorldEditPlugin we = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
         Selection selection = we.getSelection((Player) cs);
