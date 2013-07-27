@@ -32,21 +32,21 @@ public class ArenaConfig extends ZoneConfig{
         return getString(NAME);
     }
     
-    //This location is used as a reference for every other location in the arena
-    public void setArenaReferenceLocation(Location location){
-        setArenaReferenceLocation(new Point3D(location));
-    }
-    public void setArenaReferenceLocation(Point3D point){
-        this.set(REFERENCE_LOCATION, point.toSaveString());
-    }
-    public Point3D getReferenceLocation(){
-        String referenceLocationString = this.getString(REFERENCE_LOCATION);
-        if(referenceLocationString != null){
-            return Point3D.toPoint3D(referenceLocationString);
-        }
-        return null;
-    }
-    
+//    //This location is used as a reference for every other location in the arena
+//    public void setArenaReferenceLocation(Location location){
+//        setArenaReferenceLocation(new Point3D(location));
+//    }
+//    public void setArenaReferenceLocation(Point3D point){
+//        this.set(REFERENCE_LOCATION, point.toSaveString());
+//    }
+//    public Point3D getReferenceLocation(){
+//        String referenceLocationString = this.getString(REFERENCE_LOCATION);
+//        if(referenceLocationString != null){
+//            return Point3D.toPoint3D(referenceLocationString);
+//        }
+//        return null;
+//    }
+//    
     //Setting and getting the TriggerBox defining the arena area
     public void setArenaBox(TriggerBox box){
         this.set(ARENA_BOX, box.toSaveString());
