@@ -9,10 +9,6 @@ import net.vectorgaming.varenas.framework.ArenaSpectatorBox;
 import net.vectorgaming.varenas.framework.MobArena;
 import net.vectorgaming.varenas.framework.VArena;
 import net.vectorgaming.varenas.framework.PVPArena;
-import net.vectorgaming.vevents.EventManager;
-import net.vectorgaming.vevents.VEvents;
-import net.vectorgaming.vevents.event.VEvent;
-import net.vectorgaming.vevents.event.type.EventType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -38,7 +34,7 @@ public class ArenaManager
     {
         try
         {
-            VArena arena = (VArena) EventManager.getEventClass(type.toString()).newInstance();
+            VArena arena = ArenaRegistration.getArenaClass(type);
             arena.setLobby(new ArenaLobby());
             arena.setSpectatorBox(new ArenaSpectatorBox());
         }catch(Exception e)
