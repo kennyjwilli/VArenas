@@ -4,6 +4,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
+import net.vectorgaming.varenas.framework.ArenaType;
+import net.vectorgaming.varenas.framework.PVPArena;
 import net.vectorgaming.varenas.listeners.PlayerDeathListener;
 import net.vectorgaming.varenas.util.SLAPI;
 import org.bukkit.Bukkit;
@@ -26,6 +28,7 @@ public class VArenas extends JavaPlugin
     {
         setupCommands();
         setupEvents();
+        registerArenaTypes();
         slapi.loadAllArenas();
     }
     
@@ -45,5 +48,10 @@ public class VArenas extends JavaPlugin
     {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(dl, this);
+    }
+    
+    private void registerArenaTypes()
+    {
+        ArenaRegistration.registerArenaType(ArenaType.PVP_ARENA.toString(), PVPArena.class);
     }
 }

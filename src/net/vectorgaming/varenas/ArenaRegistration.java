@@ -1,9 +1,11 @@
 
 package net.vectorgaming.varenas;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import net.vectorgaming.varenas.framework.VArena;
+import net.vectorgaming.varenas.framework.PVPArena;
+import net.vectorgaming.varenas.framework.Arena;
 
 /**
  *
@@ -11,7 +13,7 @@ import net.vectorgaming.varenas.framework.VArena;
  */
 public class ArenaRegistration 
 {
-    public static HashMap<String, Class<? extends VArena>> arenas = new HashMap<>();
+    public static HashMap<String, Class<? extends Arena>> arenas = new HashMap<>();
     
     /**
      * Gets all registered arena types 
@@ -46,7 +48,7 @@ public class ArenaRegistration
      * @param type String
      * @param c Class<? extends VArena>
      */
-    public static void registerArenaType(String type, Class<? extends VArena> c)
+    public static void registerArenaType(String type, Class<? extends Arena> c)
     {
         arenas.put(type, c);
     }
@@ -68,8 +70,8 @@ public class ArenaRegistration
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public static VArena getArenaClass(String type) throws InstantiationException, IllegalAccessException
+    public static Arena getArenaClass(String name, String type) throws NoSuchMethodException, IllegalArgumentException, InvocationTargetException, InstantiationException, IllegalAccessException
     {
-        return arenas.get(type).newInstance();
+        return arenas.get(type).getDeclaredConstructor(String.class, String.class).newInstance(name, type);
     }
 }
