@@ -3,7 +3,6 @@ package net.vectorgaming.varenas.framework;
 
 import java.util.ArrayList;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.vevents.event.type.EventType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

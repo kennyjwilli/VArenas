@@ -9,8 +9,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.vectorgaming.vevents.event.VEvent;
-import net.vectorgaming.vevents.event.type.EventType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

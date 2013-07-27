@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.*;
-import net.vectorgaming.vevents.event.type.EventType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
