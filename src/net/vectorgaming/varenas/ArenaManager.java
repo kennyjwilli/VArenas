@@ -6,13 +6,10 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import net.vectorgaming.varenas.framework.ArenaLobby;
 import net.vectorgaming.varenas.framework.ArenaSpectatorBox;
-import net.vectorgaming.varenas.framework.MobArena;
 import net.vectorgaming.varenas.framework.VArena;
-import net.vectorgaming.varenas.framework.PVPArena;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 /**
  *
@@ -126,6 +123,12 @@ public class ArenaManager
      * @return ArrayList<Player>
      */
     public static ArrayList<Player> getAllArenaPlayers() {return arenaPlayers;}
+    
+    /**
+     * Gets the total amount of players who are currently in an arena
+     * @return Integer
+     */
+    public Integer getTotalArenaPlayers() {return arenaPlayers.size();}
     
     /**
      * Adds a player to an arena
