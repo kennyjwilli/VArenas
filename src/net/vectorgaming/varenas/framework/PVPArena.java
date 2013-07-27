@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public class PVPArena extends VArena
+public class PVPArena extends Arena
 {
     private boolean isRunning = false;
     private int TASK_ID;
@@ -58,17 +58,8 @@ public class PVPArena extends VArena
                        p.teleport(getSpawnPoints().get(i));
                        i++;
                    }
+                   //Bukkit.getScheduler().cancelTask(temp);
                 }
-            }
-        }, 0L, 20L);
-        
-        
-        
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
-        {
-            public void run()
-            {
-                
             }
         }, 0L, 20L);
     }
@@ -88,6 +79,18 @@ public class PVPArena extends VArena
 
     @Override
     public void sendEndMessage() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onDeath(Player p)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onRespawn(Player p)
+    {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

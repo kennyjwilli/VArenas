@@ -3,16 +3,14 @@ package net.vectorgaming.varenas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Level;
 import net.vectorgaming.varenas.framework.ArenaLobby;
 import net.vectorgaming.varenas.framework.ArenaSpectatorBox;
-import net.vectorgaming.varenas.framework.MobArena;
-import net.vectorgaming.varenas.framework.VArena;
-import net.vectorgaming.varenas.framework.PVPArena;
+import net.vectorgaming.varenas.framework.Arena;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 /**
  *
@@ -20,9 +18,10 @@ import org.bukkit.plugin.Plugin;
  */
 public class ArenaManager 
 {
-    private static HashMap<String, VArena> arenas = new HashMap<>();
+    private static HashMap<String, Arena> arenas = new HashMap<>();
+    private static HashMap<Player, Arena> arenaPlayers = new HashMap<>();
     private static ArrayList<String> readyArenas = new ArrayList<>();
-    private static ArrayList<Player> arenaPlayers = new ArrayList<>();
+    //private static ArrayList<Player> arenaPlayers = new ArrayList<>();
     private static VArenas plugin;
     
     public ArenaManager(VArenas instance)
@@ -36,11 +35,12 @@ public class ArenaManager
      * @param type String
      * @return VArena
      */
-    public static VArena createArena(String name, String type)
+    public static Arena createArena(String name, String type)
     {
         try
         {
-            VArena arena = ArenaRegistration.getArenaClass(type);
+            Arena arena = ArenaRegistration.getArenaClass(name, type);
+            arenas.put(name, arena);
             arena.setLobby(new ArenaLobby());
             arena.setSpectatorBox(new ArenaSpectatorBox());
         }catch(Exception e)
@@ -51,12 +51,19 @@ public class ArenaManager
         return null;
     }
     
+    
+    
     /**
      * Gets the arena from the specified name
      * @param name String
      * @return VArena
      */
-    public static VArena getArena(String name){return arenas.get(name);}
+    public static Arena getArena(String name){return arenas.get(name);}
+    
+    public static Arena getArenaFromPlayer(Player p)
+    {
+        return arenaPlayers.get(p);
+    }
     
     /**
      * Gets if the specified arena exists
@@ -77,7 +84,7 @@ public class ArenaManager
      * @param arena VArena
      * @return Boolean
      */
-    public static boolean arenaExists(VArena arena) {return arenaExists(arena.getName());}
+    public static boolean arenaExists(Arena arena) {return arenaExists(arena.getName());}
     
     /**
      * Gets all the arenas that have been fully setup
@@ -103,7 +110,7 @@ public class ArenaManager
      * @param arena VArena
      * @return Boolean
      */
-    public static boolean isArenaReady(VArena arena) {return isArenaReady(arena.getName());}
+    public static boolean isArenaReady(Arena arena) {return isArenaReady(arena.getName());}
     
     /**
      * Readys an arena
@@ -119,13 +126,19 @@ public class ArenaManager
      * Readys an arena
      * @param arena VArena
      */
-    public static void readyArena(VArena arena) {readyArena(arena.getName());}
+    public static void readyArena(Arena arena) {readyArena(arena.getName());}
     
     /**
      * Gets all the players who are currently joined to an arena
      * @return ArrayList<Player>
      */
-    public static ArrayList<Player> getAllArenaPlayers() {return arenaPlayers;}
+    public static Set<Player> getAllArenaPlayers() {return arenaPlayers.keySet();}
+    
+    /**
+     * Gets the total amount of players who are currently in an arena
+     * @return Integer
+     */
+    public Integer getTotalArenaPlayers() {return arenaPlayers.size();}
     
     /**
      * Adds a player to an arena
@@ -136,7 +149,7 @@ public class ArenaManager
     {
         if(arenaExists(arena) && isArenaReady(arena) && !isPlayerInArena(player))
         {
-            if(!arenaPlayers.contains(player)) arenaPlayers.add(player);
+            if(!arenaPlayers.containsKey(player)) arenaPlayers.put(player, getArena(arena));
             getArena(arena).addPlayer(player);
         }
     }
@@ -146,7 +159,7 @@ public class ArenaManager
      * @param player Player
      * @param arena VArena
      */
-    public static void addPlayerToArena(Player player, VArena arena) {addPlayerToArena(player, arena.getName());}
+    public static void addPlayerToArena(Player player, Arena arena) {addPlayerToArena(player, arena.getName());}
     
     /**
      * Removes a player from an arena
@@ -167,7 +180,7 @@ public class ArenaManager
      * @param player Player
      * @param arena VArena
      */
-    public static void removePlayerFromArena(Player player, VArena arena) {removePlayerFromArena(player, arena.getName());}
+    public static void removePlayerFromArena(Player player, Arena arena) {removePlayerFromArena(player, arena.getName());}
     
     /**
      * Determines if a player is currently playing in an arena

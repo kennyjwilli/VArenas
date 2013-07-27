@@ -20,7 +20,7 @@ public class ArenaStats
      * @param killer Player who killed
      * @param dead Player who died
      */
-    public void addKill(Player killer, Player dead)
+    public void recordKill(Player killer, Player dead)
     {
         ArrayList<Player> killerKills;
         ArrayList<Player> playerDeaths;
