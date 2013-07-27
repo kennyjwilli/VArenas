@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public class MobArena extends VArena
+public class MobArena extends net.vectorgaming.varenas.framework.VArena
 {
     private ArenaMaster am;
     private String arenaName;

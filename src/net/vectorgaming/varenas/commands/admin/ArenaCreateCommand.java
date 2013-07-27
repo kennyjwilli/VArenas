@@ -1,7 +1,6 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,7 +8,6 @@ import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.*;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,8 +31,10 @@ public class ArenaCreateCommand extends VCommand
         if(args.length == 1)
         {
             try {
-                ArenaManager.createArena(args[0], EventType.PVP_ARENA.toString());
-                cs.sendMessage(ChatColor.GREEN+"Created PvP Arena "+ChatColor.YELLOW+args[0]+" successfully!");
+                ArenaManager.createArena(args[0], ArenaType.PVP_ARENA.toString());
+                cs.sendMessage(ChatColor.GRAY+"------------------------------------------------");
+                cs.sendMessage(ChatColor.GREEN+"Created PvP Arena "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+" successfully!");
+                cs.sendMessage(ChatColor.GRAY+"------------------------------------------------");
                 ArenaManager.getArena(args[0]).checkArenaSetup((Player) cs);
             } catch (Exception ex) {
                 Logger.getLogger(ArenaCreateCommand.class.getName()).log(Level.SEVERE, null, ex);

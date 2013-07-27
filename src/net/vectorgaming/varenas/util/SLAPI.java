@@ -49,7 +49,7 @@ public class SLAPI
             /*
              * Arena settings
              */
-            config.set("settings.type", arena.getEventType().toString());
+            config.set("settings.type", arena.getArenaType().toString());
             config.set("settings.max-players", arena.getMaxPlayers());
             config.set("settings.tnt-enabled", arena.isTNTEnabled());
             config.set("settings.block-break", arena.isBlockBreakEnabled());

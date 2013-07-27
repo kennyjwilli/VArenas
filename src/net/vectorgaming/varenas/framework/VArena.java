@@ -5,6 +5,8 @@ import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,6 +35,7 @@ public abstract class VArena
     private TriggerBox arenaBox;
     private ArenaLobby lobby;
     private ArenaSpectatorBox spectatorBox;
+    private ArenaStats stats;
     
     /**
      *
@@ -78,7 +81,11 @@ public abstract class VArena
     /**
      * Readys the arena so that it can be used. 
      */
-    public abstract void readyArena();
+    public void readyArena()
+    {
+        stats = new ArenaStats();
+        ArenaManager.readyArena(this.getName());
+    }
     
     /**
      * Gets if the arena is currently running
@@ -113,7 +120,21 @@ public abstract class VArena
      * be underscores
      * @return String
      */
-    public String getEventType() {return type;}
+    public String getArenaType() {return type;}
+    
+    /**
+     * Gets the stats for the arena
+     * @return
+     */
+    public ArenaStats getStats()
+    {
+        return stats;
+    }
+    
+    public void setArenaStats(ArenaStats stats)
+    {
+        this.stats = stats;
+    }
             
     /**
      * Gets the result of the game
