@@ -33,7 +33,7 @@ public class ArenaRegistration
      * @param type String
      * @return Boolean
      */
-    public static boolean eventTypeExists(String type)
+    public static boolean arenaTypeExists(String type)
     {
         if(arenas.containsKey(type))
             return true;
