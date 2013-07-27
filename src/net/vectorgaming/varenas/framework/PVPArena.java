@@ -74,11 +74,6 @@ public class PVPArena extends VArena
     }
 
     @Override
-    public void readyArena() {
-        ArenaManager.readyArena(this.getName());
-    }
-
-    @Override
     public boolean isRunning() 
     {
         return isRunning;

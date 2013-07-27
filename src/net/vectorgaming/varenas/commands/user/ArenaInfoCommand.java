@@ -37,7 +37,7 @@ public class ArenaInfoCommand extends VCommand
         
         cs.sendMessage(ChatColor.BLUE+"========== "+ChatColor.GOLD+arena.getName()+" Info"+ChatColor.BLUE+" ==========");
         cs.sendMessage("Author(s): "+arena.getAuthors());
-        cs.sendMessage("Map Type: "+WordUtils.capitalizeFully(arena.getEventType().replaceAll("_", " ")));
+        cs.sendMessage("Map Type: "+WordUtils.capitalizeFully(arena.getArenaType().replaceAll("_", " ")));
         cs.sendMessage("Objective: "+arena.getObjective());
         cs.sendMessage("Max Players: "+arena.getMaxPlayers());
         cs.sendMessage("TNT Enabled: "+arena.isTNTEnabled());
