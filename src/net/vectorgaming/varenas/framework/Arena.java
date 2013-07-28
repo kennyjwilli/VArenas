@@ -133,7 +133,13 @@ public abstract class Arena
      * Force stops the arena from running. No stats should be kept and inventories should be reset. There is no 
      * TP out and no rewards given
      */
-    public abstract void forceStop();
+    public void forceStop()
+    {
+        this.getLobby().forceStopTimer();
+        if(Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
+            Bukkit.getScheduler().cancelTask(TP_TASK_ID);
+        this.removeAllPlayers();
+    }
     
     /**
      * Sends all the players in the arena a message when the round is over
@@ -152,6 +158,9 @@ public abstract class Arena
      */
     public abstract void onRespawn(PlayerRespawnEvent event);
     
+    /**
+     * Removes all players from the arena
+     */
     public void removeAllPlayers()
     {
         for(Player p : getPlayers())
@@ -170,6 +179,10 @@ public abstract class Arena
         removeAllPlayers();
     }
     
+    /**
+     * Sets the arena running boolean value
+     * @param value Boolean
+     */
     public void setRunning(boolean value)
     {
         isRunning = value;
