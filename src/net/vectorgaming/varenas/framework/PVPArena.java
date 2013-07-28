@@ -20,58 +20,12 @@ public class PVPArena extends Arena
     private int TASK_ID;
     private int timeLeftLobby = 120;
     
+    
     public PVPArena(String name, String type)
     {
         super(name, type);
     }
-
-    @Override
-    public void start() 
-    {
-        isRunning = true;
-        
-        for(Player p : getPlayers())
-        {
-            p.teleport(this.getLobby().getSpawn());
-            //temp fix until VChat is done
-            p.sendMessage("Arena starting in 2 minutes.");
-        }
-        
-        //Add all players to Arena Chat Channel
-        //Silence other channels
-        
-        this.getLobby().startLobbyTimer();
-        
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
-        {
-            public void run()
-            {
-                if(!getLobby().isLobbyTimerRunning())
-                {
-                    /*
-                    * Teleport all players into the arena at each spawn point
-                    * Need some sort of check for if all the spawn points have been used.
-                    * Maybe like a max players per arena or a random spawn point in the arena
-                    */
-                   int i = 0;
-                   for(Player p : getPlayers())
-                   {
-                       if(i > getSpawnPoints().size()) i = 0;
-                       p.teleport(getSpawnPoints().get(i));
-                       i++;
-                   }
-                   //Bukkit.getScheduler().cancelTask(temp);
-                }
-            }
-        }, 0L, 20L);
-    }
-
-    @Override
-    public boolean isRunning() 
-    {
-        return isRunning;
-    }
-
+    
     @Override
     public void forceStop() 
     {
@@ -87,13 +41,16 @@ public class PVPArena extends Arena
     @Override
     public void onDeath(PlayerDeathEvent event)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Player dead = event.getEntity();
+        Player killer = dead.getKiller();
+        this.getStats().recordKill(killer, dead);
+        //if(this.getStats().getHighestKills() == )
     }
 
     @Override
     public void onRespawn(PlayerRespawnEvent event)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
 }
