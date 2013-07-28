@@ -1,18 +1,16 @@
 
 package net.vectorgaming.varenas.framework;
 
-import com.garbagemule.MobArena.ArenaMasterImpl;
 import com.garbagemule.MobArena.commands.Commands;
 import com.garbagemule.MobArena.framework.Arena;
 import com.garbagemule.MobArena.framework.ArenaMaster;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  *
@@ -90,13 +88,13 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     public void sendEndMessage(){}
 
     @Override
-    public void onDeath(Player p)
+    public void onDeath(PlayerDeathEvent event)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void onRespawn(Player p)
+    public void onRespawn(PlayerRespawnEvent event)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
