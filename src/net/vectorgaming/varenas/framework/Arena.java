@@ -172,6 +172,7 @@ public abstract class Arena
      */
     public void end()
     {
+        setRunning(false);
         endTeleportAction();
         resetInventory();
         //rewardPlayers(null);
