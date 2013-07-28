@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.VArenas;
 import net.vectorgaming.varenas.framework.Arena;
@@ -135,11 +137,15 @@ public class SLAPI
              */
             arena.setAuthors(config.getString("info.authors"));
             arena.setObjective(config.getString("info.objective"));
-            
-            /*
-             * Loads regions
-             */
-            arena.setArenaBox(PolygonTriggerBox.getPolygonTriggerBox(config.getString("region.arena")));
+            try {
+                /*
+                 * Loads regions
+                 */
+                arena.setArenaBox(PolygonTriggerBox.getPolygonTriggerBox(config.getString("region.arena")));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return;
+            }
             
             //arena.setArenaBox(VRegion.loadSaveFormat(config.getStringList("region.arena")));
             

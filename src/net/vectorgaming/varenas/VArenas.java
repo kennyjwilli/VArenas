@@ -1,11 +1,13 @@
 package net.vectorgaming.varenas;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import info.jeppes.ZoneCore.ZoneConfig;
+import java.io.File;
 import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
 import net.vectorgaming.varenas.framework.ArenaType;
 import net.vectorgaming.varenas.framework.PVPArena;
+import net.vectorgaming.varenas.framework.user.ArenaPlayer;
+import net.vectorgaming.varenas.framework.user.ArenaPlayerManager;
 import net.vectorgaming.varenas.listeners.PlayerDeathListener;
 import net.vectorgaming.varenas.util.SLAPI;
 import org.bukkit.Bukkit;
@@ -22,6 +24,7 @@ public class VArenas extends JavaPlugin
     private PlayerDeathListener dl = new PlayerDeathListener();
     private SLAPI slapi = new SLAPI(this);
     private ArenaManager am = new ArenaManager(this);
+    private ArenaPlayerManager<ArenaPlayer> playerManager;
     
     @Override
     public void onEnable()
@@ -30,12 +33,15 @@ public class VArenas extends JavaPlugin
         setupEvents();
         registerArenaTypes();
         slapi.loadAllArenas();
+        ZoneConfig usersConfig = new ZoneConfig(this,new File(this.getDataFolder().getAbsoluteFile()+File.separator+"arena-players.yml"));
+        playerManager = new ArenaPlayerManager(this,usersConfig);
     }
     
     @Override
     public void onDisable()
     {
         slapi.saveAllArenas();
+        playerManager.getUsersConfig().save();
     }
     
     private void setupCommands()
