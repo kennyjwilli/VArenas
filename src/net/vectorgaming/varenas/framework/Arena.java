@@ -82,6 +82,8 @@ public abstract class Arena
      */
     public void start()
     {
+        setRunning(true);
+        
         for(Player p : getPlayers())
         {
             p.teleport(this.getLobby().getSpawn());
@@ -150,6 +152,12 @@ public abstract class Arena
      */
     public abstract void onRespawn(PlayerRespawnEvent event);
     
+    public void removeAllPlayers()
+    {
+        for(Player p : getPlayers())
+            ArenaManager.removePlayerFromArena(p, this);
+    }
+    
     /**
      * Ends the match with all normal procedures
      */
@@ -159,6 +167,7 @@ public abstract class Arena
         resetInventory();
         //rewardPlayers(null);
         recordStats();
+        removeAllPlayers();
     }
     
     public void setRunning(boolean value)
@@ -250,8 +259,9 @@ public abstract class Arena
      */
     public void endTeleportAction()
     {
-        Location loc = Bukkit.getWorld("spawn").getSpawnLocation();
-        for(Player p : players){p.teleport(loc);}
+        //later should teleport all players to the realm gates or whatever we end up calling them
+        //Location loc = Bukkit.getWorld("spawn").getSpawnLocation();
+        for(Player p : players){p.teleport(this.getLobby().getSpawn());}
     }
     
     /**
