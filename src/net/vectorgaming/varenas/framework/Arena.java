@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  *
@@ -136,9 +138,17 @@ public abstract class Arena
      */
     public abstract void sendEndMessage();
     
-    public abstract void onDeath(Player p);
+    /**
+     * Handles what happens when the player dies in the arena
+     * @param event PlayerDeathEvent
+     */
+    public abstract void onDeath(PlayerDeathEvent event);
     
-    public abstract void onRespawn(Player p);
+    /**
+     * Handles where the player respawns after they die in the arena
+     * @param event PlayerRespawnEvent
+     */
+    public abstract void onRespawn(PlayerRespawnEvent event);
     
     /**
      * Ends the match with all normal procedures
