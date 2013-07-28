@@ -2,7 +2,14 @@
 package net.vectorgaming.varenas.framework.stats;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import org.bukkit.entity.Player;
 
 /**
@@ -57,6 +64,79 @@ public class ArenaStats
     public Integer getTotalKills()
     {
         return totalKills;
+    }
+    
+    /**
+     * Gets the most amount of kills in the arena
+     * @return Integer
+     */
+    public Integer getHighestKills()
+    {
+        int highesKills = 0;
+        for(Map.Entry kv : kills.entrySet())
+        {
+            if((Integer) kv.getValue() > highesKills)
+                highesKills = (Integer) kv.getValue();
+        }
+        return highesKills;
+    }
+    
+    /**
+     * Gets the player who has the highest kills in the arena
+     * @return Player
+     */
+    public Player getPlayerWithHighestKills()
+    {
+        ArrayList<Player> result = new ArrayList<>(); 
+        for(Map.Entry kv : getTopPlayers().entrySet())
+        {
+            result.add((Player) kv.getKey());
+        }
+        return result.get(0);
+    }
+    
+    /**
+     * Gets a list of players ordered by their kills
+     * @return Map<Player, Integer>
+     */
+    public Map<Player, Integer> getTopPlayers()
+    {
+        List list = new LinkedList(kills.entrySet());
+        
+        Collections.sort(list, new Comparator()
+        {
+            public int compare(Object o1, Object o2)
+            {
+                return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
+            }
+        });
+        Map sortedMap = new LinkedHashMap();
+        for(Iterator it = list.iterator(); it.hasNext();)
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
+    
+    private Map sortValues(Map unsortedMap)
+    {
+        List list = new LinkedList(unsortedMap.entrySet());
+        
+        Collections.sort(list, new Comparator()
+        {
+            public int compare(Object o1, Object o2)
+            {
+                return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
+            }
+        });
+        Map sortedMap = new LinkedHashMap();
+        for(Iterator it = list.iterator(); it.hasNext();)
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
     }
     
     /**
