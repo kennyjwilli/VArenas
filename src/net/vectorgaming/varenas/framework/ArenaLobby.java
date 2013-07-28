@@ -81,6 +81,24 @@ public class ArenaLobby extends VRegion
     }
     
     /**
+     * Force stops the lobby timer
+     */
+    public void forceStopTimer()
+    {
+        if(Bukkit.getScheduler().isCurrentlyRunning(TASK_ID))
+            Bukkit.getScheduler().cancelTask(TASK_ID);
+    }
+    
+    /**
+     * Gets the Task ID for the Lobby Timer
+     * @return Integer
+     */
+    public Integer getLobbyTimerTaskID()
+    {
+        return TASK_ID;
+    }
+    
+    /**
      * Gets if the lobby timer is still running. If true then players are still in the lobby and
      * the game has not yet started
      * @return boolean
