@@ -1,16 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.vectorgaming.varenas.framework;
 
 import java.util.ArrayList;
 import org.bukkit.plugin.Plugin;
 
-/**
- *
- * @author jeppe
- */
 public class TickKeeperUpdate extends TickKeeper{
     private ArrayList<Runnable> tasks = new ArrayList();
     public TickKeeperUpdate(int ticksPerTick, boolean synchronizedTick, Plugin plugin) {

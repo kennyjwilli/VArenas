@@ -1,17 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.vectorgaming.varenas.framework;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-/**
- *
- * @author jeppe
- */
 public abstract class TickKeeper {
     private final Plugin plugin;
     private long totalTicks = 0;

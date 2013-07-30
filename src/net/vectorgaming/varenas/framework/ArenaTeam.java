@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.vectorgaming.varenas.framework;
 
 import java.util.ArrayList;
@@ -10,10 +6,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.scoreboard.Team;
 
-/**
- *
- * @author jeppe
- */
 public class ArenaTeam extends BukkitTeamWrapper{
     private int id;
     private ArrayList<Entity> friendlyEntities = new ArrayList();
