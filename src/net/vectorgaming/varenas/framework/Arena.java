@@ -447,7 +447,7 @@ public abstract class Arena
      */
     public Location getSpawnLocation(Player player){
         ArrayList<Location> spawnLocations = getSpawnPoints();
-        if(spawnLocations != null){
+        if(spawnLocations != null && !getSpawnPointMap().isEmpty()){
             Location spawnLocation = spawnLocations.get((int)(Math.random() * (double)spawnLocations.size()));
             return spawnLocation;
         } else {
