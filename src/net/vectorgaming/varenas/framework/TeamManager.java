@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package net.vectorgaming.varenas.framework;
 
 import java.util.ArrayList;
@@ -9,6 +13,10 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
+/**
+ *
+ * @author jeppe
+ */
 public class TeamManager {
     private ScoreboardManager scoreboardManager;
     private Scoreboard scoreboard;
