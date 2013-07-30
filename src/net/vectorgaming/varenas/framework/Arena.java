@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -26,7 +28,8 @@ public abstract class Arena
      */
     private String name;
     private String type;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList();
+    private World world;
     private boolean blockBreakEnabler = false;
     private boolean editMode = false;
     private boolean tntEnabled = false;
@@ -35,7 +38,7 @@ public abstract class Arena
     private int TP_TASK_ID;
     private String authors;
     private String objective;
-    private HashMap<String, Location> spawnPoints = new HashMap<>();
+    private HashMap<String, Location> spawnPoints = new HashMap();
     private TriggerBox arenaBox;
     private ArenaLobby lobby;
     private ArenaSpectatorBox spectatorBox;
@@ -47,22 +50,24 @@ public abstract class Arena
      * @param lobby ArenaLobby
      * @param spectatorBox ArenaSpectatorBox
      */
-    public Arena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox)
+    public Arena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, World world)
     {
         this.name = name;
         this.type = type;
         this.lobby = lobby;
         this.spectatorBox = spectatorBox;
+        this.world = world;
     }
     
     /**
      * 
      * @param name Name of arena
      */
-    public Arena(String name, String type)
+    public Arena(String name, String type, World world)
     {
         this.name = name;
         this.type = type;
+        this.world = world;
     }
     
     /**
@@ -428,6 +433,27 @@ public abstract class Arena
         }
         
         return result;
+    }
+    
+    /**
+     * Get the spawn point for a player
+     * 
+     * This method only support FFA arena types, but can be overriden to support
+     * teams
+     * 
+     * @param player The player that will be spawned
+     * @return A location either predetermined with single or set of possible spawn locations.
+     * If @getSpawnPoints() is empty, it will return a random location inside the arena
+     */
+    public Location getSpawnLocation(Player player){
+        ArrayList<Location> spawnLocations = getSpawnPoints();
+        if(spawnLocations != null){
+            Location spawnLocation = spawnLocations.get((int)(Math.random() * (double)spawnLocations.size()));
+            return spawnLocation;
+        } else {
+            TriggerBox arenaArea = this.getArenaBox();
+            return arenaArea.getRandomLocationInsideBox();
+        }
     }
     
     /**

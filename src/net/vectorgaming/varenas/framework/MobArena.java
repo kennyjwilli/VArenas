@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -23,9 +24,9 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     private Arena mobArena;
     private ArrayList<Location> polygon;
     
-    public MobArena(String arenaName, String type)
+    public MobArena(String arenaName, String type, World world)
     {
-        super(arenaName, type);
+        super(arenaName, type, world);
         this.arenaName = arenaName;
         if(Bukkit.getPluginManager().getPlugin("MobArena") == null || !Bukkit.getPluginManager().getPlugin("MobArena").isEnabled())
         {

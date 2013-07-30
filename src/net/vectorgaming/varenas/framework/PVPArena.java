@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.vectorgaming.varenas.ArenaManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -21,9 +22,9 @@ public class PVPArena extends Arena
     private int timeLeftLobby = 120;
     
     
-    public PVPArena(String name, String type)
+    public PVPArena(String name, String type, World world)
     {
-        super(name, type);
+        super(name, type, world);
     }
     
     @Override
