@@ -20,11 +20,6 @@ public abstract class PVPTeamArena extends TeamArena{
     public abstract void onTeamPlayerDeath(EntityEvent event, ArenaTeam killedTeam, ArenaTeam killingTeam);
     
     @Override
-    public void sendEndMessage() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void onDeath(PlayerDeathEvent event) {
         ArenaTeam killedTeam = getTeamManager().getTeam(event.getEntity());
         ArenaTeam killingTeam = getTeamManager().getTeam(event.getEntity().getKiller());
