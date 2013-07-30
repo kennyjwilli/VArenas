@@ -495,6 +495,23 @@ public abstract class Arena
      * @return HashMap<String, Location>
      */
     public HashMap<String,Location> getSpawnPointMap() {return spawnPoints;}
+
+    /**
+     * Get the world the arena is located in
+     * @return The world the arena is located in
+     */
+    public World getWorld() {
+        return world;
+    }
+
+    /**
+     * Sets the world the arena is placed in
+     * This method should generally not be used
+     * @param world the new world the arena is located in
+     */
+    public void setWorld(World world) {
+        this.world = world;
+    }
     
     /**
      * Sets the arena lobby object
