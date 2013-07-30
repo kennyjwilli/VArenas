@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
  *
  * @author Kenny
  */
-public class PVPArena extends TeamArena
+public class PVPArena extends Arena
 {
     private boolean isRunning = false;
     private int TASK_ID;
