@@ -31,7 +31,7 @@ public abstract class PVPTeamArena extends TeamArena{
 
     @Override
     public void onRespawn(PlayerRespawnEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        event.setRespawnLocation(getSpawnLocation(event.getPlayer()));
     }
     
     
