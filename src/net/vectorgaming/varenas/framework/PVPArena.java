@@ -1,12 +1,8 @@
 
 package net.vectorgaming.varenas.framework;
 
-import java.util.ArrayList;
-import net.vectorgaming.varenas.ArenaManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
