@@ -111,8 +111,12 @@ public class TeamManager {
     public ArrayList<TeamUIComponent> getUIComponents() {
         return UIComponents;
     }
-    public void setUIComponents(ArrayList<TeamUIComponent> UIComponents) {
-        this.UIComponents = UIComponents;
+    public void addUIComponent(TeamUIComponent uiComponent){
+        getUIComponents().add(uiComponent);
+    }
+    public void removeUIComponent(TeamUIComponent uiComponent){
+        getUIComponents().remove(uiComponent);
+        uiComponent.remove();
     }
     
     public void unregister(){

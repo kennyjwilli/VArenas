@@ -14,10 +14,9 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     private final String HEALTH_BAR = "█";
     private final String HALF_HEALTH_BAR = "▌";
     private double healthPerBar = 2;
-    private final TeamManager teamManager;
     
     public HealthBarManager(TeamManager teamManager){
-        this.teamManager = teamManager;
+        super(teamManager);
     }
 
     public double getHealthPerBar() {
@@ -31,7 +30,7 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     public void onEntyDamage(EntityDamageEvent event){
         if(event.getEntity() instanceof Player){
             Player player = (Player)event.getEntity();
-            ArenaTeamData team = teamManager.getTeam(player);
+            ArenaTeamData team = getTeamManager().getTeam(player);
             if(team != null){
                 SubTeam childTeam = team.getChildTeam(player);
                 if(childTeam != null){
