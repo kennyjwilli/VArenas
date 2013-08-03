@@ -1,5 +1,6 @@
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import org.bukkit.World;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -17,12 +18,12 @@ public abstract class PVPTeamArena extends TeamArena{
         super(name, type, world);
     }
 
-    public abstract void onTeamPlayerDeath(EntityEvent event, ArenaTeam killedTeam, ArenaTeam killingTeam);
+    public abstract void onTeamPlayerDeath(EntityEvent event, ArenaTeamData killedTeam, ArenaTeamData killingTeam);
     
     @Override
     public void onDeath(PlayerDeathEvent event) {
-        ArenaTeam killedTeam = getTeamManager().getTeam(event.getEntity());
-        ArenaTeam killingTeam = getTeamManager().getTeam(event.getEntity().getKiller());
+        ArenaTeamData killedTeam = getTeamManager().getTeam(event.getEntity());
+        ArenaTeamData killingTeam = getTeamManager().getTeam(event.getEntity().getKiller());
         //No reason to call onTeamPlayerDeath if no one was on a team
         if(killedTeam != null || killingTeam != null){
             onTeamPlayerDeath(event,killedTeam,killingTeam);
@@ -43,8 +44,8 @@ public abstract class PVPTeamArena extends TeamArena{
     public void onEntityDamage(EntityDamageEvent event){
         if(event instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent eventDamage = (EntityDamageByEntityEvent) event;
-            ArenaTeam killedTeam = getTeamManager().getTeam(eventDamage.getEntity());
-            ArenaTeam killingTeam = getTeamManager().getTeam(eventDamage.getDamager());
+            ArenaTeamData killedTeam = getTeamManager().getTeam(eventDamage.getEntity());
+            ArenaTeamData killingTeam = getTeamManager().getTeam(eventDamage.getDamager());
             //No reason to call onTeamPlayerDeath if no one was on a team
             if(killedTeam != null || killingTeam != null){
                 onTeamPlayerDeath(event,killedTeam,killingTeam);

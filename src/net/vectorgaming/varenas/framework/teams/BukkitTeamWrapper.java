@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vectorgaming.varenas.framework;
+package net.vectorgaming.varenas.framework.teams;
 
 import java.util.Set;
 import org.bukkit.OfflinePlayer;

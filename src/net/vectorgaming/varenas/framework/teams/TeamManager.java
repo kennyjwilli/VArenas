@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vectorgaming.varenas.framework;
+package net.vectorgaming.varenas.framework.teams;
 
 import java.util.ArrayList;
 import net.vectorgaming.varenas.Exceptions.ScoreboardNotEqualException;
@@ -20,24 +20,24 @@ import org.bukkit.scoreboard.Team;
 public class TeamManager {
     private ScoreboardManager scoreboardManager;
     private Scoreboard scoreboard;
-    private ArrayList<ArenaTeam> teams = new ArrayList();
+    private ArrayList<ArenaTeamData> teams = new ArrayList();
     public void TeamManager(){
         scoreboardManager = Bukkit.getScoreboardManager();
         scoreboard = scoreboardManager.getNewScoreboard();
     }
     
-    public ArrayList<ArenaTeam> getTeams(){
+    public ArrayList<ArenaTeamData> getTeams(){
         return teams;
     }
     
-    public ArenaTeam createTeam(String name){
+    public ArenaTeamData createTeam(String name){
         Team bukkiTeam = scoreboard.registerNewTeam(name);
         int id = teams.size();
-        ArenaTeam arenaTeam = new ArenaTeam(id,bukkiTeam);
+        ArenaTeamData arenaTeam = new ArenaTeamData(id,bukkiTeam);
         teams.add(arenaTeam);
         return arenaTeam;
     }
-    public ArenaTeam addTeam(ArenaTeam team) throws ScoreboardNotEqualException{
+    public ArenaTeamData addTeam(ArenaTeamData team) throws ScoreboardNotEqualException{
         if(team.getScoreboard() != this.getScoreboard()){
             throw new ScoreboardNotEqualException();
         }
@@ -46,43 +46,43 @@ public class TeamManager {
         return team;
     }
 
-    public ArenaTeam getTeam(int id){
+    public ArenaTeamData getTeam(int id){
         return getTeams().get(id);
     }
-    public ArenaTeam getTeam(String name){
-        for(ArenaTeam team : getTeams()){
+    public ArenaTeamData getTeam(String name){
+        for(ArenaTeamData team : getTeams()){
             if(team.getName().equalsIgnoreCase(name)){
                 return team;
             }
         }
         return null;
     }
-    public ArenaTeam getTeam(Player player){
-        for(ArenaTeam team : getTeams()){
+    public ArenaTeamData getTeam(Player player){
+        for(ArenaTeamData team : getTeams()){
             if(team.isOnTeamAsPlayer(player)){
                 return team;
             }
         }
         return null;
     }
-    public ArenaTeam getTeam(Entity entity){
-        for(ArenaTeam team : getTeams()){
+    public ArenaTeamData getTeam(Entity entity){
+        for(ArenaTeamData team : getTeams()){
             if(team.isOnTeam(entity)){
                 return team;
             }
         }
         return null;
     }
-    public ArenaTeam getTeamByPlayerName(String playerName){
-        for(ArenaTeam team : getTeams()){
+    public ArenaTeamData getTeamByPlayerName(String playerName){
+        for(ArenaTeamData team : getTeams()){
             if(team.isOnTeamAsPlayer(playerName)){
                 return team;
             }
         }
         return null;
     }
-    public ArenaTeam getTeamByEntityID(int entityID){
-        for(ArenaTeam team : getTeams()){
+    public ArenaTeamData getTeamByEntityID(int entityID){
+        for(ArenaTeamData team : getTeams()){
             if(team.isOnTeamAsPlayer(entityID)){
                 return team;
             }

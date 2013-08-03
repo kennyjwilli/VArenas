@@ -1,5 +1,7 @@
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.teams.TeamManager;
+import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -25,10 +27,10 @@ public abstract class TeamArena extends Arena{
         return teamManager;
     }
 
-    private String getBaseTeamSpawnKey(ArenaTeam team){
+    private String getBaseTeamSpawnKey(ArenaTeamData team){
         return "team-"+team.getId();
     }
-    private String getNextAvailableTeamSpawnKey(ArenaTeam team){
+    private String getNextAvailableTeamSpawnKey(ArenaTeamData team){
         int highestKeyAvaiable = 0;
         String baseTeamSpawnKey = getBaseTeamSpawnKey(team);
         for(String key : this.getSpawnPointsNames()){
@@ -50,7 +52,7 @@ public abstract class TeamArena extends Arena{
      * @param location
      * @param team
      */
-    public void addSpawnPoint(Location location, ArenaTeam team){
+    public void addSpawnPoint(Location location, ArenaTeamData team){
         String teamSpawnKey = getNextAvailableTeamSpawnKey(team);
         this.addSpawnPoint(teamSpawnKey, location);
     }
@@ -60,7 +62,7 @@ public abstract class TeamArena extends Arena{
      * @param team
      * @return A list of spawnpoints for a given team
      */
-    public ArrayList<Location> getTeamSpawnPoints(ArenaTeam team){
+    public ArrayList<Location> getTeamSpawnPoints(ArenaTeamData team){
         ArrayList<Location> spawnPoints = new ArrayList();
         String teamSpawnKey = getBaseTeamSpawnKey(team);
         for(String spawnKey : getSpawnPointsNames()){
@@ -76,7 +78,7 @@ public abstract class TeamArena extends Arena{
      * @param team
      * @return A spawn location for the given team
      */
-    public Location getSpawnLocation(ArenaTeam team) {
+    public Location getSpawnLocation(ArenaTeamData team) {
         if(team == null){
             return super.getSpawnLocation(null);
         }
