@@ -15,7 +15,7 @@ import org.bukkit.scoreboard.Team;
  */
 public interface SubTeam extends Team{        
     public int getId();
-
+    
     public ArenaTeamData getParentTeam();
     public void setParentTeam(ArenaTeamData parentTeam);
 

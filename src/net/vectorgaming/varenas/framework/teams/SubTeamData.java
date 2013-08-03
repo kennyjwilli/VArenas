@@ -27,7 +27,7 @@ public class SubTeamData extends BukkitTeamWrapper implements SubTeam{
     public int getId() {
         return id;
     }
-
+    
     @Override
     public ArenaTeamData getParentTeam() {
         return parentTeam;

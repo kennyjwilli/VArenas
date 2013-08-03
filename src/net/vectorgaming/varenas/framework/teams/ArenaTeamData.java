@@ -60,6 +60,16 @@ public class ArenaTeamData implements ArenaTeam, Team{
     }
     
     @Override
+    public SubTeam getChildTeam(OfflinePlayer player){
+        for(SubTeam childTeam : getChildTeams()){
+            if(childTeam.hasPlayer(player)){
+                return childTeam;
+            }
+        }
+        return null;
+    }
+    
+    @Override
     public boolean addFriendlyEntity(Entity entity){
         return friendlyEntities.add(entity);
     }

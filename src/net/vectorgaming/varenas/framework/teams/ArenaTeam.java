@@ -16,6 +16,7 @@ public interface ArenaTeam extends Team{
     public boolean isOnTeamAsPlayer(int id);
     public boolean isOnTeam(Entity entity);
     public boolean isOnTeam(int id);
+    public SubTeam getChildTeam(OfflinePlayer player);
     
     public ArrayList<SubTeam> getChildTeams();
     public SubTeam createChildTeam(String name);
