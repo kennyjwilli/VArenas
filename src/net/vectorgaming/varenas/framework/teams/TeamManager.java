@@ -6,6 +6,7 @@ package net.vectorgaming.varenas.framework.teams;
 
 import java.util.ArrayList;
 import net.vectorgaming.varenas.Exceptions.ScoreboardNotEqualException;
+import net.vectorgaming.varenas.framework.teams.ui.TeamUIComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ public class TeamManager {
     private ScoreboardManager scoreboardManager;
     private Scoreboard scoreboard;
     private ArrayList<ArenaTeamData> teams = new ArrayList();
+    private ArrayList<TeamUIComponent> UIComponents = new ArrayList();
     public void TeamManager(){
         scoreboardManager = Bukkit.getScoreboardManager();
         scoreboard = scoreboardManager.getNewScoreboard();
@@ -104,5 +106,21 @@ public class TeamManager {
 
     public void setScoreboard(Scoreboard scoreboard) {
         this.scoreboard = scoreboard;
+    }
+
+    public ArrayList<TeamUIComponent> getUIComponents() {
+        return UIComponents;
+    }
+    public void setUIComponents(ArrayList<TeamUIComponent> UIComponents) {
+        this.UIComponents = UIComponents;
+    }
+    
+    public void unregister(){
+        for(ArenaTeamData team : getTeams()){
+            team.unregister();
+        }
+        for(TeamUIComponent uiComponent : getUIComponents()){
+            uiComponent.remove();
+        }
     }
 }
