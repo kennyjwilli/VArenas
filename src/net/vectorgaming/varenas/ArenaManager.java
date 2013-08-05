@@ -48,6 +48,10 @@ public class ArenaManager
         plugin = instance;
     }
     
+    /**
+     * Creates a map with the given name
+     * @param map String
+     */
     public static void createMap(String map)
     {
         ArenaConfig framework = new ArenaConfig(plugin, new File(FRAMEWORK_DIR+File.separator+map.toLowerCase()+".yml"));
@@ -75,26 +79,37 @@ public class ArenaManager
      */
     public static void createArena(String map) throws IOException
     {
-        try
+        //Setup some initial variables
+        int arenaid = arenaIdMap.get(map);
+        String arenaName = map.toLowerCase()+"_"+arenaid;
+        
+        //Copy the map to the arenas
+        File mapFile = new File(MAPS_DIR+File.separator+map.toLowerCase());
+        File arenaFile = new File(ARENAS_DIR+File.separator+arenaName);
+        Files.copy(mapFile, arenaFile);
+        
+        //Delete uid.dat for new world
+        File uid = new File(ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
+        uid.delete();
+        
+        //Increment the arena id by one
+        arenaIdMap.put(map, arenaid++);
+        
+        
+
+        //Create new arena
+        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance();
+        //Add arena to maps
+        arenas.put(arenaName, arena);
+        if(!runningArenasMap.get(map).contains(arena))
         {
-            int arenaid = arenaIdMap.get(map);
-            String arenaName = map.toLowerCase()+"_"+arenaid;
-            //Copy the map to the arenas
-            File mapFile = new File(MAPS_DIR+File.separator+map.toLowerCase());
-            File arenaFile = new File(ARENAS_DIR+File.separator+arenaName);
-            Files.copy(mapFile, arenaFile);
-            //Delete uid.dat for new world
-            File uid = new File(ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
-            uid.delete();
-            //Increment the arena id by one
-            arenaIdMap.put(map, arenaid++);
-            //Create new arena
-            Arena arena = ArenaRegister.getNewMapInstance(arenaName, map);
-            arena.start();
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
-        {
-            Logger.getLogger(ArenaManager.class.getName()).log(Level.SEVERE, null, ex);
+            ArrayList<Arena> temp = runningArenasMap.get(map);
+            temp.add(arena);
+            runningArenasMap.put(map, temp);
         }
+        
+        //Starts the arena
+        arena.start();
     }
     
     public static Integer createArenaId(String map)
