@@ -6,6 +6,7 @@ import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.util.Msg;
@@ -98,6 +99,7 @@ public abstract class Arena
     public void start()
     {
         setRunning(true);
+        stats = new ArenaStats();
         
         for(Player p : getPlayers())
         {
@@ -111,7 +113,7 @@ public abstract class Arena
         
         this.getLobby().startLobbyTimer();
         
-        TP_TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
+        TP_TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             public void run()
             {
@@ -133,15 +135,6 @@ public abstract class Arena
                 }
             }
         }, 0L, 20L);
-    }
-    
-    /**
-     * Readys the arena so that it can be used. 
-     */
-    public void readyArena()
-    {
-        stats = new ArenaStats();
-        ArenaManager.readyArena(this.getName());
     }
         
     /**
