@@ -5,20 +5,12 @@ import com.google.common.io.Files;
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.vectorgaming.varenas.framework.ArenaLobby;
-import net.vectorgaming.varenas.framework.ArenaSpectatorBox;
 import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 /**
  *
@@ -26,13 +18,13 @@ import org.bukkit.entity.Player;
  */
 public class ArenaManager 
 {
-    private static HashMap<String, Arena> arenas = new HashMap<>();
-    private static HashMap<String, ArenaSettings> arenaSettings = new HashMap<>();
-    private static HashMap<String, ArenaConfig> arenaConfigs = new HashMap<>();
-    private static HashMap<String, Integer> arenaIdMap = new HashMap<>();
-    private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>();
+    private static HashMap<String, Arena> arenas = new HashMap<>(); //{ArenaName, ArenaObject}
+    private static HashMap<String, ArenaSettings> arenaSettings = new HashMap<>(); // {MapName, ArenaSettings}
+    private static HashMap<String, ArenaConfig> arenaConfigs = new HashMap<>(); // {MapName, ArenaConfig}
+    private static HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
+    private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
     
-    private static ArrayList<String> runningArenas = new ArrayList<>();
+    private static ArrayList<String> runningArenasList = new ArrayList<>();
     //private static ArrayList<String> readyArenas = new ArrayList<>();
     //private static ArrayList<Player> arenaPlayers = new ArrayList<>();
     private static VArenas plugin;
@@ -75,7 +67,6 @@ public class ArenaManager
     /**
      * Creates an arena from the specified map
      * @param mapName String 
-     * @throws IOException
      */
     public static void createArena(String map) throws IOException
     {
@@ -107,6 +98,8 @@ public class ArenaManager
             temp.add(arena);
             runningArenasMap.put(map, temp);
         }
+        if(!runningArenasList.contains(arena.getName()))
+            runningArenasList.add(arena.getName());
         
         //Starts the arena
         arena.start();
@@ -140,25 +133,37 @@ public class ArenaManager
         return false;
     }
     
+    /**
+     * Gets all the arenas that are running the specified map
+     * @param map String
+     * @return ArrayList<Arena>
+     */
     public ArrayList<Arena> getRunningArenasFromMap(String map)
     {
         return runningArenasMap.get(map);
     }
     
-    public static boolean arenaExists(String arena)
+    /**
+     * Checks to see if the arena is running
+     * @param arena Arena
+     * @return boolean
+     */
+    public boolean isArenaRunning(Arena arena)
     {
-        if(runningArenas.contains(arena))
-            return true;
-        return false;
+        return isArenaRunning(arena.getName());
     }
     
     /**
-     * Gets if the specified arena exists
-     * NOTE: This will also return true for an arena that is in the process of being setup
-     * @param arena VArena
-     * @return Boolean
+     * Checks to see if the arena is running
+     * @param name String
+     * @return boolean
      */
-    //public static boolean arenaExists(Arena arena) {return arenaExists(arena.getName());}
+    public boolean isArenaRunning(String name) 
+    {
+        if(runningArenasList.contains(name))
+            return true;
+        return false;
+    }
     
     /**
      * Gets all the arenas that have been fully setup

@@ -1,5 +1,6 @@
 package net.vectorgaming.varenas;
 
+import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -23,6 +24,11 @@ public class ArenaAPI
     public static VArenas getPlugin() 
     {
         return plugin;
+    }
+    
+    public static File getDataFolder() 
+    {
+        return plugin.getDataFolder();
     }
     
     /**
