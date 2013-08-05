@@ -3,11 +3,14 @@ package net.vectorgaming.varenas.framework.teams;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import net.vectorgaming.varenas.ArenaAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -22,6 +25,7 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
     public ArenaTeamData(int id, Team teamBase){
         this.id = id;
         this.teamBase = teamBase;
+        Bukkit.getPluginManager().registerEvents(this, ArenaAPI.getPlugin());
     }
     
     @Override
@@ -244,6 +248,7 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
         for(SubTeam childTeam : getChildTeams()){
             childTeam.unregister();
         }
+        HandlerList.unregisterAll(this);
     }
 
     @Override
