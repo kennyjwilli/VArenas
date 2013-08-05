@@ -28,20 +28,7 @@ public class ArenaForceStartCommand extends VCommand
         
         if(args.length == 1)
         {
-            if(!ArenaManager.mapExists(args[0]))
-            {
-                cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
-                return true;
-            }
             
-            Arena arena = ArenaManager.getArena(args[0]);
-            if(!ArenaManager.isArenaReady(arena))
-            {
-                cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+arena.getName()+ChatColor.RED+" is not ready to be used.");
-                return true;
-            }
-            
-            arena.start();
         }
         return true;
     }
