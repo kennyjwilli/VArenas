@@ -15,7 +15,9 @@ import org.bukkit.command.CommandSender;
 public class ArenaReadyArenaCommand extends VCommand
 
 {
-
+/*
+ * I think this command is pointless..
+ */
     @Override
     public boolean run(CommandSender cs, String[] arguments) 
     {
@@ -35,7 +37,7 @@ public class ArenaReadyArenaCommand extends VCommand
         
         Arena arena = ArenaManager.getArena(args[0]);
         
-        arena.readyArena();
+        //arena.readyArena();
         
         cs.sendMessage(ChatColor.GREEN+"Arena "+ChatColor.YELLOW+arena.getName()+ChatColor.GREEN+" is now ready to be used!");
         return true;
