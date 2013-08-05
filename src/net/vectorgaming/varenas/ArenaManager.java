@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.varenas.framework.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import org.bukkit.Location;
@@ -23,22 +24,9 @@ public class ArenaManager
     private static HashMap<String, ArenaConfig> arenaConfigs = new HashMap<>(); // {MapName, ArenaConfig}
     private static HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
     private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
-    
     private static ArrayList<String> runningArenasList = new ArrayList<>();
-    //private static ArrayList<String> readyArenas = new ArrayList<>();
-    //private static ArrayList<Player> arenaPlayers = new ArrayList<>();
-    private static VArenas plugin;
     
-    private static final File FRAMEWORK_DIR = new File(plugin.getDataFolder().getAbsoluteFile()+File.separator+"framework");
-    private static final File SETTINGS_DIR = new File(plugin.getDataFolder().getAbsoluteFile()+File.separator+"settings");
-    private static final File SERVER_ROOT_DIR = new File("");
-    private static final File MAPS_DIR = new File(SERVER_ROOT_DIR+File.separator+"maps");
-    private static final File ARENAS_DIR = new File(SERVER_ROOT_DIR+File.separator+"arenas");
-    
-    public ArenaManager(VArenas instance)
-    {
-        plugin = instance;
-    }
+    private static VArenas plugin = ArenaAPI.getPlugin();
     
     /**
      * Creates a map with the given name
@@ -46,8 +34,8 @@ public class ArenaManager
      */
     public static void createMap(String map)
     {
-        ArenaConfig framework = new ArenaConfig(plugin, new File(FRAMEWORK_DIR+File.separator+map.toLowerCase()+".yml"));
-        ZoneConfig settings = new ZoneConfig(plugin, new File(SETTINGS_DIR+File.separator+map.toLowerCase()+".yml"));
+        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.FRAMEWORK_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
+        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.SETTINGS_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
         
@@ -75,12 +63,12 @@ public class ArenaManager
         String arenaName = map.toLowerCase()+"_"+arenaid;
         
         //Copy the map to the arenas
-        File mapFile = new File(MAPS_DIR+File.separator+map.toLowerCase());
-        File arenaFile = new File(ARENAS_DIR+File.separator+arenaName);
+        File mapFile = new File(ArenaDirectory.MAPS_DIR+File.separator+map.toLowerCase());
+        File arenaFile = new File(ArenaDirectory.ARENAS_DIR+File.separator+arenaName);
         Files.copy(mapFile, arenaFile);
         
         //Delete uid.dat for new world
-        File uid = new File(ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
+        File uid = new File(ArenaDirectory.ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
         uid.delete();
         
         //Increment the arena id by one
@@ -164,48 +152,6 @@ public class ArenaManager
             return true;
         return false;
     }
-    
-    /**
-     * Gets all the arenas that have been fully setup
-     * NOTE: These are the arenas that will actually be saved when the plugin shuts down
-     * @return ArrayList<String>
-     */
-//    public static ArrayList<String> getReadyArenas() {return readyArenas;}
-    
-    /**
-     * Gets if the specified arena is ready for use
-     * @param name String
-     * @return Boolean
-     */
-    public static boolean isArenaReady(String name)
-    {
-//        if(readyArenas.contains(name) && !getArena(name).isEditModeEnabled())
-//            return true;
-        return false;
-    }
-    
-    /**
-     * Gets if the specified arena is ready for use
-     * @param arena VArena
-     * @return Boolean
-     */
-    public static boolean isArenaReady(Arena arena) {return isArenaReady(arena.getName());}
-    
-    /**
-     * Readys an arena
-     * @param arena String
-     */
-    public static void readyArena(String arena)
-    {
-//        if(!readyArenas.contains(arena))
-//            readyArenas.add(arena);
-    }
-    
-    /**
-     * Readys an arena
-     * @param arena VArena
-     */
-    public static void readyArena(Arena arena) {readyArena(arena.getName());}
     
     /**
      * Converts two locations into five locations for PolygonTriggerBox
