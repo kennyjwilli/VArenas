@@ -28,11 +28,11 @@ public class ArenaForceStopCommand extends VCommand
         
         Arena arena = ArenaManager.getArena(args[0]);
         
-        if(!ArenaManager.arenaExists(arena))
-        {
-            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
-            return true;
-        }
+//        if(!ArenaManager.arenaExists(arena))
+//        {
+//            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
+//            return true;
+//        }
         
         if(arena.isRunning())
         {

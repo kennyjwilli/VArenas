@@ -119,26 +119,6 @@ public class ArenaStats
         return sortedMap;
     }
     
-    private Map sortValues(Map unsortedMap)
-    {
-        List list = new LinkedList(unsortedMap.entrySet());
-        
-        Collections.sort(list, new Comparator()
-        {
-            public int compare(Object o1, Object o2)
-            {
-                return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
-            }
-        });
-        Map sortedMap = new LinkedHashMap();
-        for(Iterator it = list.iterator(); it.hasNext();)
-        {
-            Map.Entry entry = (Map.Entry) it.next();
-            sortedMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedMap;
-    }
-    
     /**
      * Gets if the player has died yet
      * @param p Player

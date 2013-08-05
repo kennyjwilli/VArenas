@@ -76,4 +76,14 @@ public class ArenaConfig extends ZoneConfig{
         throw new Exception("Cannot get TriggerBox from String: "+saveString);
     }
     
+    public void addLocation(String path, Location location)
+    {
+        this.set(path, new Point3D(location));
+    }
+    
+    public void addTriggerBox(String path, TriggerBox box)
+    {
+        this.set(path, box.toSaveString());
+    }
+    
 }

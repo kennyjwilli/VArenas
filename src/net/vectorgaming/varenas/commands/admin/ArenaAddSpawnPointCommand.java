@@ -5,6 +5,7 @@ import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,9 +36,9 @@ public class ArenaAddSpawnPointCommand extends VCommand
             return true;
         }
         
-        Arena arena = ArenaManager.getArena(args[0]);
+        ArenaConfig framework = ArenaManager.getArenaConfig(args[0].toLowerCase());
         
-        arena.addSpawnPoint(args[1], p.getLocation());
+        framework.addLocation("spawns.arena."+args[1], p.getLocation());
         
         cs.sendMessage(ChatColor.GREEN+"Added spawn point "+ChatColor.YELLOW+args[1]+ChatColor.GREEN+" to arena "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+"!");
         return true;

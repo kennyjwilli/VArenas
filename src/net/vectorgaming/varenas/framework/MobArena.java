@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
@@ -95,6 +96,12 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
 
     @Override
     public void onRespawn(PlayerRespawnEvent event)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onQuit(PlayerQuitEvent event)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }

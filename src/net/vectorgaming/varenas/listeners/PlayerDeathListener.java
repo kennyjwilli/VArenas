@@ -18,9 +18,9 @@ public class PlayerDeathListener implements Listener
     @EventHandler
     public void onDeath(PlayerDeathEvent event)
     {
-        if(!ArenaManager.isPlayerInArena(event.getEntity())) 
-            return;
-        Arena arena = ArenaManager.getArenaFromPlayer(event.getEntity());
-        arena.onDeath(event);
+//        if(!ArenaManager.isPlayerInArena(event.getEntity())) 
+//            return;
+//        Arena arena = ArenaManager.getArenaFromPlayer(event.getEntity());
+//        arena.onDeath(event);
     }
 }

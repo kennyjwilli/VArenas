@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
@@ -32,6 +33,7 @@ public abstract class Arena
     private boolean tntEnabled = false;
     private boolean isRunning = false;
     private int maxPlayers;
+    private int id;
     private int TP_TASK_ID;
     private String authors;
     private String objective;
@@ -76,6 +78,10 @@ public abstract class Arena
      * @param name String
      */
     public void setName(String name){this.name = name;}
+    
+    public Integer getId() {return id;}
+    
+    public void setId(Integer id) {this.id = id;}
     
     /**
      * Starts the arena. Usually all players will be teleported to the lobby
@@ -159,12 +165,20 @@ public abstract class Arena
     public abstract void onRespawn(PlayerRespawnEvent event);
     
     /**
+     * Handles what happens when a player diconnects from the server
+     * @param event PlayerQuitEvent
+     */
+    public abstract void onQuit(PlayerQuitEvent event);
+        
+    /**
      * Removes all players from the arena
      */
     public void removeAllPlayers()
     {
         for(Player p : getPlayers())
-            ArenaManager.removePlayerFromArena(p, this);
+        {
+            //ArenaPlayerManager.
+        }
     }
     
     /**

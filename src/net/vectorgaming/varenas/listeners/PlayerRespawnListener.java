@@ -16,10 +16,10 @@ public class PlayerRespawnListener implements Listener
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event)
     {
-        if(!ArenaManager.isPlayerInArena(event.getPlayer()))
-            return;
-        Arena arena = ArenaManager.getArenaFromPlayer(event.getPlayer());
-        arena.onRespawn(event);
+//        if(!ArenaManager.isPlayerInArena(event.getPlayer()))
+//            return;
+//        Arena arena = ArenaManager.getArenaFromPlayer(event.getPlayer());
+//        arena.onRespawn(event);
     }
 
 }

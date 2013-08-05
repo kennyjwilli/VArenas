@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
@@ -51,6 +52,12 @@ public class PVPArena extends Arena
     public void onRespawn(PlayerRespawnEvent event)
     {
         
+    }
+
+    @Override
+    public void onQuit(PlayerQuitEvent event)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

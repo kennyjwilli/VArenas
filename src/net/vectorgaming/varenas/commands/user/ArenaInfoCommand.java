@@ -5,6 +5,7 @@ import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.varenas.framework.ArenaSettings;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -27,21 +28,21 @@ public class ArenaInfoCommand extends VCommand
             return true;
         }
         
-        Arena arena = ArenaManager.getArena(args[0]);
+        ArenaSettings settings = ArenaManager.getArenaSettings(args[0]);
         
-        if(!ArenaManager.arenaExists(arena))
+        if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
             return true;
         }
         
-        cs.sendMessage(ChatColor.BLUE+"========== "+ChatColor.GOLD+arena.getName()+" Info"+ChatColor.BLUE+" ==========");
-        cs.sendMessage("Author(s): "+arena.getAuthors());
-        cs.sendMessage("Map Type: "+WordUtils.capitalizeFully(arena.getArenaType().replaceAll("_", " ")));
-        cs.sendMessage("Objective: "+arena.getObjective());
-        cs.sendMessage("Max Players: "+arena.getMaxPlayers());
-        cs.sendMessage("TNT Enabled: "+arena.isTNTEnabled());
-        cs.sendMessage("Block Break: "+arena.isBlockBreakEnabled());
+        cs.sendMessage(ChatColor.BLUE+"========== "+ChatColor.GOLD+settings.getName()+" Info"+ChatColor.BLUE+" ==========");
+        cs.sendMessage("Author(s): "+settings.getAuthors());
+        cs.sendMessage("Map Type: "+WordUtils.capitalizeFully(settings.getType().replaceAll("_", " ")));
+        cs.sendMessage("Objective: "+settings.getObjective());
+        cs.sendMessage("Max Players: "+settings.getMaxPlayers());
+        cs.sendMessage("TNT Enabled: "+settings.isTNTEnabled());
+        cs.sendMessage("Block Break: "+settings.isBlockBreakEnabled());
         return true;
     }
 

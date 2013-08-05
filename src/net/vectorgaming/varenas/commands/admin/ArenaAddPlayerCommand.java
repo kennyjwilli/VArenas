@@ -49,7 +49,7 @@ public class ArenaAddPlayerCommand extends VCommand
             return true;
         }
         
-        ArenaManager.addPlayerToArena(p, arena);
+//        ArenaManager.addPlayerToArena(p, arena);
         cs.sendMessage(ChatColor.GREEN+"Successfully added player "+ChatColor.YELLOW+p.getName()+ChatColor.GREEN+" to arena "+ChatColor.YELLOW+arena.getName());
         return true;
     }
