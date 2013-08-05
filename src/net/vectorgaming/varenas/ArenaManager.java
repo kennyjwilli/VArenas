@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaSettings;
@@ -42,21 +44,32 @@ public class ArenaManager
         //Set first arnea id 
     }
     
+    /**
+     * Gets the ArenaConfig for the specified map
+     * @param map String
+     * @return ArenaConfig
+     */
     public static ArenaConfig getArenaConfig(String map)
     {
         return arenaConfigs.get(map);
     }
     
+    /**
+     * Gets the settings for the map
+     * @param map String
+     * @return ArenaSettings
+     */
     public static ArenaSettings getArenaSettings(String map)
     {
         return arenaSettings.get(map);
     }
     
     /**
-     * Creates an arena from the specified map
+     * Creates an arena from the specified map.
+     * This will start the arena
      * @param mapName String 
      */
-    public static void createArena(String map) throws IOException
+    public static void createArena(String map)
     {
         //Setup some initial variables
         int arenaid = arenaIdMap.get(map);
@@ -65,7 +78,13 @@ public class ArenaManager
         //Copy the map to the arenas
         File mapFile = new File(ArenaDirectory.MAPS_DIR+File.separator+map.toLowerCase());
         File arenaFile = new File(ArenaDirectory.ARENAS_DIR+File.separator+arenaName);
-        Files.copy(mapFile, arenaFile);
+        try
+        {
+            Files.copy(mapFile, arenaFile);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(ArenaManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //Delete uid.dat for new world
         File uid = new File(ArenaDirectory.ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
@@ -93,6 +112,11 @@ public class ArenaManager
         arena.start();
     }
     
+    /**
+     * Generates the next avaliable id for the map
+     * @param map String
+     * @return Integer
+     */
     public static Integer createArenaId(String map)
     {
         int arenaid = arenaIdMap.get(map);
@@ -176,14 +200,4 @@ public class ArenaManager
         result.add(loc3);
         return result;
     }
-    
-    /**
-     * Gets the VAreans plugin
-     * @return VArenas
-     */
-    public static VArenas getVArenasPlugin()
-    {
-        return plugin;
-    }
-    
 }
