@@ -1,20 +1,56 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.vectorgaming.varenas;
+
+import java.util.HashMap;
 
 /**
  *
  * @author jeppe
  */
-public class ArenaAPI {
+public class ArenaAPI 
+{
     private static VArenas plugin;
-    public ArenaAPI(VArenas plugin){
+    private static HashMap<String, ArenaCreator> maps = new HashMap<>();
+    
+    public ArenaAPI(VArenas plugin)
+    {
         ArenaAPI.plugin = plugin;
     }
 
-    public static VArenas getPlugin() {
+    /**
+     * Gets the VArenas plugin
+     * @return VArenas
+     */
+    public static VArenas getPlugin() 
+    {
         return plugin;
+    }
+    
+    /**
+     * Registers an ArenaCreator for a map type
+     * @param type String
+     * @param arenaCreator ArenaCreator
+     */
+    public static void registerArenaCreator(String type, ArenaCreator arenaCreator)
+    {
+        maps.put(type, arenaCreator);
+    }
+    
+    /**
+     * Unregisters an ArenaCreator for a map type
+     * @param type String
+     */
+    public static void unregisterArenaCreator(String type)
+    {
+        maps.remove(type);
+    }
+    
+    /**
+     * Gets the ArenaCreator for the specified type
+     * @param type String
+     * @return ArenaCreator
+     */
+    public static ArenaCreator getArenaCreator(String type)
+    {
+        return maps.get(type);
     }
 }
