@@ -1,12 +1,9 @@
 
 package net.vectorgaming.varenas.framework;
 
-import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.ArrayList;
-import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.ArenaAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 /**
  *
@@ -56,7 +53,7 @@ public class ArenaLobby extends VRegion
     public void startLobbyTimer()
     {
         //When VChat is done add sendChannelMessage method and use it here.
-        TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaManager.getVArenasPlugin(), new Runnable()
+        TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             public void run()
             {
