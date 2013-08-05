@@ -47,10 +47,12 @@ public abstract class Arena
     private ArenaStats stats;
     
     /**
-     *
-     * @param name Name of arena
+     * 
+     * @param name String
+     * @param type String
      * @param lobby ArenaLobby
      * @param spectatorBox ArenaSpectatorBox
+     * @param world World
      */
     public Arena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, World world)
     {
@@ -63,7 +65,9 @@ public abstract class Arena
     
     /**
      * 
-     * @param name Name of arena
+     * @param name String
+     * @param type String 
+     * @param world World
      */
     public Arena(String name, String type, World world)
     {
