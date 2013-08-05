@@ -40,14 +40,7 @@ public class ArenaAddPlayerCommand extends VCommand
             cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
             return true;
         }
-
-        Arena arena = ArenaManager.getArena(args[0]);
         
-        if(!ArenaManager.isArenaReady(arena))
-        {
-            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+arena.getName()+ChatColor.RED+" is not ready to be used.");
-            return true;
-        }
         
 //        ArenaManager.addPlayerToArena(p, arena);
         cs.sendMessage(ChatColor.GREEN+"Successfully added player "+ChatColor.YELLOW+p.getName()+ChatColor.GREEN+" to arena "+ChatColor.YELLOW+arena.getName());
