@@ -23,7 +23,7 @@ public class VArenas extends JavaPlugin
     private CommandManager cm = new CommandManager();
     private PlayerDeathListener dl = new PlayerDeathListener();
     private SLAPI slapi = new SLAPI(this);
-    private ArenaManager am = new ArenaManager(this);
+    private ArenaManager am = new ArenaManager();
     private ArenaPlayerManager<ArenaPlayer> playerManager;
     
     @Override
