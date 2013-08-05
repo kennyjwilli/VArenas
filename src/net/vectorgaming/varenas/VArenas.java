@@ -29,13 +29,14 @@ public class VArenas extends JavaPlugin
         setupCommands();
         setupEvents();
         registerArenaTypes();
-        slapi.loadAllArenas();
+//        slapi.loadAllArenas();
     }
     
     @Override
     public void onDisable()
     {
         slapi.saveAllArenas();
+        //Need to delete all arena maps 
     }
     
     private void setupCommands()
@@ -52,6 +53,6 @@ public class VArenas extends JavaPlugin
     
     private void registerArenaTypes()
     {
-        ArenaRegistration.registerArenaType(ArenaType.PVP_ARENA.toString(), PVPArena.class);
+        ArenaRegister.registerArenaType(ArenaType.PVP_ARENA.toString(), PVPArena.class);
     }
 }
