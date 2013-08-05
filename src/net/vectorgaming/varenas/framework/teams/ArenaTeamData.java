@@ -5,10 +5,16 @@ import java.util.HashSet;
 import java.util.Set;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-public class ArenaTeamData implements ArenaTeam, Team{
+public class ArenaTeamData implements ArenaTeam, Team, Listener{
     private int id;
     private final Team teamBase;
     private ArrayList<Entity> friendlyEntities = new ArrayList();
@@ -84,7 +90,7 @@ public class ArenaTeamData implements ArenaTeam, Team{
     
     @Override
     public boolean isOnTeamAsPlayer(OfflinePlayer player){
-        return hasPlayer(player);
+        return isOnTeamAsPlayer(player.getName());
     }
     @Override
     public boolean isOnTeamAsPlayer(String playerName){
@@ -251,5 +257,19 @@ public class ArenaTeamData implements ArenaTeam, Team{
             }
         }
         return false;
+    }
+    
+    @EventHandler(priority = EventPriority.LOW)
+    public void onEntityDamage(EntityDamageEvent event){
+        if(event instanceof EntityDamageByEntityEvent) {
+            EntityDamageByEntityEvent eventDamage = (EntityDamageByEntityEvent) event;
+            Entity defender = eventDamage.getEntity();
+            Entity attacker = eventDamage.getDamager();
+            if(!allowFriendlyFire()) {
+                if(isOnTeam(defender) && isOnTeam(attacker)){
+                    event.setCancelled(true);
+                }
+            }
+        }
     }
 }
