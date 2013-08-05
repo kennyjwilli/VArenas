@@ -11,8 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.scoreboard.Team;
 
 public class HealthBarManager extends TeamUIComponent implements Listener{
-    private final String HEALTH_BAR = "█";
-    private final String HALF_HEALTH_BAR = "▌";
+    private final String[] HEALTH_BAR = {"█","▉","▊","▋","▌","▍","▎","▏"};
     private double healthPerBar = 2;
     
     public HealthBarManager(TeamManager teamManager){
@@ -49,18 +48,22 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
         }
         return ChatColor.GREEN;
     }
+    public String getHealthBar(double health, double maxHealth, double healthScale){
+        String healthBar = "";
+        double scaledHealth = health / maxHealth * healthScale;
+        int fullHealthBars = (int)(scaledHealth / healthPerBar);
+        int lastIndex = HEALTH_BAR.length-1;
+        for(int i = 0; i < fullHealthBars; i++){
+            healthBar += HEALTH_BAR[lastIndex];
+        }
+        double healthLeft = scaledHealth - fullHealthBars * healthPerBar;
+        healthBar += HEALTH_BAR[(int)((double)HEALTH_BAR.length * (healthPerBar / healthLeft))];
+        
+        return healthBar;
+    }
     
     public void update(Player player, Team team){
-        String healthBar = "";
-        double health = player.getHealth() / player.getMaxHealth() * player.getHealthScale();
-        int fullHealthBars = (int)(health / healthPerBar);
-        for(int i = 0; i < fullHealthBars; i++){
-            healthBar += HEALTH_BAR;
-        }
-        double healthLeft = health - fullHealthBars * healthPerBar;
-        if(healthLeft < healthPerBar / 2){
-            healthBar += HALF_HEALTH_BAR;
-        }
+        String healthBar = getHealthBar(player.getHealth(),player.getMaxHealth(),player.getHealthScale());
         ChatColor color = getColorBasedOnHealth(player.getHealth(), player.getMaxHealth());
         team.setSuffix(color + healthBar);
     }
