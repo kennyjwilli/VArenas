@@ -2,6 +2,7 @@
 package net.vectorgaming.varenas.listeners;
 
 import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.Arena;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,10 +17,10 @@ public class PlayerDeathListener implements Listener
     @EventHandler
     public void onDeath(PlayerDeathEvent event)
     {
-        if(!ArenaManager.isPlayerInArena(event.getEntity())) {
+        if(!ArenaPlayerManager.isPlayerInArena(event.getEntity())) {
             return;
         }
-        Arena arena = ArenaManager.getArenaFromPlayer(event.getEntity());
+        Arena arena = ArenaPlayerManager.getArenaFromPlayer(event.getEntity());
         arena.onDeath(event);
     }
 }
