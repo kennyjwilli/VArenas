@@ -84,9 +84,6 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     }
     
     @Override
-    public void readyArena(){}
-    
-    @Override
     public void sendEndMessage(){}
 
     @Override
