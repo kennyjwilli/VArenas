@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.ArenaDirectory;
+import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import org.bukkit.Location;
@@ -24,6 +25,7 @@ public class ArenaManager
     private static HashMap<String, Arena> arenas = new HashMap<>(); //{ArenaName, ArenaObject}
     private static HashMap<String, ArenaSettings> arenaSettings = new HashMap<>(); // {MapName, ArenaSettings}
     private static HashMap<String, ArenaConfig> arenaConfigs = new HashMap<>(); // {MapName, ArenaConfig}
+    private static HashMap<String, ArenaFramework> arenaFramework = new HashMap<>();
     private static HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
     private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
     private static ArrayList<String> runningArenasList = new ArrayList<>();
@@ -40,6 +42,7 @@ public class ArenaManager
         ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.SETTINGS_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
+        arenaFramework.put(map.toLowerCase(), new ArenaFramework());
         
         //Set first arnea id 
     }
@@ -65,7 +68,17 @@ public class ArenaManager
      */
     public static ArenaConfig getArenaConfig(String map)
     {
-        return arenaConfigs.get(map);
+        return arenaConfigs.get(map.toLowerCase());
+    }
+    
+    /**
+     * Gets the arena framework for the specified arena
+     * @param map Name of map
+     * @return AreanFramework
+     */
+    public static ArenaFramework getAreanFramework(String map)
+    {
+        return arenaFramework.get(map.toLowerCase());
     }
     
     /**
@@ -75,7 +88,7 @@ public class ArenaManager
      */
     public static ArenaSettings getArenaSettings(String map)
     {
-        return arenaSettings.get(map);
+        return arenaSettings.get(map.toLowerCase());
     }
     
     /**
