@@ -42,7 +42,7 @@ public class ArenaManager
         ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
-        arenaFramework.put(map.toLowerCase(), new ArenaFramework());
+        arenaFramework.put(map.toLowerCase(), new ArenaFramework(map));
         
         //Set first arnea id 
     }
