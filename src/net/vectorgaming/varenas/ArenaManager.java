@@ -45,6 +45,20 @@ public class ArenaManager
     }
     
     /**
+     * Gets a list of all maps that have been created
+     * @return ArrayList<String>
+     */
+    public static ArrayList<String> getMaps()
+    {
+        ArrayList<String> result = new ArrayList<>();
+        for(String s : arenaSettings.keySet())
+        {
+            result.add(s);
+        }
+        return result;
+    }
+    
+    /**
      * Gets the ArenaConfig for the specified map
      * @param map String
      * @return ArenaConfig
