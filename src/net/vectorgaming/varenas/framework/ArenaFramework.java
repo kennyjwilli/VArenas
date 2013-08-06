@@ -14,6 +14,25 @@ public class ArenaFramework
 {
     private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
     private HashMap<String, Point3D> locationMap = new HashMap<>();
+    private String name;
+    
+    /**
+     * 
+     * @param map Name of the map
+     */
+    public ArenaFramework(String map)
+    {
+        name = map;
+    }
+    
+    /**
+     * Gets the name of the arena
+     * @return Name of the arena
+     */
+    public String getName()
+    {
+        return name;
+    }
     
     /**
      * Adds a trigger box to the given path
