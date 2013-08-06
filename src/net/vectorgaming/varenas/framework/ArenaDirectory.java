@@ -13,11 +13,11 @@ public enum ArenaDirectory
     /**
      * Directory for all the framework files for each map
      */
-    FRAMEWORK_DIR (ArenaAPI.getDataFolder().getAbsolutePath().toString()+File.separator+"framework"),
+    ARENA_FRAMEWORK_DIR (ArenaAPI.getDataFolder().getAbsolutePath().toString()+File.separator+"framework"),
     /**
      * Directory for the arena settings file for each map
      */
-    SETTINGS_DIR(ArenaAPI.getDataFolder().getAbsolutePath()+File.separator+"settings"),
+    ARENA_SETTINGS_DIR(ArenaAPI.getDataFolder().getAbsolutePath()+File.separator+"settings"),
     /**
      * Root directory of the server
      */
