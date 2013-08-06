@@ -72,4 +72,22 @@ public class ArenaFramework
     {
         return locationMap.get(path);
     }
+    
+    /**
+     * Gets the HashMap containing the path for each TriggerBox
+     * @return HashMap<String, TriggerBox>
+     */
+    public HashMap<String, TriggerBox> getTriggerBoxMap()
+    {
+        return triggerBoxMap;
+    }
+    
+    /**
+     * Gets the HashMap containing the path for each location saved in the arena
+     * @return HashMap<String, Point3D>
+     */
+    public HashMap<String, Point3D> getLocationMap()
+    {
+        return locationMap;
+    }
 }
