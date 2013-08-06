@@ -29,6 +29,7 @@ public class ArenaSettings
         authors = "Arcane Realms";
         objective = "Default objective";
         setupDefaultInterval();
+        type = ArenaType.PVP_ARENA.toString();
     }
     
     public String getName() {return name;}
