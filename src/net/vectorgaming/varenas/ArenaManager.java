@@ -38,8 +38,8 @@ public class ArenaManager
      */
     public static void createMap(String map)
     {
-        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.FRAMEWORK_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
-        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.SETTINGS_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
+        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
+        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
         arenaFramework.put(map.toLowerCase(), new ArenaFramework());
