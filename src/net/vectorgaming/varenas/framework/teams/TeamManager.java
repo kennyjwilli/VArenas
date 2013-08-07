@@ -23,7 +23,7 @@ public class TeamManager {
     private Scoreboard scoreboard;
     private ArrayList<ArenaTeamData> teams = new ArrayList();
     private ArrayList<TeamUIComponent> UIComponents = new ArrayList();
-    public void TeamManager(){
+    public TeamManager(){
         scoreboardManager = Bukkit.getScoreboardManager();
         scoreboard = scoreboardManager.getNewScoreboard();
     }
