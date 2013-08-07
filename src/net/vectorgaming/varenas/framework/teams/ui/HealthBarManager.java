@@ -93,8 +93,17 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     }
     public String getHealthBar(double health, double maxHealth, double healthScale){
         String healthBar = "";
-        double scaledHealth = health / maxHealth * healthScale;
-        int fullHealthBars = (int)(scaledHealth / healthPerBar);
+        //Makes sure a max of 28 bars are showed
+        double scaledHealth;
+        int fullHealthBars;
+        if(healthScale / healthPerBar > 28){
+            scaledHealth = health / maxHealth * 28 * healthPerBar;
+            fullHealthBars = (int)(scaledHealth / healthPerBar);
+        } else {
+            scaledHealth = health / maxHealth * healthScale;
+            fullHealthBars = (int)(scaledHealth / healthPerBar);
+        }
+        
         for(int i = 0; i < fullHealthBars; i++){
             healthBar += HEALTH_BAR[0];
         }
