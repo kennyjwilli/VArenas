@@ -58,9 +58,9 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
             if(team != null){
                 if(livingEntity instanceof Player){
                     SubTeam childTeam = team.getChildTeam(livingEntity);
-                    update((Player)livingEntity, childTeam, livingEntity.getHealth() - event.getDamage());
+                    schedualUpdate((Player)livingEntity, childTeam);
                 } else {
-                    update(livingEntity,livingEntity.getHealth() - event.getDamage());
+                    schedualUpdate(livingEntity);
                 }
             }
         }
@@ -74,9 +74,9 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
             if(team != null){
                 if(livingEntity instanceof Player){
                     SubTeam childTeam = team.getChildTeam(livingEntity);
-                    update((Player)livingEntity, childTeam, livingEntity.getHealth() + event.getAmount());
+                    schedualUpdate((Player)livingEntity, childTeam);
                 } else {
-                    update(livingEntity,livingEntity.getHealth() + event.getAmount());
+                    schedualUpdate(livingEntity);
                 }
             }
         }
@@ -135,6 +135,22 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
                 }
             }
         }
+    }
+    public void schedualUpdate(final LivingEntity entity){
+        Bukkit.getScheduler().runTask(ArenaAPI.getPlugin(), new Runnable(){
+            @Override
+            public void run() {
+                update(entity);
+            }
+        });
+    }
+    public void schedualUpdate(final Player player, final Team team){
+        Bukkit.getScheduler().runTask(ArenaAPI.getPlugin(), new Runnable(){
+            @Override
+            public void run() {
+                update(player,team);
+            }
+        });
     }
     
     public void update(Player player, Team team){
