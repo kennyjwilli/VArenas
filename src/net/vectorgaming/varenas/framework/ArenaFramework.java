@@ -4,6 +4,7 @@ package net.vectorgaming.varenas.framework;
 import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.HashMap;
+import net.vectorgaming.varenas.framework.enums.ArenaYMLPath;
 import org.bukkit.Location;
 
 /**
@@ -32,6 +33,42 @@ public class ArenaFramework
     public String getName()
     {
         return name;
+    }
+    
+    /**
+     * Gets the 3D location of the lobby spawn for the specified arena
+     * @return Point3D
+     */
+    public Point3D getLobbySpawn()
+    {
+        return locationMap.get(ArenaYMLPath.LOBBY_SPAWN.toString());
+    }
+    
+    /**
+     * Sets the lobby spawn for the arena
+     * @param loc Location of the spawn
+     */
+    public void setLobbySpawn(Location loc)
+    {
+        locationMap.put(ArenaYMLPath.LOBBY_SPAWN.toString(), new Point3D(loc));
+    }
+    
+    /**
+     * Gets the location of the specator box spawn
+     * @return Point3D
+     */
+    public Point3D getSpectatorBoxSpawn()
+    {
+        return locationMap.get(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString());
+    }
+    
+    /**
+     * Sets the spectator box spawn
+     * @param loc Location of the spawn
+     */
+    public void setSpectatorBoxSpawn(Location loc)
+    {
+        locationMap.put(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString(), new Point3D(loc));
     }
     
     /**
