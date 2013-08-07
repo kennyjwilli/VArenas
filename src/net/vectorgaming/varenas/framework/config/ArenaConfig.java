@@ -9,6 +9,7 @@ import info.jeppes.ZoneCore.TriggerBoxes.TriggerBoxEventHandler;
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
 import java.util.ArrayList;
+import net.vectorgaming.varenas.framework.enums.ArenaYMLPath;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
@@ -52,7 +53,16 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void setLobbySpawn(Location loc)
     {
-        this.set(LOBBY_LOC, new Point3D(loc).toSaveString());
+        setLobbySpawn(new Point3D(loc));
+    }
+    
+    /**
+     * Sets the lobby spawn in the YML file
+     * @param point 3D point of the location
+     */
+    public void setLobbySpawn(Point3D point)
+    {
+        this.set(ArenaYMLPath.LOBBY_SPAWN.toString(), point.toSaveString());
     }
     
     /**
@@ -70,7 +80,16 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void setSpectatorBoxSpawn(Location loc)
     {
-        this.set(SPECTATOR_BOX_LOC, new Point3D(loc).toSaveString());
+        setSpectatorBoxSpawn(new Point3D(loc));
+    }
+    
+    /**
+     * Sets the spectator box location in the YML file
+     * @param point 3D point of the location
+     */
+    public void setSpectatorBoxSpawn(Point3D point)
+    {
+        this.set(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString(), point.toSaveString());
     }
     
     /**
