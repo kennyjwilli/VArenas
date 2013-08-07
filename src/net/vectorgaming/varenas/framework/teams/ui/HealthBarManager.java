@@ -40,9 +40,9 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
             if(team != null){
                 if(livingEntity instanceof Player){
                     SubTeam childTeam = team.getChildTeam(livingEntity);
-                    update((Player)livingEntity, childTeam);
+                    update((Player)livingEntity, childTeam, livingEntity.getHealth() - event.getDamage());
                 } else {
-                    update(livingEntity);
+                    update(livingEntity,livingEntity.getHealth() - event.getDamage());
                 }
             }
         }
