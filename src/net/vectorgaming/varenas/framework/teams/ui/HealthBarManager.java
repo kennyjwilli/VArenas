@@ -172,7 +172,7 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
         }
         String healthBar = getHealthBar(newHealth,player.getMaxHealth(),healthScale);
         ChatColor color = getColorBasedOnHealth(newHealth, player.getMaxHealth());
-        team.setSuffix(color + healthBar);
+        team.setSuffix(" " + color + healthBar);
     }
     public void update(LivingEntity entity){
         update(entity,entity.getHealth());
