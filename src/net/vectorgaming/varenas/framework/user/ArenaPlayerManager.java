@@ -4,11 +4,8 @@
  */
 package net.vectorgaming.varenas.framework.user;
 
-import info.jeppes.ZoneCore.Users.ZoneCoreUserData;
-import info.jeppes.ZoneCore.Users.ZoneUser;
 import info.jeppes.ZoneCore.Users.ZoneUserManager;
 import info.jeppes.ZoneCore.ZoneConfig;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
