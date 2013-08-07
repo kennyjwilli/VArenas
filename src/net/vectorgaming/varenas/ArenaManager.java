@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.vectorgaming.varenas.framework.Arena;
-import net.vectorgaming.varenas.framework.ArenaDirectory;
+import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
