@@ -65,11 +65,11 @@ public interface ArenaTeam extends Team{
     public boolean isOnTeam(int id);
     
     /**
-     * get a child team of the team that the given player is on
-     * @param player
+     * get a child team of the team that the given entity is on
+     * @param entity
      * @return a SubTeam as the child team
      */
-    public SubTeam getChildTeam(OfflinePlayer player);
+    public SubTeam getChildTeam(Entity entity);
     /**
      * Get the list of child teams within the team
      * @return An array list of the class SubTeam 
