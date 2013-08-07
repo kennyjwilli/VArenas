@@ -1,13 +1,20 @@
 package net.vectorgaming.varenas.framework.teams.ui;
 
+import java.util.List;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import net.vectorgaming.varenas.framework.teams.SubTeam;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Team;
 
 public class HealthBarManager extends TeamUIComponent implements Listener{
@@ -25,15 +32,17 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
         this.healthPerBar = healthPerBar;
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntyDamage(EntityDamageEvent event){
-        if(event.getEntity() instanceof Player){
-            Player player = (Player)event.getEntity();
-            ArenaTeamData team = getTeamManager().getTeam(player);
+        if(event.getEntity() instanceof LivingEntity){
+            LivingEntity livingEntity = (LivingEntity)event.getEntity();
+            ArenaTeamData team = getTeamManager().getTeam(livingEntity);
             if(team != null){
-                SubTeam childTeam = team.getChildTeam(player);
-                if(childTeam != null){
-                    update(player, childTeam);
+                if(livingEntity instanceof Player){
+                    SubTeam childTeam = team.getChildTeam(livingEntity);
+                    update((Player)livingEntity, childTeam);
+                } else {
+                    update(livingEntity);
                 }
             }
         }
@@ -66,5 +75,11 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
         String healthBar = getHealthBar(player.getHealth(),player.getMaxHealth(),player.getHealthScale());
         ChatColor color = getColorBasedOnHealth(player.getHealth(), player.getMaxHealth());
         team.setSuffix(color + healthBar);
+    }
+    public void update(LivingEntity entity){
+        String healthBar = getHealthBar(entity.getHealth(),entity.getMaxHealth(),1);
+        ChatColor color = getColorBasedOnHealth(entity.getHealth(), entity.getMaxHealth());
+        entity.setCustomName(color + healthBar);
+        entity.setCustomNameVisible(true);
     }
 }
