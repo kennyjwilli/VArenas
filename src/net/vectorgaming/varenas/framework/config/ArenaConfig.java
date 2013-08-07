@@ -102,13 +102,23 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * 
-     * @param spawnName
-     * @param loc
+     * Adds a spawn to the arena framework config
+     * @param spawnName Name of the spawn
+     * @param loc Location of the spawn
      */
     public void addArenaSpawn(String spawnName, Location loc)
     {
-        this.set(ARENA_SPAWN_LOC+"."+spawnName.toLowerCase(), new Point3D(loc).toSaveString());
+        addArenaSpawn(spawnName, new Point3D(loc));
+    }
+    
+    /**
+     * Adds a spawn to the arena framework config
+     * @param spawnName Name of the spawn
+     * @param point 3D location of the spawn
+     */
+    public void addArenaSpawn(String spawnName, Point3D point)
+    {
+        this.set(ARENA_SPAWN_LOC+"."+spawnName.toLowerCase(), point.toSaveString());
     }
     
     public Point3D getArenaSpawn(String spawnName)
@@ -170,9 +180,24 @@ public class ArenaConfig extends ZoneConfig{
         throw new Exception("Cannot get TriggerBox from String: "+saveString);
     }
     
+    /**
+     * Adds a location to the arena
+     * @param path Path to save the location
+     * @param location Location of the spawn
+     */
     public void addLocation(String path, Location location)
     {
-        this.set(path, new Point3D(location).toSaveString());
+        addLocation(path, new Point3D(location));
+    }
+    
+    /**
+     * Adds a location to the arena
+     * @param path Path to save the location
+     * @param point 3D location of the spawn
+     */
+    public void addLocation(String path, Point3D point)
+    {
+        this.set(path, point.toSaveString());
     }
     
     public void addTriggerBox(String path, TriggerBox box)
