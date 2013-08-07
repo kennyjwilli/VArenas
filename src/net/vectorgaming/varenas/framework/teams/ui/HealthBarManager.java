@@ -1,11 +1,13 @@
 package net.vectorgaming.varenas.framework.teams.ui;
 
-import java.util.List;
 import net.vectorgaming.varenas.ArenaAPI;
+import net.vectorgaming.varenas.framework.teams.ArenaTeam;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import net.vectorgaming.varenas.framework.teams.SubTeam;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,19 +15,24 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Team;
 
 public class HealthBarManager extends TeamUIComponent implements Listener{
     private final String[] HEALTH_BAR = {"█","▉","▊","▋","▌","▍","▎","▏"};
     private double healthPerBar = 2;
+    private final BukkitTask updateTast;
     
     public HealthBarManager(TeamManager teamManager){
         super(teamManager);
+        updateTast = Bukkit.getScheduler().runTaskTimer(ArenaAPI.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                updateAll();
+            }
+        }, 100, 100); //100 ticks = 5 seconds
     }
-
+    
     public double getHealthPerBar() {
         return healthPerBar;
     }
@@ -73,6 +80,34 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
         return healthBar;
     }
     
+    public void updateAll(){
+        for(ArenaTeam team : this.getTeamManager().getTeams()){
+            for(SubTeam childTeam : team.getChildTeams()){
+                for(OfflinePlayer offlinePlayer : childTeam.getPlayers()){
+                    if(offlinePlayer.isOnline()){
+                        update(offlinePlayer.getPlayer(),childTeam);
+                    }
+                }
+                for(Entity entity : childTeam.getFriendlyEntities()){
+                    if(entity instanceof LivingEntity){
+                        LivingEntity livingEntity = (LivingEntity)entity;
+                        if(livingEntity.getHealth() != livingEntity.getMaxHealth()){
+                            update(livingEntity);
+                        }
+                    }
+                }
+            }
+            for(Entity entity : team.getFriendlyEntities()){
+                if(entity instanceof LivingEntity){
+                    LivingEntity livingEntity = (LivingEntity)entity;
+                    if(livingEntity.getHealth() != livingEntity.getMaxHealth()){
+                        update(livingEntity);
+                    }
+                }
+            }
+        }
+    }
+    
     public void update(Player player, Team team){
         update(player,team,player.getHealth());
     }
@@ -89,5 +124,11 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
         ChatColor color = getColorBasedOnHealth(newHealth, entity.getMaxHealth());
         entity.setCustomName(color + healthBar);
         entity.setCustomNameVisible(true);
+    }
+
+    @Override
+    public void remove() {
+        super.remove();
+        updateTast.cancel();
     }
 }
