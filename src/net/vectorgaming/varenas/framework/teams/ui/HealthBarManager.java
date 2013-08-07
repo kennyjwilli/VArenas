@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Team;
 
@@ -51,6 +52,22 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
                     update((Player)livingEntity, childTeam, livingEntity.getHealth() - event.getDamage());
                 } else {
                     update(livingEntity,livingEntity.getHealth() - event.getDamage());
+                }
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityRegainHealth(EntityRegainHealthEvent event){
+        if(event.getEntity() instanceof LivingEntity){
+            LivingEntity livingEntity = (LivingEntity)event.getEntity();
+            ArenaTeamData team = getTeamManager().getTeam(livingEntity);
+            if(team != null){
+                if(livingEntity instanceof Player){
+                    SubTeam childTeam = team.getChildTeam(livingEntity);
+                    update((Player)livingEntity, childTeam, livingEntity.getHealth() + event.getAmount());
+                } else {
+                    update(livingEntity,livingEntity.getHealth() + event.getAmount());
                 }
             }
         }
