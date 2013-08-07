@@ -8,6 +8,7 @@ import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBoxEventHandler;
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
+import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
@@ -15,6 +16,9 @@ public class ArenaConfig extends ZoneConfig{
     
     private static String NAME = "name";
     private static String ARENA_BOX = "arena-box";
+    private static String LOBBY_LOC = "spawns.lobby";
+    private static String SPECTATOR_BOX_LOC = "spawns.spectator-box";
+    private static String ARENA_SPAWN_LOC = "spawns.arena";
     private static String REFERENCE_LOCATION = "reference-location";
     
     public ArenaConfig(Plugin plugin, File file) {
@@ -24,12 +28,83 @@ public class ArenaConfig extends ZoneConfig{
         super(plugin, file, loadDefaults);
     }
     
-    //Setting and getting the arena name
-    public void setArenaName(String name){
+    
+    /**
+     * Sets the name of the arena
+     * @param name String name of the arena
+     */
+    public void setArenaName(String name)
+    {
         this.set(NAME, name);
     }
-    public String getArenaName(){
+    /**
+     * Gets the name of the arena
+     * @return Name of the arena
+     */
+    public String getArenaName()
+    {
         return getString(NAME);
+    }
+    
+    /**
+     * Sets the lobby spawn in the YML file
+     * @param loc Location of the spawn
+     */
+    public void setLobbySpawn(Location loc)
+    {
+        this.set(LOBBY_LOC, new Point3D(loc).toSaveString());
+    }
+    
+    /**
+     * Gets the 3D location of the spawn
+     * @return Point3D
+     */
+    public Point3D getLobbySpawn()
+    {
+        return Point3D.toPoint3D(this.getString(LOBBY_LOC));
+    }
+    
+    /**
+     * Sets the spectator box location in the YML file
+     * @param loc Location of the spawn
+     */
+    public void setSpectatorBoxSpawn(Location loc)
+    {
+        this.set(SPECTATOR_BOX_LOC, new Point3D(loc).toSaveString());
+    }
+    
+    /**
+     * Gets the 3D location of the spawn
+     * @return Point3D
+     */
+    public Point3D getSpectatorBoxSpawn()
+    {
+        return Point3D.toPoint3D(this.getString(SPECTATOR_BOX_LOC));
+    }
+    
+    /**
+     * 
+     * @param spawnName
+     * @param loc
+     */
+    public void addArenaSpawn(String spawnName, Location loc)
+    {
+        this.set(ARENA_SPAWN_LOC+"."+spawnName.toLowerCase(), new Point3D(loc).toSaveString());
+    }
+    
+    public Point3D getArenaSpawn(String spawnName)
+    {
+        return Point3D.toPoint3D(this.getString(ARENA_SPAWN_LOC+"."+spawnName));
+    }
+    
+    public ArrayList<Point3D> getArenaSpawns()
+    {
+        ArrayList<Point3D> result = new ArrayList<>();
+        for(String s : this.getConfigurationSection(ARENA_SPAWN_LOC).getKeys(false))
+        {
+            result.add(Point3D.toPoint3D(s));
+        }
+        return result;
     }
     
 //    //This location is used as a reference for every other location in the arena
@@ -78,7 +153,7 @@ public class ArenaConfig extends ZoneConfig{
     
     public void addLocation(String path, Location location)
     {
-        this.set(path, new Point3D(location));
+        this.set(path, new Point3D(location).toSaveString());
     }
     
     public void addTriggerBox(String path, TriggerBox box)
