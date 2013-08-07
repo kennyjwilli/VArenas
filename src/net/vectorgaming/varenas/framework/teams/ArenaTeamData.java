@@ -46,7 +46,7 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
     }
     @Override
     public SubTeam createChildTeam(OfflinePlayer player) {
-        String name = player.getName() + "_" + this.getName();
+        String name = player.getName() + "_"+ this.getName();
         if(name.length() > 16){
             name = name.substring(0, 16);
         }
