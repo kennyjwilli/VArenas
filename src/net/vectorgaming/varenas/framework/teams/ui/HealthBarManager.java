@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Team;
@@ -33,7 +34,7 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     }
     
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onEntyDamage(EntityDamageEvent event){
+    public void onEntityDamage(EntityDamageEvent event){
         if(event.getEntity() instanceof LivingEntity){
             LivingEntity livingEntity = (LivingEntity)event.getEntity();
             ArenaTeamData team = getTeamManager().getTeam(livingEntity);
@@ -65,7 +66,9 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
             healthBar += HEALTH_BAR[0];
         }
         double healthLeft = scaledHealth - fullHealthBars * healthPerBar;
-        healthBar += HEALTH_BAR[HEALTH_BAR.length - 1 - (int)((double)HEALTH_BAR.length / (healthPerBar / healthLeft))];
+        if(healthLeft > 0){
+            healthBar += HEALTH_BAR[HEALTH_BAR.length - 1 - (int)((double)HEALTH_BAR.length / (healthPerBar / healthLeft))];
+        }
         
         return healthBar;
     }
@@ -75,7 +78,7 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     }
     public void update(Player player, Team team, double newHealth){
         String healthBar = getHealthBar(newHealth,player.getMaxHealth(),player.getHealthScale());
-        ChatColor color = getColorBasedOnHealth(player.getHealth(), player.getMaxHealth());
+        ChatColor color = getColorBasedOnHealth(newHealth, player.getMaxHealth());
         team.setSuffix(color + healthBar);
     }
     public void update(LivingEntity entity){
@@ -83,7 +86,7 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     }
     public void update(LivingEntity entity, double newHealth){
         String healthBar = getHealthBar(newHealth,entity.getMaxHealth(),1);
-        ChatColor color = getColorBasedOnHealth(entity.getHealth(), entity.getMaxHealth());
+        ChatColor color = getColorBasedOnHealth(newHealth, entity.getMaxHealth());
         entity.setCustomName(color + healthBar);
         entity.setCustomNameVisible(true);
     }
