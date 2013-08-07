@@ -72,15 +72,6 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
     public boolean removeChildTeam(SubTeam childTeam) {
         return childTeams.remove(childTeam);
     }
-    @Override
-    public SubTeam getChildTeam(Entity entity){
-        for(SubTeam childTeam : getChildTeams()){
-            if(childTeam.isOnTeam(entity)){
-                return childTeam;
-            }
-        }
-        return null;
-    }
     
     @Override
     public boolean addFriendlyEntity(Entity entity){
