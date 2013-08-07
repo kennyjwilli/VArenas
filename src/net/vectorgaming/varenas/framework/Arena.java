@@ -1,16 +1,13 @@
 
 package net.vectorgaming.varenas.framework;
 
-import net.vectorgaming.varenas.framework.enums.EventResult;
-import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import net.vectorgaming.varenas.ArenaAPI;
-import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.framework.enums.EventResult;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
-import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -312,7 +309,8 @@ public abstract class Arena implements Listener
      */
     public void recordStats()
     {
-        
+        //Still haven't decided how the file system will be set up
+        //stats.save(null);
     }
 
     /**
