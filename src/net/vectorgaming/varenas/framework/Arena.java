@@ -100,7 +100,7 @@ public abstract class Arena
     public void start()
     {
         setRunning(true);
-        stats = new ArenaStats();
+        stats = new ArenaStats(this);
         
         for(Player p : getPlayers())
         {
