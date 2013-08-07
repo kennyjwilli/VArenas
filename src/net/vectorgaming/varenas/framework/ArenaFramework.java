@@ -3,7 +3,9 @@ package net.vectorgaming.varenas.framework;
 
 import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import net.vectorgaming.varenas.framework.enums.ArenaYMLPath;
 import org.bukkit.Location;
 
@@ -15,6 +17,7 @@ public class ArenaFramework
 {
     private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
     private HashMap<String, Point3D> locationMap = new HashMap<>();
+    private HashMap<String, Point3D> arenaSpawnsMap = new HashMap<>();
     private String name;
     
     /**
@@ -33,6 +36,51 @@ public class ArenaFramework
     public String getName()
     {
         return name;
+    }
+    
+    /**
+     * Adds an spawn to the arena
+     * @param spawnName Name of the spawn
+     * @param loc Location of the spawn
+     */
+    public void addArenaSpawn(String spawnName, Location loc)
+    {
+        Point3D point = new Point3D(loc);
+        arenaSpawnsMap.put(name, point);
+        locationMap.put(ArenaYMLPath.ARENA_SPAWNS+"."+spawnName, point);
+    }
+    
+    /**
+     * Gets the 3D location of a spawn point
+     * @param spawnName Name of the spawn point
+     * @return Point3D
+     */
+    public Point3D getSpawnLocation(String spawnName)
+    {
+        return arenaSpawnsMap.get(spawnName);
+    }
+    
+    /**
+     * Gets a list of all the locations of the spawns for the arena
+     * @return ArrayList<Point3D>
+     */
+    public ArrayList<Point3D> getSpawns()
+    {
+        ArrayList<Point3D> result = new ArrayList<>();
+        for(Map.Entry kv : arenaSpawnsMap.entrySet())
+        {
+            result.add((Point3D)kv.getValue());
+        }
+        return result;
+    }
+    
+    /**
+     * Gets the HashMap containing all the spawn names and their respective locations
+     * @return HashMap<String,Point3D>
+     */
+    public HashMap<String,Point3D> getSpawnsMap()
+    {
+        return arenaSpawnsMap;
     }
     
     /**
