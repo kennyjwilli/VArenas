@@ -58,9 +58,9 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     
     public ChatColor getColorBasedOnHealth(double health, double maxHealth){
         double healthPercentage = health / maxHealth;
-        if(healthPercentage <= 0.25){
+        if(healthPercentage <= 0.33){
             return ChatColor.RED;
-        } else if(healthPercentage <= 0.5){
+        } else if(healthPercentage <= 0.66){
             return ChatColor.YELLOW;
         }
         return ChatColor.GREEN;
