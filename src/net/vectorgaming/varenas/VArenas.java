@@ -25,15 +25,17 @@ public class VArenas extends JavaPlugin
     private SLAPI slapi = new SLAPI(this);
     private ArenaManager am = new ArenaManager();
     private ArenaPlayerManager<ArenaPlayer> playerManager;
+    private ArenaAPI arenaAPI;
     
     @Override
     public void onEnable()
     {
+        arenaAPI = new ArenaAPI(this);
         setupCommands();
         setupEvents();
         registerArenaTypes();
         slapi.loadAllArenas();
-        ZoneConfig usersConfig = new ZoneConfig(this,new File(this.getDataFolder().getAbsoluteFile()+File.separator+"arena-players.yml"));
+        ZoneConfig usersConfig = new ZoneConfig(this,new File("plugins/VArenas/arena-players.yml"));
         playerManager = new ArenaPlayerManager(this,usersConfig);
     }
     
