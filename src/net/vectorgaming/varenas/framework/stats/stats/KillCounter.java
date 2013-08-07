@@ -19,13 +19,14 @@ import net.vectorgaming.varenas.framework.teams.TeamManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 /**
  *
  * @author jeppe
  */
-public class KillCounter extends Stat{
+public class KillCounter extends Stat implements Listener{
 
     public TeamManager teamManager = null;
     private HashMap<Player, ArrayList<Player>> kills = new HashMap<>(); // {Killer, All the people Killer killed}

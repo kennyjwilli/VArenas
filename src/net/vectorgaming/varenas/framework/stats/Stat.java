@@ -5,7 +5,9 @@
 package net.vectorgaming.varenas.framework.stats;
 
 import info.jeppes.ZoneCore.ZoneConfig;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.framework.Arena;
+import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
@@ -18,6 +20,7 @@ public abstract class Stat implements Listener{
     private Arena arena = null;
     public Stat(String name){
         this.name = name;
+        Bukkit.getPluginManager().registerEvents(this, ArenaAPI.getPlugin());
     }
 
     public void setArena(Arena arena){
