@@ -5,7 +5,7 @@ author: Kenny Williams
 website: http://vectorgaming.net
 description: Player versus player arena manager
 
-depend: [VEvents]
+depend: [ZoneCore]
 
 commands:
   arena:
