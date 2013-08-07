@@ -41,6 +41,7 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
     public SubTeam createChildTeam(String name) {
         Team newChildTeam = this.getScoreboard().registerNewTeam(name);
         SubTeamData subTeam = new SubTeamData(childTeams.size(),newChildTeam);
+        addChildTeam(subTeam);
         return subTeam;
     }
     @Override
