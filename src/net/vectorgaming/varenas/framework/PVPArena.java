@@ -1,9 +1,9 @@
 
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -22,6 +22,13 @@ public class PVPArena extends TeamArena
     public PVPArena(String name, String type, World world)
     {
         super(name, type, world);
+    }
+    
+    @Override
+    public void start(){
+        super.start();
+        KillCounter killCounter = new KillCounter();
+        getStats().addStat(killCounter);
     }
     
     @Override
@@ -46,6 +53,10 @@ public class PVPArena extends TeamArena
     public void onQuit(PlayerQuitEvent event)
     {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onDeath(PlayerDeathEvent event) {
     }
 
 }

@@ -1,14 +1,16 @@
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import org.bukkit.World;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-public abstract class PVPTeamArena extends TeamArena{
+public class PVPTeamArena extends TeamArena{
 
     public PVPTeamArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, World world) {
         super(name, type, lobby, spectatorBox, world);
@@ -18,7 +20,17 @@ public abstract class PVPTeamArena extends TeamArena{
         super(name, type, world);
     }
 
-    public abstract void onTeamPlayerDeath(EntityEvent event, ArenaTeamData killedTeam, ArenaTeamData killingTeam);
+    public void onTeamPlayerDeath(EntityEvent event, ArenaTeamData killedTeam, ArenaTeamData killingTeam){
+        
+    }
+    
+    @Override
+    public void start(){
+        super.start();
+        KillCounter killCounter = new KillCounter();
+        killCounter.setTeamManager(getTeamManager());
+        getStats().addStat(killCounter);
+    }
     
     @Override
     public void onDeath(PlayerDeathEvent event) {
@@ -51,6 +63,14 @@ public abstract class PVPTeamArena extends TeamArena{
                 onTeamPlayerDeath(event,killedTeam,killingTeam);
             }
         }
+    }
+
+    @Override
+    public void sendEndMessage() {
+    }
+
+    @Override
+    public void onQuit(PlayerQuitEvent event) {
     }
     
 }

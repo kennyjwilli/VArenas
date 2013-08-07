@@ -10,6 +10,7 @@ import java.util.Map;
 import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
+import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
