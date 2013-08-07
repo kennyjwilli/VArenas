@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.enums.EventResult;
 import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import java.util.ArrayList;
