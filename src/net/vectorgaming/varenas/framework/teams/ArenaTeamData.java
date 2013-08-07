@@ -46,7 +46,11 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
     }
     @Override
     public SubTeam createChildTeam(OfflinePlayer player) {
-        SubTeam childTeam = createChildTeam(this.getName() + "_" + player.getName());
+        String name = this.getName() + "_" + player.getName();
+        if(name.length() > 16){
+            name = name.substring(0, 16);
+        }
+        SubTeam childTeam = createChildTeam(name);
         return mirrorTeamSettings(childTeam);
     }
     private SubTeam mirrorTeamSettings(SubTeam team){
@@ -68,11 +72,10 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
     public boolean removeChildTeam(SubTeam childTeam) {
         return childTeams.remove(childTeam);
     }
-    
     @Override
-    public SubTeam getChildTeam(OfflinePlayer player){
+    public SubTeam getChildTeam(Entity entity){
         for(SubTeam childTeam : getChildTeams()){
-            if(childTeam.hasPlayer(player)){
+            if(childTeam.isOnTeam(entity)){
                 return childTeam;
             }
         }
