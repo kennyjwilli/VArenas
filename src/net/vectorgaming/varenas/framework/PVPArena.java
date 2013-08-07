@@ -37,15 +37,6 @@ public class PVPArena extends TeamArena
     }
 
     @Override
-    public void onDeath(PlayerDeathEvent event)
-    {
-        Player dead = event.getEntity();
-        Player killer = dead.getKiller();
-        this.getStats().recordKill(killer, dead);
-        //if(this.getStats().getHighestKills() == )
-    }
-
-    @Override
     public void onRespawn(PlayerRespawnEvent event)
     {
         
