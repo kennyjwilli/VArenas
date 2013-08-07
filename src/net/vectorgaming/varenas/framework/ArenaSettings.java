@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.enums.ArenaType;
 import java.util.ArrayList;
 
 /**
