@@ -59,25 +59,30 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
     }
     public String getHealthBar(double health, double maxHealth, double healthScale){
         String healthBar = "";
-        double scaledHealth = health / maxHealth * healthScale;
+        double scaledHealth = health * healthScale;
         int fullHealthBars = (int)(scaledHealth / healthPerBar);
-        int lastIndex = HEALTH_BAR.length-1;
         for(int i = 0; i < fullHealthBars; i++){
-            healthBar += HEALTH_BAR[lastIndex];
+            healthBar += HEALTH_BAR[0];
         }
         double healthLeft = scaledHealth - fullHealthBars * healthPerBar;
-        healthBar += HEALTH_BAR[(int)((double)HEALTH_BAR.length * (healthPerBar / healthLeft))];
+        healthBar += HEALTH_BAR[HEALTH_BAR.length - 1 - (int)((double)HEALTH_BAR.length / (healthPerBar / healthLeft))];
         
         return healthBar;
     }
     
     public void update(Player player, Team team){
-        String healthBar = getHealthBar(player.getHealth(),player.getMaxHealth(),player.getHealthScale());
+        update(player,team,player.getHealth());
+    }
+    public void update(Player player, Team team, double newHealth){
+        String healthBar = getHealthBar(newHealth,player.getMaxHealth(),player.getHealthScale());
         ChatColor color = getColorBasedOnHealth(player.getHealth(), player.getMaxHealth());
         team.setSuffix(color + healthBar);
     }
     public void update(LivingEntity entity){
-        String healthBar = getHealthBar(entity.getHealth(),entity.getMaxHealth(),1);
+        update(entity,entity.getHealth());
+    }
+    public void update(LivingEntity entity, double newHealth){
+        String healthBar = getHealthBar(newHealth,entity.getMaxHealth(),1);
         ChatColor color = getColorBasedOnHealth(entity.getHealth(), entity.getMaxHealth());
         entity.setCustomName(color + healthBar);
         entity.setCustomNameVisible(true);
