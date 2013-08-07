@@ -92,7 +92,12 @@ public class ArenaTeamData implements ArenaTeam, Team, Listener{
     }
     @Override
     public ArrayList<Entity> getFriendlyEntities(){
-        return friendlyEntities;
+        ArrayList<Entity> list = new ArrayList();
+        list.addAll(friendlyEntities);
+        for(SubTeam childTeam : getChildTeams()) {
+            list.addAll(childTeam.getFriendlyEntities());
+        }
+        return list;
     }
     
     @Override
