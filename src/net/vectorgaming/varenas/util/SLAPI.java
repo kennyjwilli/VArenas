@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.util;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.PolygonTriggerBox;
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
@@ -10,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.VArenas;
-import net.vectorgaming.varenas.framework.ArenaDirectory;
+import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
+import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import org.bukkit.Bukkit;
@@ -39,6 +41,7 @@ public class SLAPI
         {
             //Arena arena = ArenaManager.getArena(s);
             ArenaSettings settings = ArenaManager.getArenaSettings(s);
+            ArenaFramework framework = ArenaManager.getAreanFramework(s);
             ZoneConfig settingsConfig = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+s+".yml"));
             ArenaConfig frameworkConfig = ArenaManager.getArenaConfig(s.toLowerCase());
             
@@ -61,18 +64,26 @@ public class SLAPI
             settingsConfig.set("settings.lobby.time", settings.getLobbyDuration());
             settingsConfig.set("settings.lobby.message-interval", settings.getLobbyMessageInterval());
             /*
-             * Spawns
+             * Spawns (Old way of saving spawns)
              */
             
-            frameworkConfig.set("spawns.lobby", SLAPI.saveLocation(arena.getLobby().getSpawn()));
-            config.set("spawns.spectator-box", SLAPI.saveLocation(arena.getSpectatorBox().getSpawn()));
+//            frameworkConfig.setLobbySpawn(framework.getLobbySpawn());
+//            frameworkConfig.setSpectatorBoxSpawn(framework.getSpectatorBoxSpawn());
+//            
+//            HashMap<String,Point3D> spawnPoints = framework.getSpawnsMap();
+//            
+//            for(Map.Entry kv : spawnPoints.entrySet())
+//            {
+//                frameworkConfig.addArenaSpawn((String)kv.getKey(), (Point3D) kv.getValue());
+//            }
             
-            HashMap<String,Location> spawnPoints = arena.getSpawnPointMap();
-            List<String> spawnPointsStr = new ArrayList<>();
-            for(Map.Entry kv : spawnPoints.entrySet())
+            /*
+             * Save all locations
+             */
+            
+            for(String str : framework.getLocationMap().keySet())
             {
-                Location loc = (Location) kv.getValue();
-                config.set("spawns.arena."+kv.getKey(), SLAPI.saveLocation(loc));
+                frameworkConfig.addLocation(str, framework.getLocationMap().get(str));
             }
             
             /*
@@ -83,7 +94,8 @@ public class SLAPI
             //config.set("region.arena", arena.getArenaBox().getSaveFormat());
             //config.set("region.lobby", arena.getLobbyBox().getSaveFormat());
             //config.set("region.spectator-box", arena.getSpectateBox().getSaveFormat());
-            config.save();
+            settingsConfig.save();
+            frameworkConfig.save();
             
             enabledArenas.add(s);
         }
