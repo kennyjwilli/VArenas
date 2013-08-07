@@ -39,13 +39,22 @@ public class ArenaFramework
     }
     
     /**
-     * Adds an spawn to the arena
+     * Adds a spawn to the arena
      * @param spawnName Name of the spawn
      * @param loc Location of the spawn
      */
     public void addArenaSpawn(String spawnName, Location loc)
     {
-        Point3D point = new Point3D(loc);
+        addArenaSpawn(spawnName, new Point3D(loc));
+    }
+    
+    /**
+     * Adds a spawn to the arena
+     * @param spawnName Name of the spawn
+     * @param point 3D location of the spawn
+     */
+    public void addArenaSpawn(String spawnName, Point3D point)
+    {
         arenaSpawnsMap.put(name, point);
         locationMap.put(ArenaYMLPath.ARENA_SPAWNS+"."+spawnName, point);
     }
@@ -98,7 +107,16 @@ public class ArenaFramework
      */
     public void setLobbySpawn(Location loc)
     {
-        locationMap.put(ArenaYMLPath.LOBBY_SPAWN.toString(), new Point3D(loc));
+        setLobbyLocation(new Point3D(loc));
+    }
+    
+    /**
+     * Sets the lobby spawn for the arena
+     * @param point 3D location of the spawn
+     */
+    public void setLobbyLocation(Point3D point)
+    {
+        locationMap.put(ArenaYMLPath.LOBBY_SPAWN.toString(), point);
     }
     
     /**
@@ -116,7 +134,16 @@ public class ArenaFramework
      */
     public void setSpectatorBoxSpawn(Location loc)
     {
-        locationMap.put(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString(), new Point3D(loc));
+        setSpectatorBoxSpawn(new Point3D(loc));
+    }
+    
+    /**
+     * Sets the spectator box spawn
+     * @param point 3D location of the spawn
+     */
+    public void setSpectatorBoxSpawn(Point3D point)
+    {
+        locationMap.put(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString(), point);
     }
     
     /**
