@@ -4,7 +4,7 @@ import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
 import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
-import net.vectorgaming.varenas.framework.ArenaType;
+import net.vectorgaming.varenas.framework.enums.ArenaType;
 import net.vectorgaming.varenas.framework.PVPArena;
 import net.vectorgaming.varenas.framework.user.ArenaPlayer;
 import net.vectorgaming.varenas.framework.user.ArenaPlayerManager;
