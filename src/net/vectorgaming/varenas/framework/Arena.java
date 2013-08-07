@@ -17,6 +17,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -25,7 +27,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
  *
  * @author Kenny
  */
-public abstract class Arena
+public abstract class Arena implements Listener
 {
     /*
      * Need to load these valuse from the config later
@@ -196,6 +198,7 @@ public abstract class Arena
         //rewardPlayers(null);
         recordStats();
         removeAllPlayers();
+        HandlerList.unregisterAll(this);
     }
     
     /**
