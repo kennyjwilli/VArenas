@@ -85,7 +85,10 @@ public class HealthBarManager extends TeamUIComponent implements Listener{
             for(SubTeam childTeam : team.getChildTeams()){
                 for(OfflinePlayer offlinePlayer : childTeam.getPlayers()){
                     if(offlinePlayer.isOnline()){
-                        update(offlinePlayer.getPlayer(),childTeam);
+                        Player player = offlinePlayer.getPlayer();
+                        if(player.getHealth() != player.getMaxHealth()){
+                            update(player,childTeam);
+                        }
                     }
                 }
                 for(Entity entity : childTeam.getFriendlyEntities()){
