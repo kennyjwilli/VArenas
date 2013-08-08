@@ -15,13 +15,6 @@ import org.bukkit.plugin.Plugin;
 
 public class ArenaConfig extends ZoneConfig{
     
-    private static String NAME = "name";
-    private static String ARENA_BOX = "arena-box";
-    private static String LOBBY_LOC = "spawns.lobby";
-    private static String SPECTATOR_BOX_LOC = "spawns.spectator-box";
-    private static String ARENA_SPAWN_LOC = "spawns.arena";
-    private static String REFERENCE_LOCATION = "reference-location";
-    
     public ArenaConfig(Plugin plugin, File file) {
         super(plugin, file);
     }
@@ -36,7 +29,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void setArenaName(String name)
     {
-        this.set(NAME, name);
+        this.set("name", name);
     }
     /**
      * Gets the name of the arena
@@ -44,7 +37,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public String getArenaName()
     {
-        return getString(NAME);
+        return getString("name");
     }
     
     /**
@@ -71,7 +64,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public Point3D getLobbySpawn()
     {
-        return Point3D.toPoint3D(this.getString(LOBBY_LOC));
+        return Point3D.toPoint3D(this.getString("locations."+ArenaYMLPath.LOBBY_SPAWN));
     }
     
     /**
@@ -98,7 +91,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public Point3D getSpectatorBoxSpawn()
     {
-        return Point3D.toPoint3D(this.getString(SPECTATOR_BOX_LOC));
+        return Point3D.toPoint3D("locations."+ArenaYMLPath.SPECTATOR_BOX_SPAWN);
     }
     
     /**
@@ -118,18 +111,27 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void addArenaSpawn(String spawnName, Point3D point)
     {
-        this.set(ARENA_SPAWN_LOC+"."+spawnName.toLowerCase(), point.toSaveString());
+        this.set("locations."+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName.toLowerCase(), point.toSaveString());
     }
     
+    /**
+     * Gets the 3D location of the arena spawn
+     * @param spawnName Name of the spawn
+     * @return 3D location
+     */
     public Point3D getArenaSpawn(String spawnName)
     {
-        return Point3D.toPoint3D(this.getString(ARENA_SPAWN_LOC+"."+spawnName));
+        return Point3D.toPoint3D(this.getString("locations."+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName));
     }
     
+    /**
+     * Gets a list of all the spawns for the arena
+     * @return List of 3D points
+     */
     public ArrayList<Point3D> getArenaSpawns()
     {
         ArrayList<Point3D> result = new ArrayList<>();
-        for(String s : this.getConfigurationSection(ARENA_SPAWN_LOC).getKeys(false))
+        for(String s : this.getConfigurationSection("locations."+ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
         {
             result.add(Point3D.toPoint3D(s));
         }
@@ -151,28 +153,107 @@ public class ArenaConfig extends ZoneConfig{
 //        return null;
 //    }
 //    
-    //Setting and getting the TriggerBox defining the arena area
-    public void setArenaBox(TriggerBox box){
-        this.set(ARENA_BOX, box.toSaveString());
-    }
-    public TriggerBox getTriggerBox() throws Exception{
-        return getTriggerBox(null);
-    }
-    public TriggerBox getTriggerBox(TriggerBoxEventHandler eventHandler) throws Exception{
-        return getTriggerBoxFromString(this.getString(ARENA_BOX),eventHandler);
+    
+    /**
+     * Sets the arena box
+     * @param box TriggerBox
+     */
+    public void setArenaBox(TriggerBox box)
+    {
+        this.set("regions."+ArenaYMLPath.ARENA_REGION, box.toSaveString());
     }
     
-    public static TriggerBox getTriggerBoxFromString(String saveString) throws Exception{
-        return getTriggerBoxFromString(null);
+    /**
+     * Gets the arena's TriggerBox
+     * @return TriggerBox
+     * @throws Exception
+     */
+    public TriggerBox getArenaBox() throws Exception
+    {
+        return getTriggerBoxFromString(this.getString("regions."+ArenaYMLPath.ARENA_REGION));
     }
+    
+    /**
+     * Gets the arena's TriggerBox and sets its event handler
+     * @param eventHandler Event handler for the arena TriggerBox
+     * @return
+     * @throws Exception
+     */
+    public TriggerBox getArenaBox(TriggerBoxEventHandler eventHandler) throws Exception
+    {
+        return getTriggerBoxFromString(this.getString("regions."+ArenaYMLPath.ARENA_REGION), eventHandler);
+    }
+    
+    /**
+     * Sets a trigger box to be saved into the arena framework
+     * @param path Path in the YML to be saved
+     * @param box TriggerBox
+     */
+    public void addTriggerBox(String path, TriggerBox box)
+    {
+        this.set(path, box.toSaveString());
+    }
+    
+    /**
+     * Gets the TriggerBox from the specified path
+     * @param path Path saved in the YML
+     * @return TriggerBox
+     * @throws Exception
+     */
+    public TriggerBox getTriggerBox(String path) throws Exception
+    {
+        return getTriggerBoxFromString(this.getString(path));
+    }
+    
+    /**
+     * Gets the TriggerBox from the spcified path and sets the triggerbox event handler
+     * @param path Path saved in the YML
+     * @param eventHandler TriggerBoxEventHandler
+     * @return TriggerBox
+     * @throws Exception
+     */
+    public TriggerBox getTriggerBox(String path, TriggerBoxEventHandler eventHandler) throws Exception
+    {
+        return getTriggerBoxFromString(this.getString(path), eventHandler);
+    }
+    
+    /**
+     * Gets a TriggerBox from its save string
+     * @param saveString TriggerBox save string
+     * @return TriggerBox
+     * @throws Exception
+     */
+    public static TriggerBox getTriggerBoxFromString(String saveString) throws Exception{
+        try
+        {
+            return PolygonTriggerBox.getPolygonTriggerBox(saveString);
+        } catch(Exception exPolygon){}
+        
+        //Try as circle
+        try
+        {
+            return RoundTriggerBox.getRoundTriggerBox(saveString);
+        } catch(Exception exCircle){}
+        
+        throw new Exception("Cannot get TriggerBox from String: "+saveString);
+    }
+    /**
+     * Gets a TriggerBox from its save string and sets its event handler
+     * @param saveString TriggerBox save string
+     * @param eventHandler TriggerBoxEventHandler
+     * @return TriggerBox
+     * @throws Exception
+     */
     public static TriggerBox getTriggerBoxFromString(String saveString, TriggerBoxEventHandler eventHandler) throws Exception{
         //Try as polygon (most used)
-        try{
+        try
+        {
             return PolygonTriggerBox.getPolygonTriggerBox(saveString,eventHandler);
         } catch(Exception exPolygon){}
         
         //Try as circle
-        try{
+        try
+        {
             return RoundTriggerBox.getRoundTriggerBox(saveString, eventHandler);
         } catch(Exception exCircle){}
         
@@ -199,10 +280,4 @@ public class ArenaConfig extends ZoneConfig{
     {
         this.set(path, point.toSaveString());
     }
-    
-    public void addTriggerBox(String path, TriggerBox box)
-    {
-        this.set(path, box.toSaveString());
-    }
-    
 }
