@@ -56,7 +56,7 @@ public class ArenaFramework
     public void addArenaSpawn(String spawnName, Point3D point)
     {
         arenaSpawnsMap.put(name, point);
-        locationMap.put(ArenaYMLPath.LOCATIONS_PREFIX+""+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName, point);
+        locationMap.put(ArenaYMLPath.ARENA_SPAWNS+"."+spawnName, point);
     }
     
     /**
@@ -69,7 +69,7 @@ public class ArenaFramework
         if(!arenaSpawnsMap.containsKey(spawnName))
             return false;
         arenaSpawnsMap.remove(spawnName);
-        locationMap.remove(ArenaYMLPath.LOCATIONS_PREFIX+""+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName);
+        locationMap.remove(ArenaYMLPath.LOBBY_SPAWN+"."+spawnName);
         return true;
     }
     
@@ -91,9 +91,19 @@ public class ArenaFramework
     {
         ArrayList<Point3D> result = new ArrayList<>();
         for(Map.Entry kv : arenaSpawnsMap.entrySet())
-        {
             result.add((Point3D)kv.getValue());
-        }
+        return result;
+    }
+    
+    /**
+     * Gets a list of all the names of the created spawns
+     * @return
+     */
+    public ArrayList<String> getSpawnNames()
+    {
+        ArrayList<String> result = new ArrayList<>();
+        for(String s : arenaSpawnsMap.keySet())
+            result.add(s);
         return result;
     }
     
