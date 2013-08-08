@@ -64,7 +64,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public Point3D getLobbySpawn()
     {
-        return Point3D.toPoint3D(this.getString("locations."+ArenaYMLPath.LOBBY_SPAWN));
+        return Point3D.toPoint3D(this.getString(""+ArenaYMLPath.LOBBY_SPAWN));
     }
     
     /**
@@ -91,7 +91,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public Point3D getSpectatorBoxSpawn()
     {
-        return Point3D.toPoint3D("locations."+ArenaYMLPath.SPECTATOR_BOX_SPAWN);
+        return Point3D.toPoint3D(""+ArenaYMLPath.SPECTATOR_BOX_SPAWN);
     }
     
     /**
@@ -111,7 +111,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void addArenaSpawn(String spawnName, Point3D point)
     {
-        this.set("locations."+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName.toLowerCase(), point.toSaveString());
+        this.set(""+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName.toLowerCase(), point.toSaveString());
     }
     
     /**
@@ -121,7 +121,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public Point3D getArenaSpawn(String spawnName)
     {
-        return Point3D.toPoint3D(this.getString("locations."+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName));
+        return Point3D.toPoint3D(this.getString(""+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName));
     }
     
     /**
@@ -131,7 +131,7 @@ public class ArenaConfig extends ZoneConfig{
     public ArrayList<Point3D> getArenaSpawns()
     {
         ArrayList<Point3D> result = new ArrayList<>();
-        for(String s : this.getConfigurationSection("locations."+ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
+        for(String s : this.getConfigurationSection(""+ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
         {
             result.add(Point3D.toPoint3D(s));
         }
@@ -160,7 +160,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void setArenaBox(TriggerBox box)
     {
-        this.set("regions."+ArenaYMLPath.ARENA_REGION, box.toSaveString());
+        this.set(ArenaYMLPath.ARENA_REGION+"", box.toSaveString());
     }
     
     /**
@@ -170,7 +170,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public TriggerBox getArenaBox() throws Exception
     {
-        return getTriggerBoxFromString(this.getString("regions."+ArenaYMLPath.ARENA_REGION));
+        return getTriggerBoxFromString(this.getString(""+ArenaYMLPath.ARENA_REGION));
     }
     
     /**
@@ -181,7 +181,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public TriggerBox getArenaBox(TriggerBoxEventHandler eventHandler) throws Exception
     {
-        return getTriggerBoxFromString(this.getString("regions."+ArenaYMLPath.ARENA_REGION), eventHandler);
+        return getTriggerBoxFromString(this.getString(""+ArenaYMLPath.ARENA_REGION), eventHandler);
     }
     
     /**
