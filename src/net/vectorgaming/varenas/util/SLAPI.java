@@ -2,22 +2,18 @@
 package net.vectorgaming.varenas.util;
 
 import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
-import info.jeppes.ZoneCore.TriggerBoxes.PolygonTriggerBox;
-import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.VArenas;
-import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import net.vectorgaming.varenas.framework.config.SettingsConfig;
+import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.enums.ArenaYMLPath;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
