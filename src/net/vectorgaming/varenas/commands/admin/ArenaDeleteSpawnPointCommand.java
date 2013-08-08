@@ -4,7 +4,7 @@ package net.vectorgaming.varenas.commands.admin;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -30,21 +30,21 @@ public class ArenaDeleteSpawnPointCommand extends VCommand
             return true;
         }
         
-        if(!ArenaManager.mapExists(args[0]))
+        if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
             return true;
         }
         
-        Arena arena = ArenaManager.getArena(args[0]);
+        ArenaFramework framework = ArenaManager.getAreanFramework(args[0]);
         
-        if(!arena.deleteSpawnPoint(args[1]))
+        if(!framework.deleteSpawn(args[1]))
         {
             boolean first = false;
             String output = "";
             int i = 1;
             
-            for(String s : arena.getSpawnPointsNames())
+            for(String s : framework.getSpawnNames())
             {
                 if(first)
                 {
@@ -64,12 +64,12 @@ public class ArenaDeleteSpawnPointCommand extends VCommand
                 i++;
             }
             
-            cs.sendMessage(ChatColor.RED+"Error: Spawn point "+args[1]+" does not exist in arena "+arena.getName());
-            cs.sendMessage(Msg.getPluginColor()+arena.getName()+" Spawn Points: "+output);
+            cs.sendMessage(ChatColor.RED+"Error: Spawn point "+args[1]+" does not exist in map "+args[0].toLowerCase());
+            cs.sendMessage(Msg.getPluginColor()+args[0].toLowerCase()+" Spawn Points: "+output);
             return true;
         }else
         {
-            cs.sendMessage(ChatColor.RED+"Deleted spawn point "+ChatColor.YELLOW+args[1]+ChatColor.RED+" from arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+"!");
+            cs.sendMessage(ChatColor.RED+"Deleted spawn point "+ChatColor.YELLOW+args[1]+ChatColor.RED+" from map "+ChatColor.YELLOW+args[0]+ChatColor.RED+"!");
         }
         
         return true;
@@ -79,7 +79,7 @@ public class ArenaDeleteSpawnPointCommand extends VCommand
     public String getName() {return "arena deletespawn";}
 
     @Override
-    public String getUsage() {return "Usage: /arena deletespawn <arena> <spawn>";}
+    public String getUsage() {return "Usage: /arena deletespawn <map> <spawn>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}
