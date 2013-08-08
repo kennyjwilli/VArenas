@@ -156,6 +156,15 @@ public class ArenaFramework
     }
     
     /**
+     * Gets the arena's trigger box
+     * @return TriggerBox
+     */
+    public TriggerBox getArenaTriggerBox()
+    {
+        return getTriggerBox(ArenaYMLPath.ARENA_REGION.toString());
+    }
+    
+    /**
      * Adds a trigger box to the given path
      * @param path Path to be saved in the YML file
      * @param box TriggerBox
