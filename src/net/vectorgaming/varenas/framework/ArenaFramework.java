@@ -56,7 +56,21 @@ public class ArenaFramework
     public void addArenaSpawn(String spawnName, Point3D point)
     {
         arenaSpawnsMap.put(name, point);
-        locationMap.put(ArenaYMLPath.ARENA_SPAWNS+"."+spawnName, point);
+        locationMap.put(ArenaYMLPath.LOCATIONS_PREFIX+""+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName, point);
+    }
+    
+    /**
+     * Deletes a spawn from the arena
+     * @param spawnName Name of the spawn
+     * @return Boolean value if spawn exists or not
+     */
+    public boolean deleteSpawn(String spawnName)
+    {
+        if(!arenaSpawnsMap.containsKey(spawnName))
+            return false;
+        arenaSpawnsMap.remove(spawnName);
+        locationMap.remove(ArenaYMLPath.LOCATIONS_PREFIX+""+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName);
+        return true;
     }
     
     /**
