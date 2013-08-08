@@ -147,6 +147,15 @@ public class ArenaFramework
     }
     
     /**
+     * Sets the trigger box for the arena
+     * @param box TriggerBox
+     */
+    public void setArenaTriggerBox(TriggerBox box)
+    {
+        addTriggerBox(ArenaYMLPath.ARENA_REGION.toString(), box);
+    }
+    
+    /**
      * Adds a trigger box to the given path
      * @param path Path to be saved in the YML file
      * @param box TriggerBox
@@ -176,6 +185,15 @@ public class ArenaFramework
     }
     
     /**
+     * Gets the HashMap containing the path for each TriggerBox
+     * @return HashMap<String, TriggerBox>
+     */
+    public HashMap<String, TriggerBox> getTriggerBoxMap()
+    {
+        return triggerBoxMap;
+    }
+    
+    /**
      * Adds a location to an arena
      * @param path Path to be saved in the YML file
      * @param loc Location 
@@ -202,15 +220,6 @@ public class ArenaFramework
     public Point3D getPoint3D(String path)
     {
         return locationMap.get(path);
-    }
-    
-    /**
-     * Gets the HashMap containing the path for each TriggerBox
-     * @return HashMap<String, TriggerBox>
-     */
-    public HashMap<String, TriggerBox> getTriggerBoxMap()
-    {
-        return triggerBoxMap;
     }
     
     /**
