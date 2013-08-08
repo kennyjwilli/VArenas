@@ -4,7 +4,6 @@ package net.vectorgaming.varenas.commands.admin;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -32,15 +31,14 @@ public class ArenaAddSpawnPointCommand extends VCommand
         
         if(!ArenaManager.mapExists(args[0]))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
             return true;
         }
         
         ArenaConfig framework = ArenaManager.getArenaConfig(args[0].toLowerCase());
+        framework.addArenaSpawn(args[1], p.getLocation());
         
-        framework.addLocation("spawns.arena."+args[1], p.getLocation());
-        
-        cs.sendMessage(ChatColor.GREEN+"Added spawn point "+ChatColor.YELLOW+args[1]+ChatColor.GREEN+" to arena "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+"!");
+        cs.sendMessage(ChatColor.GREEN+"Added spawn point "+ChatColor.YELLOW+args[1]+ChatColor.GREEN+" to map "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+"!");
         return true;
     }
 
