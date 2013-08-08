@@ -39,7 +39,7 @@ public class ArenaCommand extends VCommand
 
     @Override
     public void setupSubCommands() {
-        this.addSubCommand("create", ArenaCreateCommand.class);
+        this.addSubCommand("createmap", ArenaCreateMapCommand.class);
         this.addSubCommand("addspawn", ArenaAddSpawnPointCommand.class);
         this.addSubCommand("deletespawn", ArenaDeleteSpawnPointCommand.class);
         this.addSubCommand("setregion", ArenaAddRegion.class);
