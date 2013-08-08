@@ -9,12 +9,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.VArenas;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
+import net.vectorgaming.varenas.framework.config.SettingsConfig;
+import net.vectorgaming.varenas.framework.enums.ArenaYMLPath;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -42,27 +46,30 @@ public class SLAPI
             //Arena arena = ArenaManager.getArena(s);
             ArenaSettings settings = ArenaManager.getArenaSettings(s);
             ArenaFramework framework = ArenaManager.getAreanFramework(s);
-            ZoneConfig settingsConfig = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+s+".yml"));
+            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+s+".yml"));
             ArenaConfig frameworkConfig = ArenaManager.getArenaConfig(s.toLowerCase());
             
             settingsConfig.set("name", s.toLowerCase());
             /*
              * Arena info 
              */
-            settingsConfig.set("info.authors", settings.getAuthors());
-            settingsConfig.set("info.objective", settings.getObjective());
+            settingsConfig.setAuthors(settings.getAuthors());
+            settingsConfig.setObjective(settings.getObjective());
+            
             /*
              * Arena settings
              */
-            settingsConfig.set("settings.type", settings.getType());
-            settingsConfig.set("settings.max-players", settings.getMaxPlayers());
-            settingsConfig.set("settings.tnt-enabled", settings.isTNTEnabled());
-            settingsConfig.set("settings.block-break", settings.isBlockBreakEnabled());
+            settingsConfig.setType(settings.getType());
+            settingsConfig.setMaxPlayers(settings.getMaxPlayers());
+            settingsConfig.setTntUse(settings.isTNTEnabled());
+            settingsConfig.setBlockBreak(settings.isBlockBreakEnabled());
+            
             /*
              * Lobby Settings
              */
-            settingsConfig.set("settings.lobby.time", settings.getLobbyDuration());
-            settingsConfig.set("settings.lobby.message-interval", settings.getLobbyMessageInterval());
+            settingsConfig.setLobbyDuration(settings.getLobbyDuration());
+            settingsConfig.setLobbyMessageInterval(settings.getLobbyMessageInterval());
+            
             /*
              * Spawns (Old way of saving spawns)
              */
@@ -80,7 +87,6 @@ public class SLAPI
             /*
              * Save all locations
              */
-            
             for(String str : framework.getLocationMap().keySet())
             {
                 frameworkConfig.addLocation(str, framework.getLocationMap().get(str));
@@ -89,15 +95,18 @@ public class SLAPI
             /*
              * Arena Regions
              */
+            for(String str : framework.getTriggerBoxMap().keySet())
+            {
+                frameworkConfig.set(str, framework.getTriggerBoxMap().get(str).toSaveString());
+            }
             
-            config.set("region.arena", arena.getArenaBox().toSaveString());
-            //config.set("region.arena", arena.getArenaBox().getSaveFormat());
-            //config.set("region.lobby", arena.getLobbyBox().getSaveFormat());
-            //config.set("region.spectator-box", arena.getSpectateBox().getSaveFormat());
+            /*
+             * Saves all edited files
+             */
             settingsConfig.save();
             frameworkConfig.save();
             
-            enabledArenas.add(s);
+            enabledArenas.add(s.toLowerCase());
         }
         
         /*
@@ -120,46 +129,54 @@ public class SLAPI
         
         for(String s : plugin.getConfig().getStringList("enabled-arenas"))
         {
-            
-            ZoneConfig config = new ZoneConfig(plugin, new File(ArenaDirectory.SETTINGS_DIR.toString()));
-            String type = config.getString("settings.type");
-            
+            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR.toString()));
+            ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR.toString()));
             ArenaManager.createMap(s);
+            ArenaSettings settings = ArenaManager.getArenaSettings(s);
+            ArenaFramework framework = ArenaManager.getAreanFramework(s);
             
             /*
              * Loads spawns
              */
-            arena.getLobby().setSpawn(getLocationFromSave(config.getString("spawns.lobby")));
-            arena.getSpectatorBox().setSpawn(getLocationFromSave(config.getString("spawns.spectator-box")));
-            for(String str : config.getConfigurationSection("spawns.arenas").getKeys(false))
-                arena.addSpawnPoint(str, getLocationFromSave(config.getString("spawns.arena."+str)));
+            for(String str : frameworkConfig.getConfigurationSection("locations."+ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
+            {
+                framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString("locations."+ArenaYMLPath.ARENA_SPAWNS+"."+str)));
+            }
+            framework.setLobbyLocation(frameworkConfig.getLobbySpawn());
+            framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
+            
+            /*
+             * Loads regions
+             */
+            try
+            {
+                framework.setArenaTriggerBox(frameworkConfig.getArenaBox());
+            } catch (Exception ex)
+            {
+                Logger.getLogger(SLAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            /*
+             * Loads arena info
+             */
+            settings.setAuthors(settingsConfig.getAuthors());
+            settings.setObjective(settingsConfig.getObjective());
+            
             /*
              * Loads arena settings
              */
-            arena.setTnTUse(config.getBoolean("settings.tnt-enabled"));
-            arena.setBlockBreak(config.getBoolean("settings.block-break"));
+            settings.setObjective(settingsConfig.getObjective());
+            settings.setAuthors(settingsConfig.getAuthors());
+            settings.setType(settingsConfig.getType());
+            settings.setBlockBreak(settingsConfig.isBlockBreakEnabled());
+            settings.setTNTUse(settingsConfig.isTnTEnabled());
+            settings.setMaxPlayers(settingsConfig.getMaxPlayers());
             
             /*
              * Loads lobby settings
              */
-            
-            arena.getLobby().setInterval((ArrayList<String>)config.getStringList("settings.lobby.messsage-interval"));
-            arena.getLobby().setLobbyDuration(config.getInt("settings.lobby.time"));
-            arena.setMaxPlayers(config.getInt("settings.max-players"));
-            /*
-             * Loads arena info
-             */
-            arena.setAuthors(config.getString("info.authors"));
-            arena.setObjective(config.getString("info.objective"));
-            try {
-                /*
-                 * Loads regions
-                 */
-                arena.setArenaBox(PolygonTriggerBox.getPolygonTriggerBox(config.getString("region.arena")));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                return;
-            }
+            settings.setLobbyDuration(settingsConfig.getLobbyDuration());
+            settings.setLobbyMessageInterval((ArrayList<String>)settingsConfig.getLobbyMessageInterval());
             
             //arena.setArenaBox(VRegion.loadSaveFormat(config.getStringList("region.arena")));
             
