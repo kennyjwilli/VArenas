@@ -46,7 +46,7 @@ public class ArenaAddSpawnPointCommand extends VCommand
     public String getName() {return "arena addspawn";}
 
     @Override
-    public String getUsage() {return "Usage: /arena addspawn <arena> <spawn>";}
+    public String getUsage() {return "Usage: /arena addspawn <map> <spawn>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}
