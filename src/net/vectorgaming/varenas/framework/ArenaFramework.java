@@ -171,7 +171,7 @@ public class ArenaFramework
      */
     public void addTriggerBox(String path, TriggerBox box)
     {
-        triggerBoxMap.put(path, box);
+        triggerBoxMap.put("regions."+path, box);
     }
     
     /**
@@ -209,7 +209,7 @@ public class ArenaFramework
      */
     public void addLocation(String path, Location loc)
     {
-        locationMap.put(path, new Point3D(loc));
+        locationMap.put("locations."+path, new Point3D(loc));
     }
     
     /**
