@@ -2,13 +2,9 @@
 package net.vectorgaming.varenas.util;
 
 import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
-import info.jeppes.ZoneCore.TriggerBoxes.PolygonTriggerBox;
-import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.vectorgaming.varenas.ArenaManager;
@@ -129,8 +125,8 @@ public class SLAPI
         
         for(String s : plugin.getConfig().getStringList("enabled-arenas"))
         {
-            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR.toString()));
-            ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR.toString()));
+            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR));
+            ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR));
             ArenaManager.createMap(s);
             ArenaSettings settings = ArenaManager.getArenaSettings(s);
             ArenaFramework framework = ArenaManager.getAreanFramework(s);
@@ -138,9 +134,9 @@ public class SLAPI
             /*
              * Loads spawns
              */
-            for(String str : frameworkConfig.getConfigurationSection(""+ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
+            for(String str : frameworkConfig.getConfigurationSection(ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
             {
-                framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString(""+ArenaYMLPath.ARENA_SPAWNS+"."+str)));
+                framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString(ArenaYMLPath.ARENA_SPAWNS+"."+str)));
             }
             framework.setLobbyLocation(frameworkConfig.getLobbySpawn());
             framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
