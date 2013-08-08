@@ -1,9 +1,12 @@
 
 package net.vectorgaming.varenas;
 
-import com.google.common.io.Files;
 import info.jeppes.ZoneCore.ZoneConfig;
+import info.jeppes.ZoneCore.ZoneTools;
+import info.jeppes.ZoneWorld.WorldLoader;
+import info.jeppes.ZoneWorld.ZoneWorldAPI;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Location;
 
 /**
@@ -38,8 +42,12 @@ public class ArenaManager
      */
     public static void createMap(String map)
     {
-        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
-        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
+        File f = new File(ArenaDirectory.ARENA_FRAMEWORK_DIR);
+        File f1 = new File(ArenaDirectory.ARENA_SETTINGS_DIR);
+        f.mkdirs();
+        f1.mkdirs();
+        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+File.separator+map.toLowerCase()+".yml"));
+        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+map.toLowerCase()+".yml"));
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
         arenaFramework.put(map.toLowerCase(), new ArenaFramework(map));
@@ -105,17 +113,24 @@ public class ArenaManager
         //Copy the map to the arenas
         File mapFile = new File(ArenaDirectory.MAPS_DIR+File.separator+map.toLowerCase());
         File arenaFile = new File(ArenaDirectory.ARENAS_DIR+File.separator+arenaName);
-        try
-        {
-            Files.copy(mapFile, arenaFile);
-        } catch (IOException ex)
-        {
-            Logger.getLogger(ArenaManager.class.getName()).log(Level.SEVERE, null, ex);
+        ZoneTools.deleteDirectory(arenaFile);
+        try {
+            FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
+                @Override
+                public boolean accept(File pathname) {
+                    return !pathname.getName().equals("uid.dat");
+                }
+            });
+        } catch (IOException ex) {
+            Logger.getLogger(VArenas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        //Loads the world into ZoneWorld
+        WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), arenaFile.getAbsolutePath());
+        
         //Delete uid.dat for new world
-        File uid = new File(ArenaDirectory.ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
-        uid.delete();
+//        File uid = new File(ArenaDirectory.ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
+//        uid.delete();
         
         //Increment the arena id by one
         arenaIdMap.put(map, arenaid++);
