@@ -28,17 +28,15 @@ public class ArenaSetSpectateSpawnCommand extends VCommand
             return true;
         }
         
-        if(!ArenaManager.mapExists(args[0]))
+        if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
             return true;
         }
-        
-        Arena arena = ArenaManager.getArena(args[0]);
-        
-        arena.getSpectatorBox().setSpawn(p.getLocation());
-        cs.sendMessage(ChatColor.GREEN+"Successfully set spectator box location for arena "+ChatColor.YELLOW+arena.getName()+ChatColor.GREEN+".");
-        arena.checkArenaSetup(p);
+                
+        ArenaManager.getAreanFramework(args[0].toLowerCase()).setSpectatorBoxSpawn(p.getLocation());
+        cs.sendMessage(ChatColor.GREEN+"Successfully set spectator box location for map "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+".");
+        //arena.checkArenaSetup(p);
         return true;
     }
 
