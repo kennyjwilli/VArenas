@@ -8,10 +8,10 @@ package net.vectorgaming.varenas.framework.enums;
 public enum ArenaYMLPath 
 {
     NAME("name"),
-    LOBBY_SPAWN("spawns.lobby"),
-    SPECTATOR_BOX_SPAWN("spawns.spectator-box"),
-    ARENA_SPAWNS("spawns.arena"),
-    ARENA_REGION("region.arena");
+    LOBBY_SPAWN("locations.spawns.lobby"),
+    SPECTATOR_BOX_SPAWN("locations.spawns.spectator-box"),
+    ARENA_SPAWNS("locations.spawns.arena"),
+    ARENA_REGION("regions.arena");
     
     private final String path;
     
