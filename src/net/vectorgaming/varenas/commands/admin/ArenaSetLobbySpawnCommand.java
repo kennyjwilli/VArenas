@@ -28,16 +28,14 @@ public class ArenaSetLobbySpawnCommand extends VCommand
             return true;
         }
         
-        if(!ArenaManager.mapExists(args[0]))
+        if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
         }
-        
-        Arena arena = ArenaManager.getArena(args[0]);
-        
-        arena.getLobby().setSpawn(p.getLocation());
-        cs.sendMessage(ChatColor.GREEN+"Successfully set lobby location for arena "+ChatColor.YELLOW+arena.getName()+ChatColor.GREEN+".");
-        arena.checkArenaSetup(p);
+                
+        ArenaManager.getAreanFramework(args[0].toLowerCase()).setLobbySpawn(p.getLocation());
+        cs.sendMessage(ChatColor.GREEN+"Successfully set lobby location for map "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+".");
+        //arena.checkArenaSetup(p);
         return true;
     }
 
