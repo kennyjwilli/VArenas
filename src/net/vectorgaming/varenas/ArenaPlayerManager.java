@@ -36,6 +36,11 @@ public class ArenaPlayerManager
         return ArenaManager.getArena(players.get(p));
     }
     
+    public static String getArenaNameFromPlayer(Player p)
+    {
+        return players.get(p);
+    }
+    
     public static boolean isPlayerInArena(Player p)
     {
         if(players.containsKey(p))
