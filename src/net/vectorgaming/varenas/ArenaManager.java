@@ -33,6 +33,7 @@ public class ArenaManager
     private static HashMap<String, ArenaFramework> arenaFramework = new HashMap<>();
     private static HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
     private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
+    private static ArrayList<Arena> queuedArenas = new ArrayList<>();
     private static ArrayList<String> runningArenasList = new ArrayList<>();
     
     private static VArenas plugin = ArenaAPI.getPlugin();
@@ -111,11 +112,28 @@ public class ArenaManager
     }
     
     /**
+     * Adds an arena to the queue list
+     * 
+     * This is used for creating arenas by command
+     * @param arena Arena object
+     */
+    public static void queueArena(Arena arena)
+    {
+        queuedArenas.add(arena);
+    }
+    
+    /**
+     * Gets a list of all the queued arenas
+     * @return A list of arenas
+     */
+    public static ArrayList<Arena> getQueuedArenas() {return queuedArenas;}
+    
+    /**
      * Creates an arena from the specified map.
      * This will start the arena
      * @param mapName String 
      */
-    public static void createArena(String map)
+    public static Arena createArena(String map, boolean start)
     {
         //Setup some initial variables
         int arenaid = arenaIdMap.get(map);
@@ -158,8 +176,11 @@ public class ArenaManager
         if(!runningArenasList.contains(arena.getName()))
             runningArenasList.add(arena.getName());
         
-        //Starts the arena
-        arena.start();
+        //Starts the arena if required to
+        if(start)
+            arena.start();
+        
+        return arena;
     }
     
     /**
