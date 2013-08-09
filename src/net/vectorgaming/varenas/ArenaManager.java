@@ -173,7 +173,7 @@ public class ArenaManager
             FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
                 @Override
                 public boolean accept(File pathname) {
-                    return !pathname.getName().equals("uid.dat") && !pathname.getName().equals("session.lock");
+                    return !pathname.getName().equals("uid.dat");
                 }
             });
         } catch (IOException ex) {
