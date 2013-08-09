@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Kenny
  */
-public class ArenaSettings 
+public class ArenaSettings implements Settings
 {
     private String name;
     private boolean isBlockBreak;
