@@ -35,6 +35,8 @@ public class ArenaSettings
         setupDefaultInterval();
         type = ArenaType.PVP_ARENA.toString();
         showRespawnScreen = true;
+        winningKills = -1;
+        gameDuration = 600;
     }
     
     public String getName() {return name;}
