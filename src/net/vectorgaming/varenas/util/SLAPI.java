@@ -57,28 +57,17 @@ public class SLAPI
              */
             settingsConfig.setType(settings.getType());
             settingsConfig.setMaxPlayers(settings.getMaxPlayers());
-            settingsConfig.setTntUse(settings.isTNTEnabled());
+            settingsConfig.setTNTUse(settings.isTNTEnabled());
             settingsConfig.setBlockBreak(settings.isBlockBreakEnabled());
+            settingsConfig.setShowRespawnScreen(settings.isShowRespawnScreen());
+            settingsConfig.setWinningKills(settings.getWinningKills());
+            settingsConfig.setGameDuration(settings.getGameDuration());
             
             /*
              * Lobby Settings
              */
             settingsConfig.setLobbyDuration(settings.getLobbyDuration());
             settingsConfig.setLobbyMessageInterval(settings.getLobbyMessageInterval());
-            
-            /*
-             * Spawns (Old way of saving spawns)
-             */
-            
-//            frameworkConfig.setLobbySpawn(framework.getLobbySpawn());
-//            frameworkConfig.setSpectatorBoxSpawn(framework.getSpectatorBoxSpawn());
-//            
-//            HashMap<String,Point3D> spawnPoints = framework.getSpawnsMap();
-//            
-//            for(Map.Entry kv : spawnPoints.entrySet())
-//            {
-//                frameworkConfig.addArenaSpawn((String)kv.getKey(), (Point3D) kv.getValue());
-//            }
             
             /*
              * Save all locations
@@ -89,7 +78,7 @@ public class SLAPI
             }
             
             /*
-             * Arena Regions
+             * Save all Arena Regions
              */
             for(String str : framework.getTriggerBoxMap().keySet())
             {
@@ -165,8 +154,11 @@ public class SLAPI
             settings.setAuthors(settingsConfig.getAuthors());
             settings.setType(settingsConfig.getType());
             settings.setBlockBreak(settingsConfig.isBlockBreakEnabled());
-            settings.setTNTUse(settingsConfig.isTnTEnabled());
+            settings.setTNTUse(settingsConfig.isTNTEnabled());
             settings.setMaxPlayers(settingsConfig.getMaxPlayers());
+            settings.setShowRespawnScreen(settingsConfig.isShowRespawnScreen());
+            settings.setWinningKills(settingsConfig.getWinningKills());
+            settings.setGameDuration(settingsConfig.getGameDuration());
             
             /*
              * Loads lobby settings
