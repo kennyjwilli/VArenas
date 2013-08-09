@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.enums.EventResult;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.util.Msg;
@@ -108,6 +109,9 @@ public abstract class Arena implements Listener
     {
         setRunning(true);
         stats = new ArenaStats(this);
+        
+        for(Player p : ArenaPlayerManager.getPlayersInArena(this))
+            addPlayer(p);
         
         for(Player p : getPlayers())
         {
