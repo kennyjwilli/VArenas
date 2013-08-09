@@ -13,6 +13,7 @@ public class ArenaSettings
     private String name;
     private boolean isBlockBreak;
     private boolean isTNT;
+    private boolean showRespawnScreen;
     private Integer maxPlayers;
     private Integer lobbyDuration;
     private ArrayList<String> lobbyMsgInterval = new ArrayList<>();
@@ -31,6 +32,7 @@ public class ArenaSettings
         objective = "Default objective";
         setupDefaultInterval();
         type = ArenaType.PVP_ARENA.toString();
+        showRespawnScreen = true;
     }
     
     public String getName() {return name;}
@@ -66,6 +68,10 @@ public class ArenaSettings
     public String getType() {return type;}
     
     public void setType(String type) {this.type = type;}
+    
+    public boolean isShowRespawnScreen() {return showRespawnScreen;}
+    
+    public void setShowRespawnScreen(boolean value) {this.showRespawnScreen = value;}
     
     private void setupDefaultInterval()
     {
