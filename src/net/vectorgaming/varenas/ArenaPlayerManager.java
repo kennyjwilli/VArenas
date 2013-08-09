@@ -60,7 +60,7 @@ public class ArenaPlayerManager
         return false;
     }
     
-    public ArrayList<Player> getPlayersInArena(String arena)
+    public static ArrayList<Player> getPlayersInArena(String arena)
     {
         for(String s : arenas.keySet())
         {
@@ -72,10 +72,10 @@ public class ArenaPlayerManager
         return null;
     }
     
-    public ArrayList<Player> getPlayersInArena(Arena arena) {return getPlayersInArena(arena.getName());}
+    public static ArrayList<Player> getPlayersInArena(Arena arena) {return getPlayersInArena(arena.getName());}
     
-    public Set<Player> getAllArenaPlayers() {return players.keySet();}
+    public static Set<Player> getAllArenaPlayers() {return players.keySet();}
     
-    public Integer getTotalArenaPlayers() {return players.keySet().size();}
+    public static Integer getTotalArenaPlayers() {return players.keySet().size();}
     
 }
