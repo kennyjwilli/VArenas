@@ -21,11 +21,17 @@ public class PVPArena extends TeamArena
     private int timeLeftLobby = 120;
     
     
-    public PVPArena(String name, String type, ZoneWorld world)
+    /**
+     *
+     * @param arenaName Name of the arena
+     * @param type Type of the arena
+     * @param world World the arena will be located in
+     */
+    public PVPArena(String arenaName, String type, ZoneWorld world)
     {
-        super(name, type, world);
+        super(arenaName, type, world);
     }
-    
+
     @Override
     public void start()
     {
