@@ -3,9 +3,8 @@ package net.vectorgaming.varenas.framework.config;
 
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import net.vectorgaming.varenas.framework.Settings;
+import net.vectorgaming.varenas.framework.interfaces.Settings;
 import org.bukkit.plugin.Plugin;
 
 /**
