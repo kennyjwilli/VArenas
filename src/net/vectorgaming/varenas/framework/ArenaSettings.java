@@ -16,6 +16,8 @@ public class ArenaSettings
     private boolean showRespawnScreen;
     private Integer maxPlayers;
     private Integer lobbyDuration;
+    private Integer winningKills;
+    private Integer gameDuration;
     private ArrayList<String> lobbyMsgInterval = new ArrayList<>();
     private String authors;
     private String objective;
@@ -72,6 +74,14 @@ public class ArenaSettings
     public boolean isShowRespawnScreen() {return showRespawnScreen;}
     
     public void setShowRespawnScreen(boolean value) {this.showRespawnScreen = value;}
+    
+    public Integer getWinningKills() {return this.winningKills;}
+    
+    public void setWinningKills(int winningKills) {this.winningKills = winningKills;}
+    
+    public Integer getGameDuration() {return this.gameDuration;}
+    
+    public void setGameDuration(int duration) {gameDuration = duration;}
     
     private void setupDefaultInterval()
     {
