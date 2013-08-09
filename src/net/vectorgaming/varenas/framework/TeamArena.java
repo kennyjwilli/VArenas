@@ -1,20 +1,21 @@
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
+import info.jeppes.ZoneWorld.ZoneWorld;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import java.util.ArrayList;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 
 public abstract class TeamArena extends Arena{
     private final TeamManager teamManager;
-    public TeamArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, World world) {
+    public TeamArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
         super(name, type, lobby, spectatorBox, world);
         teamManager = new TeamManager();
     }
-    public TeamArena(String name, String type, World world) {
+    public TeamArena(String name, String type, ZoneWorld world) {
         super(name, type, world);
         teamManager = new TeamManager();
     }
@@ -52,9 +53,9 @@ public abstract class TeamArena extends Arena{
      * @param location
      * @param team
      */
-    public void addSpawnPoint(Location location, ArenaTeamData team){
+    public void addSpawnPoint(Point3D point, ArenaTeamData team){
         String teamSpawnKey = getNextAvailableTeamSpawnKey(team);
-        this.addSpawnPoint(teamSpawnKey, location);
+        this.addSpawnPoint(teamSpawnKey, point);
     }
     
     /**
