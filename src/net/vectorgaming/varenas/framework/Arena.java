@@ -1,22 +1,25 @@
 
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
+import info.jeppes.ZoneCore.ZoneTools;
+import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import net.vectorgaming.varenas.ArenaAPI;
+import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.framework.enums.EventResult;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -26,13 +29,11 @@ import org.bukkit.event.player.PlayerRespawnEvent;
  */
 public abstract class Arena implements Listener
 {
-    /*
-     * Need to load these valuse from the config later
-     */
     private String name;
     private String type;
+    private String map;
     private ArrayList<Player> players = new ArrayList();
-    private World world;
+    private ZoneWorld world;
     private boolean blockBreakEnabler = false;
     private boolean editMode = false;
     private boolean tntEnabled = false;
@@ -50,16 +51,17 @@ public abstract class Arena implements Listener
     
     /**
      * 
-     * @param name String
-     * @param type String
+     * @param name Name of the arena
+     * @param map Map the arena is based off
      * @param lobby ArenaLobby
      * @param spectatorBox ArenaSpectatorBox
-     * @param world World
+     * @param world World the arena will be based in
      */
-    public Arena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, World world)
+    public Arena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world)
     {
         this.name = name;
-        this.type = type;
+        this.type = ArenaManager.getArenaSettings(map).getType();
+        this.map = map;
         this.lobby = lobby;
         this.spectatorBox = spectatorBox;
         this.world = world;
@@ -67,14 +69,15 @@ public abstract class Arena implements Listener
     
     /**
      * 
-     * @param name String
-     * @param type String 
-     * @param world World
+     * @param name Name of the arena
+     * @param map Map the arena is based off 
+     * @param world World the arena will be based in
      */
-    public Arena(String name, String type, World world)
+    public Arena(String name, String map, ZoneWorld world)
     {
         this.name = name;
-        this.type = type;
+        this.type = ArenaManager.getArenaSettings(map).getType();
+        this.map = map;
         this.world = world;
     }
     
@@ -89,6 +92,8 @@ public abstract class Arena implements Listener
      * @param name String
      */
     public void setName(String name){this.name = name;}
+    
+    public String getMap() {return map;}
     
     public Integer getId() {return id;}
     
@@ -159,7 +164,7 @@ public abstract class Arena implements Listener
      * Handles what happens when the player dies in the arena
      * @param event PlayerDeathEvent
      */
-    public abstract void onDeath(PlayerDeathEvent event);
+    public abstract void onDeath(Player dead, Entity killer);
     
     /**
      * Handles where the player respawns after they die in the arena
@@ -196,6 +201,8 @@ public abstract class Arena implements Listener
         recordStats();
         removeAllPlayers();
         HandlerList.unregisterAll(this);
+        world.unloadWorld();
+        ZoneTools.deleteDirectory(world.getWorldFolder());
     }
     
     /**
@@ -488,7 +495,11 @@ public abstract class Arena implements Listener
      * @param name The name of the spawn point
      * @param loc The location of the spawn point 
      */
-    public void addSpawnPoint(String name, Location loc) {spawnPoints.put(name, loc);}
+    public void addSpawnPoint(String name, Point3D point) 
+    {
+        Location loc = new Location(world, point.x, point.y, point.z);
+        spawnPoints.put(name, loc);
+    }
     
     /**
      * Deletes a spawn point from the arena
@@ -514,7 +525,7 @@ public abstract class Arena implements Listener
      * Get the world the arena is located in
      * @return The world the arena is located in
      */
-    public World getWorld() {
+    public ZoneWorld getWorld() {
         return world;
     }
 
@@ -523,7 +534,7 @@ public abstract class Arena implements Listener
      * This method should generally not be used
      * @param world the new world the arena is located in
      */
-    public void setWorld(World world) {
+    public void setWorld(ZoneWorld world) {
         this.world = world;
     }
     
