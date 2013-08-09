@@ -4,6 +4,7 @@ package net.vectorgaming.varenas;
 import info.jeppes.ZoneCore.ZoneConfig;
 import info.jeppes.ZoneCore.ZoneTools;
 import info.jeppes.ZoneWorld.WorldLoader;
+import info.jeppes.ZoneWorld.ZoneWorld;
 import info.jeppes.ZoneWorld.ZoneWorldAPI;
 import java.io.File;
 import java.io.FileFilter;
@@ -89,6 +90,11 @@ public class ArenaManager
         return arenaFramework.get(map.toLowerCase());
     }
     
+    public static ArenaFramework getArenaFramework(Arena arena)
+    {
+        return arenaFramework.get(arena.getMap().toLowerCase());
+    }
+    
     /**
      * Gets the settings for the map
      * @param map String
@@ -97,6 +103,11 @@ public class ArenaManager
     public static ArenaSettings getArenaSettings(String map)
     {
         return arenaSettings.get(map.toLowerCase());
+    }
+    
+    public static ArenaSettings getArenaSettings(Arena arena)
+    {
+        return arenaSettings.get(arena.getMap().toLowerCase());
     }
     
     /**
@@ -127,18 +138,15 @@ public class ArenaManager
         
         //Loads the world into ZoneWorld
         WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), arenaFile.getAbsolutePath());
-        
-        //Delete uid.dat for new world
-//        File uid = new File(ArenaDirectory.ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
-//        uid.delete();
+        ZoneWorld zWorld = worldLoader.loadZoneWorld();
         
         //Increment the arena id by one
         arenaIdMap.put(map, arenaid++);
-        
-        
 
         //Create new arena
         Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance();
+        arena.setWorld(zWorld);
+        
         //Add arena to maps
         arenas.put(arenaName, arena);
         if(!runningArenasMap.get(map).contains(arena))
@@ -192,7 +200,7 @@ public class ArenaManager
      * @param map String
      * @return ArrayList<Arena>
      */
-    public ArrayList<Arena> getRunningArenasFromMap(String map)
+    public static ArrayList<Arena> getRunningArenasFromMap(String map)
     {
         return runningArenasMap.get(map);
     }
@@ -202,7 +210,7 @@ public class ArenaManager
      * @param arena Arena
      * @return boolean
      */
-    public boolean isArenaRunning(Arena arena)
+    public static boolean isArenaRunning(Arena arena)
     {
         return isArenaRunning(arena.getName());
     }
@@ -212,7 +220,7 @@ public class ArenaManager
      * @param name String
      * @return boolean
      */
-    public boolean isArenaRunning(String name) 
+    public static boolean isArenaRunning(String name) 
     {
         if(runningArenasList.contains(name))
             return true;
