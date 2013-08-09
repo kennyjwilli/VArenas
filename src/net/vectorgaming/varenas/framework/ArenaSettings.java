@@ -1,8 +1,10 @@
 
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.interfaces.Settings;
 import net.vectorgaming.varenas.framework.enums.ArenaType;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,7 +20,7 @@ public class ArenaSettings implements Settings
     private Integer lobbyDuration;
     private Integer winningKills;
     private Integer gameDuration;
-    private ArrayList<String> lobbyMsgInterval = new ArrayList<>();
+    private List<String> lobbyMsgInterval = new ArrayList<>();
     private String authors;
     private String objective;
     private String type;
@@ -65,9 +67,9 @@ public class ArenaSettings implements Settings
     
     public void setLobbyDuration(int duration) {this.lobbyDuration = duration;}
     
-    public ArrayList<String> getLobbyMessageInterval() {return lobbyMsgInterval;}
+    public List<String> getLobbyMessageInterval() {return lobbyMsgInterval;}
     
-    public void setLobbyMessageInterval(ArrayList<String> interval) {lobbyMsgInterval = interval;}
+    public void setLobbyMessageInterval(List<String> interval) {lobbyMsgInterval = interval;}
     
     public String getType() {return type;}
     
