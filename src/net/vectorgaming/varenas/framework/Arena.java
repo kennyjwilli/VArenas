@@ -41,6 +41,8 @@ public abstract class Arena implements Listener
     private int maxPlayers;
     private int id;
     private int TP_TASK_ID;
+    private int GAME_TIME_ID;
+    private int gameTime = 0;
     private String authors;
     private String objective;
     private HashMap<String, Location> spawnPoints = new HashMap();
@@ -119,6 +121,7 @@ public abstract class Arena implements Listener
         
         this.getLobby().startLobbyTimer();
         
+        //Teleports all players into game once lobby duration is complete
         TP_TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             public void run()
@@ -141,6 +144,18 @@ public abstract class Arena implements Listener
                 }
             }
         }, 0L, 20L);
+        
+        //Game timer
+        GAME_TIME_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
+        {
+            public void run()
+            {
+                if(!Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
+                {
+                    gameTime++;
+                }
+            }
+        }, 0L, 20L);
     }
         
     /**
@@ -152,6 +167,8 @@ public abstract class Arena implements Listener
         this.getLobby().forceStopTimer();
         if(Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
             Bukkit.getScheduler().cancelTask(TP_TASK_ID);
+        if(Bukkit.getScheduler().isCurrentlyRunning(GAME_TIME_ID))
+            Bukkit.getScheduler().cancelTask(GAME_TIME_ID);
         this.removeAllPlayers();
     }
     
@@ -206,13 +223,16 @@ public abstract class Arena implements Listener
     }
     
     /**
+     * Gets the current game time in seconds
+     * @return Game time in seconds
+     */
+    public Integer getGameTime(){return gameTime;}
+    
+    /**
      * Sets the arena running boolean value
      * @param value Boolean
      */
-    public void setRunning(boolean value)
-    {
-        isRunning = value;
-    }
+    public void setRunning(boolean value) {isRunning = value;}
     
     /**
      * Gets if the arena is currently running
@@ -232,15 +252,9 @@ public abstract class Arena implements Listener
      * Gets the stats for the arena
      * @return
      */
-    public ArenaStats getStats()
-    {
-        return stats;
-    }
+    public ArenaStats getStats() {return stats;}
     
-    public void setArenaStats(ArenaStats stats)
-    {
-        this.stats = stats;
-    }
+    public void setArenaStats(ArenaStats stats) {this.stats = stats;}
             
     /**
      * Gets the result of the game
@@ -466,7 +480,8 @@ public abstract class Arena implements Listener
      * @return A location either predetermined with single or set of possible spawn locations.
      * If @getSpawnPoints() is empty, it will return a random location inside the arena
      */
-    public Location getSpawnLocation(Player player){
+    public Location getSpawnLocation(Player player)
+    {
         ArrayList<Location> spawnLocations = getSpawnPoints();
         if(spawnLocations != null && !getSpawnPointMap().isEmpty()){
             Location spawnLocation = spawnLocations.get((int)(Math.random() * (double)spawnLocations.size()));
@@ -525,54 +540,38 @@ public abstract class Arena implements Listener
      * Get the world the arena is located in
      * @return The world the arena is located in
      */
-    public ZoneWorld getWorld() {
-        return world;
-    }
+    public ZoneWorld getWorld() {return world;}
 
     /**
      * Sets the world the arena is placed in
      * This method should generally not be used
      * @param world the new world the arena is located in
      */
-    public void setWorld(ZoneWorld world) {
-        this.world = world;
-    }
+    public void setWorld(ZoneWorld world) {this.world = world;}
     
     /**
      * Sets the arena lobby object
      * @param lobby ArenaLobby
      */
-    public void setLobby(ArenaLobby lobby)
-    {
-        this.lobby = lobby;
-    }
+    public void setLobby(ArenaLobby lobby) {this.lobby = lobby;}
     
     /**
      * Get the arena lobby object
      * @return ArenaLobby
      */
-    public ArenaLobby getLobby()
-    {
-        return lobby;
-    }
+    public ArenaLobby getLobby() {return lobby;}
     
     /**
      * Sets the arena spectator box 
      * @param spectatorBox ArenaSpectatorBox
      */
-    public void setSpectatorBox(ArenaSpectatorBox spectatorBox)
-    {
-        this.spectatorBox = spectatorBox;
-    }
+    public void setSpectatorBox(ArenaSpectatorBox spectatorBox) {this.spectatorBox = spectatorBox;}
     
     /**
      * Gets the spectator box object for the arena
      * @return ArenaSpectatorBox
      */
-    public ArenaSpectatorBox getSpectatorBox()
-    {
-        return this.spectatorBox;
-    }
+    public ArenaSpectatorBox getSpectatorBox(){return this.spectatorBox;}
     
     /**
      * Gets the entire area the arena is located in
