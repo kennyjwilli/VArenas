@@ -153,6 +153,10 @@ public abstract class Arena implements Listener
                 if(!Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
                 {
                     gameTime++;
+                    if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() == gameTime)
+                    {
+                        end();
+                    }
                 }
             }
         }, 0L, 20L);
@@ -221,6 +225,10 @@ public abstract class Arena implements Listener
         world.unloadWorld();
         ZoneTools.deleteDirectory(world.getWorldFolder());
     }
+    
+    public ArenaSettings getSettings() {return ArenaManager.getArenaSettings(this);}
+    
+    public ArenaFramework getFramework() {return ArenaManager.getArenaFramework(this);}
     
     /**
      * Gets the current game time in seconds
