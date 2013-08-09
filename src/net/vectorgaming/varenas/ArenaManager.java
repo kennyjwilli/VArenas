@@ -157,6 +157,10 @@ public class ArenaManager
      */
     public static Arena createArena(String map, boolean start)
     {
+        if(!arenaIdMap.containsKey(map))
+        {
+            arenaIdMap.put(map, 1);
+        }
         //Setup some initial variables
         int arenaid = arenaIdMap.get(map);
         String arenaName = map.toLowerCase()+"_"+arenaid;
@@ -169,7 +173,7 @@ public class ArenaManager
             FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
                 @Override
                 public boolean accept(File pathname) {
-                    return !pathname.getName().equals("uid.dat");
+                    return !pathname.getName().equals("uid.dat") && !pathname.getName().equals("session.lock");
                 }
             });
         } catch (IOException ex) {
