@@ -144,8 +144,8 @@ public class ArenaManager
         arenaIdMap.put(map, arenaid++);
 
         //Create new arena
-        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance();
-        arena.setWorld(zWorld);
+        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(arenaName, zWorld);
+        //arena.setWorld(zWorld);
         
         //Add arena to maps
         arenas.put(arenaName, arena);
