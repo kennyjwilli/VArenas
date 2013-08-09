@@ -33,7 +33,7 @@ public class ArenaManager
     private static HashMap<String, ArenaFramework> arenaFramework = new HashMap<>();
     private static HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
     private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
-    private static ArrayList<Arena> queuedArenas = new ArrayList<>();
+    private static ArrayList<String> queuedArenas = new ArrayList<>();
     private static ArrayList<String> runningArenasList = new ArrayList<>();
     
     private static VArenas plugin = ArenaAPI.getPlugin();
@@ -119,14 +119,36 @@ public class ArenaManager
      */
     public static void queueArena(Arena arena)
     {
-        queuedArenas.add(arena);
+        queuedArenas.add(arena.getName());
     }
     
     /**
      * Gets a list of all the queued arenas
      * @return A list of arenas
      */
-    public static ArrayList<Arena> getQueuedArenas() {return queuedArenas;}
+    public static ArrayList<String> getQueuedArenas() {return queuedArenas;}
+    
+    /**
+     * Gets if the specified arena is queued
+     * @param arena Arena object
+     * @return boolean value
+     */
+    public static boolean isArenaQueued(Arena arena)
+    {
+        return isArenaQueued(arena.getName());
+    }
+    
+    /**
+     * Gets if the specified arena is queued
+     * @param arena Name of the arena
+     * @return boolean value
+     */
+    public static boolean isArenaQueued(String arena)
+    {
+        if(queuedArenas.contains(arena))
+            return true;
+        return false;
+    }
     
     /**
      * Creates an arena from the specified map.
