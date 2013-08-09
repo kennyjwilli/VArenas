@@ -114,8 +114,8 @@ public class SLAPI
         
         for(String s : plugin.getConfig().getStringList("enabled-arenas"))
         {
-            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR));
-            ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR));
+            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+s+".yml"));
+            ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+File.separator+s+".yml"));
             ArenaManager.createMap(s);
             ArenaSettings settings = ArenaManager.getArenaSettings(s);
             ArenaFramework framework = ArenaManager.getAreanFramework(s);
@@ -128,7 +128,7 @@ public class SLAPI
                 framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString(ArenaYMLPath.ARENA_SPAWNS+"."+str)));
             }
             framework.setLobbyLocation(frameworkConfig.getLobbySpawn());
-            framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
+            //framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
             
             /*
              * Loads regions
