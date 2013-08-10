@@ -35,7 +35,7 @@ public class ArenaSettings implements Settings
         authors = "Arcane Realms";
         objective = "Default objective";
         setupDefaultInterval();
-        type = ArenaType.PVP_ARENA.toString();
+        type = ArenaType.PVP_ARENA.name();
         showRespawnScreen = true;
         winningKills = -1;
         gameDuration = 600;
