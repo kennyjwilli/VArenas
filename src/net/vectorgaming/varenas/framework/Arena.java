@@ -52,6 +52,9 @@ public abstract class Arena implements Listener
     private ArenaSpectatorBox spectatorBox;
     private ArenaStats stats;
     
+    private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
+    private HashMap<String, Location> locationMap = new HashMap<>();
+    
     /**
      * 
      * @param name Name of the arena
@@ -68,6 +71,8 @@ public abstract class Arena implements Listener
         this.lobby = lobby;
         this.spectatorBox = spectatorBox;
         this.world = world;
+        locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
+        spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
     }
     
     /**
@@ -82,6 +87,19 @@ public abstract class Arena implements Listener
         this.type = ArenaManager.getArenaSettings(map).getType();
         this.map = map;
         this.world = world;
+        locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
+        spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
+    }
+    
+    private HashMap<String,Location> convertToLocation(HashMap<String,Point3D> map)
+    {
+        HashMap<String, Location> result = new HashMap<>();
+        for(String s : map.keySet())
+        {
+            Point3D point = map.get(s);
+            result.put(s, new Location(world, point.x, point.y, point.z));
+        }
+        return result;
     }
     
     /**
