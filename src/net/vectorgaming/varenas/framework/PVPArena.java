@@ -24,12 +24,12 @@ public class PVPArena extends TeamArena
     /**
      *
      * @param arenaName Name of the arena
-     * @param type Type of the arena
+     * @param map Type of the arena
      * @param world World the arena will be located in
      */
-    public PVPArena(String arenaName, String type, ZoneWorld world)
+    public PVPArena(String arenaName, String map, ZoneWorld world)
     {
-        super(arenaName, type, world);
+        super(arenaName, map, world);
     }
 
     @Override
