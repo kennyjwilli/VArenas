@@ -14,9 +14,9 @@ public class PVPArenaCreator extends ArenaCreator
 {
 
     @Override
-    public Arena getNewArenaInstance(String name, ZoneWorld world)
+    public Arena getNewArenaInstance(String name, String map, ZoneWorld world)
     {
-        return new PVPArena(name, "PVP_ARENA", world);
+        return new PVPArena(name, map, world);
     }
 
     @Override
