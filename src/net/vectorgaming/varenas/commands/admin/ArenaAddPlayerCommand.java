@@ -35,9 +35,9 @@ public class ArenaAddPlayerCommand extends VCommand
             return true;
         }
         
-        if(!ArenaManager.mapExists(args[0]))
+        if(!ArenaManager.isArenaQueued(args[0]))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" is not queued.");
             return true;
         }
         
