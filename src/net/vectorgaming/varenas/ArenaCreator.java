@@ -10,7 +10,7 @@ import net.vectorgaming.varenas.framework.Arena;
  */
 public abstract class ArenaCreator 
 {
-    public abstract Arena getNewArenaInstance(String name, ZoneWorld world);
+    public abstract Arena getNewArenaInstance(String name, String map, ZoneWorld world);
     
     public abstract String getName();
 }
