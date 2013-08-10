@@ -55,7 +55,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void setLobbySpawn(Point3D point)
     {
-        this.set(ArenaYMLPath.LOBBY_SPAWN.toString(), point.toSaveString());
+        this.set(ArenaYMLPath.LOBBY_SPAWN, point.toSaveString());
     }
     
     /**
@@ -64,7 +64,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public Point3D getLobbySpawn()
     {
-        return Point3D.toPoint3D(this.getString(""+ArenaYMLPath.LOBBY_SPAWN));
+        return Point3D.toPoint3D(this.getString(ArenaYMLPath.LOBBY_SPAWN));
     }
     
     /**
@@ -82,7 +82,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void setSpectatorBoxSpawn(Point3D point)
     {
-        this.set(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString(), point.toSaveString());
+        this.set(ArenaYMLPath.SPECTATOR_BOX_SPAWN, point.toSaveString());
     }
     
     /**
@@ -91,7 +91,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public Point3D getSpectatorBoxSpawn()
     {
-        return Point3D.toPoint3D(""+ArenaYMLPath.SPECTATOR_BOX_SPAWN);
+        return Point3D.toPoint3D(ArenaYMLPath.SPECTATOR_BOX_SPAWN);
     }
     
     /**
