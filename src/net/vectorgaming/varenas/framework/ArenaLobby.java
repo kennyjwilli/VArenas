@@ -1,9 +1,12 @@
 
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import net.vectorgaming.varenas.ArenaAPI;
+import net.vectorgaming.varenas.ArenaManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 /**
  *
@@ -16,10 +19,16 @@ public class ArenaLobby extends VRegion
     private int timeLeftLobby = duration;
     private int TASK_ID;
     private boolean isLobbyTimerRunning = false;
+    private ArenaSettings settings;
+    private ArenaFramework framework;
     
-    public ArenaLobby()
+    public ArenaLobby(String arena, ZoneWorld world)
     {
         setupDefaultInterval();
+        this.settings = ArenaManager.getArenaSettings(ArenaManager.getArena(arena));
+        this.framework = ArenaManager.getArenaFramework(ArenaManager.getArena(arena));
+        
+        this.setSpawn(new Location(world, framework.getLobbySpawn().x, framework.getLobbySpawn().y, framework.getLobbySpawn().z));
     }
     
     /**
