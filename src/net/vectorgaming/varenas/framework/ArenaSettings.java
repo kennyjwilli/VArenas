@@ -1,21 +1,26 @@
 
 package net.vectorgaming.varenas.framework;
 
+import net.vectorgaming.varenas.framework.interfaces.Settings;
 import net.vectorgaming.varenas.framework.enums.ArenaType;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Kenny
  */
-public class ArenaSettings 
+public class ArenaSettings implements Settings
 {
     private String name;
     private boolean isBlockBreak;
     private boolean isTNT;
+    private boolean showRespawnScreen;
     private Integer maxPlayers;
     private Integer lobbyDuration;
-    private ArrayList<String> lobbyMsgInterval = new ArrayList<>();
+    private Integer winningKills;
+    private Integer gameDuration;
+    private List<String> lobbyMsgInterval = new ArrayList<>();
     private String authors;
     private String objective;
     private String type;
@@ -31,6 +36,9 @@ public class ArenaSettings
         objective = "Default objective";
         setupDefaultInterval();
         type = ArenaType.PVP_ARENA.toString();
+        showRespawnScreen = true;
+        winningKills = -1;
+        gameDuration = 600;
     }
     
     public String getName() {return name;}
@@ -59,13 +67,25 @@ public class ArenaSettings
     
     public void setLobbyDuration(int duration) {this.lobbyDuration = duration;}
     
-    public ArrayList<String> getLobbyMessageInterval() {return lobbyMsgInterval;}
+    public List<String> getLobbyMessageInterval() {return lobbyMsgInterval;}
     
-    public void setLobbyMessageInterval(ArrayList<String> interval) {lobbyMsgInterval = interval;}
+    public void setLobbyMessageInterval(List<String> interval) {lobbyMsgInterval = interval;}
     
     public String getType() {return type;}
     
     public void setType(String type) {this.type = type;}
+    
+    public boolean isShowRespawnScreen() {return showRespawnScreen;}
+    
+    public void setShowRespawnScreen(boolean value) {this.showRespawnScreen = value;}
+    
+    public Integer getWinningKills() {return this.winningKills;}
+    
+    public void setWinningKills(int winningKills) {this.winningKills = winningKills;}
+    
+    public Integer getGameDuration() {return this.gameDuration;}
+    
+    public void setGameDuration(int duration) {gameDuration = duration;}
     
     private void setupDefaultInterval()
     {

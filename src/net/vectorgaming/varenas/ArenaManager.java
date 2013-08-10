@@ -1,9 +1,13 @@
 
 package net.vectorgaming.varenas;
 
-import com.google.common.io.Files;
 import info.jeppes.ZoneCore.ZoneConfig;
+import info.jeppes.ZoneCore.ZoneTools;
+import info.jeppes.ZoneWorld.WorldLoader;
+import info.jeppes.ZoneWorld.ZoneWorld;
+import info.jeppes.ZoneWorld.ZoneWorldAPI;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +18,7 @@ import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Location;
 
 /**
@@ -28,6 +33,7 @@ public class ArenaManager
     private static HashMap<String, ArenaFramework> arenaFramework = new HashMap<>();
     private static HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
     private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
+    private static ArrayList<String> queuedArenas = new ArrayList<>();
     private static ArrayList<String> runningArenasList = new ArrayList<>();
     
     private static VArenas plugin = ArenaAPI.getPlugin();
@@ -38,8 +44,12 @@ public class ArenaManager
      */
     public static void createMap(String map)
     {
-        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
-        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR.toString()+File.separator+map.toLowerCase()+".yml"));
+        File f = new File(ArenaDirectory.ARENA_FRAMEWORK_DIR);
+        File f1 = new File(ArenaDirectory.ARENA_SETTINGS_DIR);
+        f.mkdirs();
+        f1.mkdirs();
+        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+File.separator+map.toLowerCase()+".yml"));
+        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+map.toLowerCase()+".yml"));
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
         arenaFramework.put(map.toLowerCase(), new ArenaFramework(map));
@@ -81,6 +91,11 @@ public class ArenaManager
         return arenaFramework.get(map.toLowerCase());
     }
     
+    public static ArenaFramework getArenaFramework(Arena arena)
+    {
+        return arenaFramework.get(arena.getMap().toLowerCase());
+    }
+    
     /**
      * Gets the settings for the map
      * @param map String
@@ -91,13 +106,61 @@ public class ArenaManager
         return arenaSettings.get(map.toLowerCase());
     }
     
+    public static ArenaSettings getArenaSettings(Arena arena)
+    {
+        return arenaSettings.get(arena.getMap().toLowerCase());
+    }
+    
+    /**
+     * Adds an arena to the queue list
+     * 
+     * This is used for creating arenas by command
+     * @param arena Arena object
+     */
+    public static void queueArena(Arena arena)
+    {
+        queuedArenas.add(arena.getName());
+    }
+    
+    /**
+     * Gets a list of all the queued arenas
+     * @return A list of arenas
+     */
+    public static ArrayList<String> getQueuedArenas() {return queuedArenas;}
+    
+    /**
+     * Gets if the specified arena is queued
+     * @param arena Arena object
+     * @return boolean value
+     */
+    public static boolean isArenaQueued(Arena arena)
+    {
+        return isArenaQueued(arena.getName());
+    }
+    
+    /**
+     * Gets if the specified arena is queued
+     * @param arena Name of the arena
+     * @return boolean value
+     */
+    public static boolean isArenaQueued(String arena)
+    {
+        if(queuedArenas.contains(arena))
+            return true;
+        return false;
+    }
+    
     /**
      * Creates an arena from the specified map.
      * This will start the arena
      * @param mapName String 
      */
-    public static void createArena(String map)
+    public static Arena createArena(String map, boolean start)
     {
+        if(!arenaIdMap.containsKey(map))
+        {
+            arenaIdMap.put(map, 1);
+        }
         //Setup some initial variables
         int arenaid = arenaIdMap.get(map);
         String arenaName = map.toLowerCase()+"_"+arenaid;
@@ -105,25 +168,29 @@ public class ArenaManager
         //Copy the map to the arenas
         File mapFile = new File(ArenaDirectory.MAPS_DIR+File.separator+map.toLowerCase());
         File arenaFile = new File(ArenaDirectory.ARENAS_DIR+File.separator+arenaName);
-        try
-        {
-            Files.copy(mapFile, arenaFile);
-        } catch (IOException ex)
-        {
-            Logger.getLogger(ArenaManager.class.getName()).log(Level.SEVERE, null, ex);
+        ZoneTools.deleteDirectory(arenaFile);
+        try {
+            FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
+                @Override
+                public boolean accept(File pathname) {
+                    return !pathname.getName().equals("uid.dat");
+                }
+            });
+        } catch (IOException ex) {
+            Logger.getLogger(VArenas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        //Delete uid.dat for new world
-        File uid = new File(ArenaDirectory.ARENAS_DIR+File.separator+map.toLowerCase()+"_"+arenaid+File.separator+"uid.dat");
-        uid.delete();
+        //Loads the world into ZoneWorld
+        WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), arenaFile.getAbsolutePath());
+        ZoneWorld zWorld = worldLoader.loadZoneWorld();
         
         //Increment the arena id by one
         arenaIdMap.put(map, arenaid++);
-        
-        
 
         //Create new arena
-        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance();
+        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(arenaName, zWorld);
+        //arena.setWorld(zWorld);
+        
         //Add arena to maps
         arenas.put(arenaName, arena);
         if(!runningArenasMap.get(map).contains(arena))
@@ -135,8 +202,11 @@ public class ArenaManager
         if(!runningArenasList.contains(arena.getName()))
             runningArenasList.add(arena.getName());
         
-        //Starts the arena
-        arena.start();
+        //Starts the arena if required to
+        if(start)
+            arena.start();
+        
+        return arena;
     }
     
     /**
@@ -177,7 +247,7 @@ public class ArenaManager
      * @param map String
      * @return ArrayList<Arena>
      */
-    public ArrayList<Arena> getRunningArenasFromMap(String map)
+    public static ArrayList<Arena> getRunningArenasFromMap(String map)
     {
         return runningArenasMap.get(map);
     }
@@ -187,7 +257,7 @@ public class ArenaManager
      * @param arena Arena
      * @return boolean
      */
-    public boolean isArenaRunning(Arena arena)
+    public static boolean isArenaRunning(Arena arena)
     {
         return isArenaRunning(arena.getName());
     }
@@ -197,7 +267,7 @@ public class ArenaManager
      * @param name String
      * @return boolean
      */
-    public boolean isArenaRunning(String name) 
+    public static boolean isArenaRunning(String name) 
     {
         if(runningArenasList.contains(name))
             return true;

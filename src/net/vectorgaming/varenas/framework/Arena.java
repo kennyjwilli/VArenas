@@ -1,22 +1,26 @@
 
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
+import info.jeppes.ZoneCore.ZoneTools;
+import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import net.vectorgaming.varenas.ArenaAPI;
+import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.enums.EventResult;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -26,13 +30,11 @@ import org.bukkit.event.player.PlayerRespawnEvent;
  */
 public abstract class Arena implements Listener
 {
-    /*
-     * Need to load these valuse from the config later
-     */
     private String name;
     private String type;
+    private String map;
     private ArrayList<Player> players = new ArrayList();
-    private World world;
+    private ZoneWorld world;
     private boolean blockBreakEnabler = false;
     private boolean editMode = false;
     private boolean tntEnabled = false;
@@ -40,6 +42,8 @@ public abstract class Arena implements Listener
     private int maxPlayers;
     private int id;
     private int TP_TASK_ID;
+    private int GAME_TIME_ID;
+    private int gameTime = 0;
     private String authors;
     private String objective;
     private HashMap<String, Location> spawnPoints = new HashMap();
@@ -50,16 +54,17 @@ public abstract class Arena implements Listener
     
     /**
      * 
-     * @param name String
-     * @param type String
+     * @param name Name of the arena
+     * @param map Map the arena is based off
      * @param lobby ArenaLobby
      * @param spectatorBox ArenaSpectatorBox
-     * @param world World
+     * @param world World the arena will be based in
      */
-    public Arena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, World world)
+    public Arena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world)
     {
         this.name = name;
-        this.type = type;
+        this.type = ArenaManager.getArenaSettings(map).getType();
+        this.map = map;
         this.lobby = lobby;
         this.spectatorBox = spectatorBox;
         this.world = world;
@@ -67,14 +72,15 @@ public abstract class Arena implements Listener
     
     /**
      * 
-     * @param name String
-     * @param type String 
-     * @param world World
+     * @param name Name of the arena
+     * @param map Map the arena is based off 
+     * @param world World the arena will be based in
      */
-    public Arena(String name, String type, World world)
+    public Arena(String name, String map, ZoneWorld world)
     {
         this.name = name;
-        this.type = type;
+        this.type = ArenaManager.getArenaSettings(map).getType();
+        this.map = map;
         this.world = world;
     }
     
@@ -90,6 +96,8 @@ public abstract class Arena implements Listener
      */
     public void setName(String name){this.name = name;}
     
+    public String getMap() {return map;}
+    
     public Integer getId() {return id;}
     
     public void setId(Integer id) {this.id = id;}
@@ -101,6 +109,9 @@ public abstract class Arena implements Listener
     {
         setRunning(true);
         stats = new ArenaStats(this);
+        
+        for(Player p : ArenaPlayerManager.getPlayersInArena(this))
+            addPlayer(p);
         
         for(Player p : getPlayers())
         {
@@ -114,6 +125,7 @@ public abstract class Arena implements Listener
         
         this.getLobby().startLobbyTimer();
         
+        //Teleports all players into game once lobby duration is complete
         TP_TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             public void run()
@@ -136,6 +148,22 @@ public abstract class Arena implements Listener
                 }
             }
         }, 0L, 20L);
+        
+        //Game timer
+        GAME_TIME_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
+        {
+            public void run()
+            {
+                if(!Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
+                {
+                    gameTime++;
+                    if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() == gameTime)
+                    {
+                        end();
+                    }
+                }
+            }
+        }, 0L, 20L);
     }
         
     /**
@@ -147,6 +175,8 @@ public abstract class Arena implements Listener
         this.getLobby().forceStopTimer();
         if(Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
             Bukkit.getScheduler().cancelTask(TP_TASK_ID);
+        if(Bukkit.getScheduler().isCurrentlyRunning(GAME_TIME_ID))
+            Bukkit.getScheduler().cancelTask(GAME_TIME_ID);
         this.removeAllPlayers();
     }
     
@@ -159,7 +189,7 @@ public abstract class Arena implements Listener
      * Handles what happens when the player dies in the arena
      * @param event PlayerDeathEvent
      */
-    public abstract void onDeath(PlayerDeathEvent event);
+    public abstract void onDeath(Player dead, Entity killer);
     
     /**
      * Handles where the player respawns after they die in the arena
@@ -196,16 +226,25 @@ public abstract class Arena implements Listener
         recordStats();
         removeAllPlayers();
         HandlerList.unregisterAll(this);
+        world.unloadWorld();
+        ZoneTools.deleteDirectory(world.getWorldFolder());
     }
+    
+    public ArenaSettings getSettings() {return ArenaManager.getArenaSettings(this);}
+    
+    public ArenaFramework getFramework() {return ArenaManager.getArenaFramework(this);}
+    
+    /**
+     * Gets the current game time in seconds
+     * @return Game time in seconds
+     */
+    public Integer getGameTime(){return gameTime;}
     
     /**
      * Sets the arena running boolean value
      * @param value Boolean
      */
-    public void setRunning(boolean value)
-    {
-        isRunning = value;
-    }
+    public void setRunning(boolean value) {isRunning = value;}
     
     /**
      * Gets if the arena is currently running
@@ -225,15 +264,9 @@ public abstract class Arena implements Listener
      * Gets the stats for the arena
      * @return
      */
-    public ArenaStats getStats()
-    {
-        return stats;
-    }
+    public ArenaStats getStats() {return stats;}
     
-    public void setArenaStats(ArenaStats stats)
-    {
-        this.stats = stats;
-    }
+    public void setArenaStats(ArenaStats stats) {this.stats = stats;}
             
     /**
      * Gets the result of the game
@@ -459,7 +492,8 @@ public abstract class Arena implements Listener
      * @return A location either predetermined with single or set of possible spawn locations.
      * If @getSpawnPoints() is empty, it will return a random location inside the arena
      */
-    public Location getSpawnLocation(Player player){
+    public Location getSpawnLocation(Player player)
+    {
         ArrayList<Location> spawnLocations = getSpawnPoints();
         if(spawnLocations != null && !getSpawnPointMap().isEmpty()){
             Location spawnLocation = spawnLocations.get((int)(Math.random() * (double)spawnLocations.size()));
@@ -488,7 +522,11 @@ public abstract class Arena implements Listener
      * @param name The name of the spawn point
      * @param loc The location of the spawn point 
      */
-    public void addSpawnPoint(String name, Location loc) {spawnPoints.put(name, loc);}
+    public void addSpawnPoint(String name, Point3D point) 
+    {
+        Location loc = new Location(world, point.x, point.y, point.z);
+        spawnPoints.put(name, loc);
+    }
     
     /**
      * Deletes a spawn point from the arena
@@ -514,54 +552,38 @@ public abstract class Arena implements Listener
      * Get the world the arena is located in
      * @return The world the arena is located in
      */
-    public World getWorld() {
-        return world;
-    }
+    public ZoneWorld getWorld() {return world;}
 
     /**
      * Sets the world the arena is placed in
      * This method should generally not be used
      * @param world the new world the arena is located in
      */
-    public void setWorld(World world) {
-        this.world = world;
-    }
+    public void setWorld(ZoneWorld world) {this.world = world;}
     
     /**
      * Sets the arena lobby object
      * @param lobby ArenaLobby
      */
-    public void setLobby(ArenaLobby lobby)
-    {
-        this.lobby = lobby;
-    }
+    public void setLobby(ArenaLobby lobby) {this.lobby = lobby;}
     
     /**
      * Get the arena lobby object
      * @return ArenaLobby
      */
-    public ArenaLobby getLobby()
-    {
-        return lobby;
-    }
+    public ArenaLobby getLobby() {return lobby;}
     
     /**
      * Sets the arena spectator box 
      * @param spectatorBox ArenaSpectatorBox
      */
-    public void setSpectatorBox(ArenaSpectatorBox spectatorBox)
-    {
-        this.spectatorBox = spectatorBox;
-    }
+    public void setSpectatorBox(ArenaSpectatorBox spectatorBox) {this.spectatorBox = spectatorBox;}
     
     /**
      * Gets the spectator box object for the arena
      * @return ArenaSpectatorBox
      */
-    public ArenaSpectatorBox getSpectatorBox()
-    {
-        return this.spectatorBox;
-    }
+    public ArenaSpectatorBox getSpectatorBox(){return this.spectatorBox;}
     
     /**
      * Gets the entire area the arena is located in

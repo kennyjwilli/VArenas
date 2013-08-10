@@ -1,22 +1,23 @@
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneWorld.ZoneWorld;
 import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
-import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PVPTeamArena extends TeamArena{
 
-    public PVPTeamArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, World world) {
+    public PVPTeamArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
         super(name, type, lobby, spectatorBox, world);
     }
 
-    public PVPTeamArena(String name, String type, World world) {
+    public PVPTeamArena(String name, String type, ZoneWorld world) {
         super(name, type, world);
     }
 
@@ -33,12 +34,13 @@ public class PVPTeamArena extends TeamArena{
     }
     
     @Override
-    public void onDeath(PlayerDeathEvent event) {
-        ArenaTeamData killedTeam = getTeamManager().getTeam(event.getEntity());
-        ArenaTeamData killingTeam = getTeamManager().getTeam(event.getEntity().getKiller());
+    public void onDeath(Player death, Entity killer) {
+        ArenaTeamData killedTeam = getTeamManager().getTeam(death);
+        ArenaTeamData killingTeam = getTeamManager().getTeam(killer);
         //No reason to call onTeamPlayerDeath if no one was on a team
         if(killedTeam != null || killingTeam != null){
-            onTeamPlayerDeath(event,killedTeam,killingTeam);
+            //Dan you need to fix this.
+            //onTeamPlayerDeath(event,killedTeam,killingTeam);
         }
     }
 

@@ -57,28 +57,17 @@ public class SLAPI
              */
             settingsConfig.setType(settings.getType());
             settingsConfig.setMaxPlayers(settings.getMaxPlayers());
-            settingsConfig.setTntUse(settings.isTNTEnabled());
+            settingsConfig.setTNTUse(settings.isTNTEnabled());
             settingsConfig.setBlockBreak(settings.isBlockBreakEnabled());
+            settingsConfig.setShowRespawnScreen(settings.isShowRespawnScreen());
+            settingsConfig.setWinningKills(settings.getWinningKills());
+            settingsConfig.setGameDuration(settings.getGameDuration());
             
             /*
              * Lobby Settings
              */
             settingsConfig.setLobbyDuration(settings.getLobbyDuration());
             settingsConfig.setLobbyMessageInterval(settings.getLobbyMessageInterval());
-            
-            /*
-             * Spawns (Old way of saving spawns)
-             */
-            
-//            frameworkConfig.setLobbySpawn(framework.getLobbySpawn());
-//            frameworkConfig.setSpectatorBoxSpawn(framework.getSpectatorBoxSpawn());
-//            
-//            HashMap<String,Point3D> spawnPoints = framework.getSpawnsMap();
-//            
-//            for(Map.Entry kv : spawnPoints.entrySet())
-//            {
-//                frameworkConfig.addArenaSpawn((String)kv.getKey(), (Point3D) kv.getValue());
-//            }
             
             /*
              * Save all locations
@@ -89,7 +78,7 @@ public class SLAPI
             }
             
             /*
-             * Arena Regions
+             * Save all Arena Regions
              */
             for(String str : framework.getTriggerBoxMap().keySet())
             {
@@ -125,8 +114,8 @@ public class SLAPI
         
         for(String s : plugin.getConfig().getStringList("enabled-arenas"))
         {
-            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR.toString()));
-            ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR.toString()));
+            SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+s+".yml"));
+            ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+File.separator+s+".yml"));
             ArenaManager.createMap(s);
             ArenaSettings settings = ArenaManager.getArenaSettings(s);
             ArenaFramework framework = ArenaManager.getAreanFramework(s);
@@ -134,12 +123,12 @@ public class SLAPI
             /*
              * Loads spawns
              */
-            for(String str : frameworkConfig.getConfigurationSection(""+ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
+            for(String str : frameworkConfig.getConfigurationSection(ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
             {
-                framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString(""+ArenaYMLPath.ARENA_SPAWNS+"."+str)));
+                framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString(ArenaYMLPath.ARENA_SPAWNS+"."+str)));
             }
             framework.setLobbyLocation(frameworkConfig.getLobbySpawn());
-            framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
+            //framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
             
             /*
              * Loads regions
@@ -165,8 +154,11 @@ public class SLAPI
             settings.setAuthors(settingsConfig.getAuthors());
             settings.setType(settingsConfig.getType());
             settings.setBlockBreak(settingsConfig.isBlockBreakEnabled());
-            settings.setTNTUse(settingsConfig.isTnTEnabled());
+            settings.setTNTUse(settingsConfig.isTNTEnabled());
             settings.setMaxPlayers(settingsConfig.getMaxPlayers());
+            settings.setShowRespawnScreen(settingsConfig.isShowRespawnScreen());
+            settings.setWinningKills(settingsConfig.getWinningKills());
+            settings.setGameDuration(settingsConfig.getGameDuration());
             
             /*
              * Loads lobby settings

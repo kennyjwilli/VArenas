@@ -35,7 +35,7 @@ public class ArenaSetRegion extends VCommand
             return true;
         }
         
-        if(!ArenaManager.mapExists(args[0]))
+        if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
             return true;
@@ -67,7 +67,7 @@ public class ArenaSetRegion extends VCommand
             return true;
         }
         
-        cs.sendMessage(ChatColor.GREEN+"Region "+ChatColor.YELLOW+args[1]+ChatColor.GREEN+" for map "+ChatColor.YELLOW+WordUtils.capitalizeFully(args[0])+ChatColor.GREEN+" has been set.");
+        cs.sendMessage(ChatColor.GREEN+"Region "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+" for map "+ChatColor.YELLOW+WordUtils.capitalizeFully(args[0])+ChatColor.GREEN+" has been set.");
         return true;
     }
 

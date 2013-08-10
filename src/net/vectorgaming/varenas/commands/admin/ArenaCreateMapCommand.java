@@ -24,9 +24,9 @@ public class ArenaCreateMapCommand extends VCommand
             return true;
         }
         
-        if(!ArenaManager.mapExists(args[0].toLowerCase()))
+        if(ArenaManager.mapExists(args[0].toLowerCase()))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" already exists!");
             return true;
         }
         

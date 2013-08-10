@@ -4,13 +4,14 @@ package net.vectorgaming.varenas.framework.config;
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
 import java.util.List;
+import net.vectorgaming.varenas.framework.interfaces.Settings;
 import org.bukkit.plugin.Plugin;
 
 /**
  *
  * @author Kenny
  */
-public class SettingsConfig extends ZoneConfig
+public class SettingsConfig extends ZoneConfig implements Settings
 {
     public SettingsConfig(Plugin plugin, File file) 
     {
@@ -61,17 +62,17 @@ public class SettingsConfig extends ZoneConfig
         return this.getInt("settings.max-players");
     }
     
-    public void setMaxPlayers(Integer maxPlayers)
+    public void setMaxPlayers(int maxPlayers)
     {
         this.set("settings.max-players", maxPlayers);
     }
     
-    public boolean isTnTEnabled()
+    public boolean isTNTEnabled()
     {
         return this.getBoolean("settings.tnt-enabled");
     }
     
-    public void setTntUse(boolean value)
+    public void setTNTUse(boolean value)
     {
         this.set("settings.tnt-use", value);
     }
@@ -104,5 +105,41 @@ public class SettingsConfig extends ZoneConfig
     public void setLobbyMessageInterval(List<String> list)
     {
         this.set("settings.lobby.message-interval", list);
+    }
+
+    @Override
+    public boolean isShowRespawnScreen()
+    {
+        return this.getBoolean("settings.respawn.show-screen");
+    }
+
+    @Override
+    public void setShowRespawnScreen(boolean value)
+    {
+        this.set("settings.respawn.show-screen", value);
+    }
+
+    @Override
+    public Integer getWinningKills()
+    {
+        return this.getInt("settings.winning-kills");
+    }
+
+    @Override
+    public void setWinningKills(int winningKills)
+    {
+        this.set("settings.winning-kills", winningKills);
+    }
+
+    @Override
+    public Integer getGameDuration()
+    {
+        return this.getInt("settings.game-duration");
+    }
+
+    @Override
+    public void setGameDuration(int duration)
+    {
+        this.set("settings.game-duration", duration);
     }
 }

@@ -49,6 +49,7 @@ public class ArenaCommand extends VCommand
         this.addSubCommand("forcestart", ArenaForceStartCommand.class);
         this.addSubCommand("forcestop", ArenaForceStopCommand.class);
         this.addSubCommand("addplayer", ArenaAddPlayerCommand.class);
+        this.addSubCommand("queuearena", ArenaQueueArenaCommand.class);
     }
 
     @Override

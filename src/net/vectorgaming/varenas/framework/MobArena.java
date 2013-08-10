@@ -4,13 +4,13 @@ package net.vectorgaming.varenas.framework;
 import com.garbagemule.MobArena.commands.Commands;
 import com.garbagemule.MobArena.framework.Arena;
 import com.garbagemule.MobArena.framework.ArenaMaster;
+import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -25,7 +25,13 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     private Arena mobArena;
     private ArrayList<Location> polygon;
     
-    public MobArena(String arenaName, String type, World world)
+    /**
+     *
+     * @param arenaName Name of the arena
+     * @param type Type of the arena
+     * @param world World the arena will be located in
+     */
+    public MobArena(String arenaName, String type, ZoneWorld world)
     {
         super(arenaName, type, world);
         this.arenaName = arenaName;
@@ -87,12 +93,6 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     public void sendEndMessage(){}
 
     @Override
-    public void onDeath(PlayerDeathEvent event)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void onRespawn(PlayerRespawnEvent event)
     {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -102,6 +102,12 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     public void onQuit(PlayerQuitEvent event)
     {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onDeath(Player dead, Entity killer)
+    {
+        
     }
     
 }
