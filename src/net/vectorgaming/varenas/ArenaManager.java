@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaFramework;
+import net.vectorgaming.varenas.framework.ArenaLobby;
 import net.vectorgaming.varenas.framework.ArenaSettings;
+import net.vectorgaming.varenas.framework.ArenaSpectatorBox;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Location;
@@ -108,6 +110,8 @@ public class ArenaManager
     
     public static ArenaSettings getArenaSettings(Arena arena)
     {
+        if(arena.getMap() == null)
+            System.out.println("-------------------- Null map");
         return arenaSettings.get(arena.getMap().toLowerCase());
     }
     
@@ -181,18 +185,21 @@ public class ArenaManager
         }
         
         //Loads the world into ZoneWorld
-        WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), arenaFile.getAbsolutePath());
+        WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), "arenas/"+arenaName);
         ZoneWorld zWorld = worldLoader.loadZoneWorld();
         
         //Increment the arena id by one
         arenaIdMap.put(map, arenaid++);
 
         //Create new arena
-        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(arenaName, zWorld);
-        //arena.setWorld(zWorld);
+        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(arenaName, map, zWorld);
         
         //Add arena to maps
         arenas.put(arenaName, arena);
+        if(!runningArenasMap.containsKey(map))
+        {
+            runningArenasMap.put(map, new ArrayList<Arena>());
+        }
         if(!runningArenasMap.get(map).contains(arena))
         {
             ArrayList<Arena> temp = runningArenasMap.get(map);
@@ -201,6 +208,10 @@ public class ArenaManager
         }
         if(!runningArenasList.contains(arena.getName()))
             runningArenasList.add(arena.getName());
+        
+        //Setup the lobby and spectator spawns
+        arena.setLobby(new ArenaLobby(arenaName, zWorld));
+        arena.setSpectatorBox(new ArenaSpectatorBox(arenaName, zWorld));
         
         //Starts the arena if required to
         if(start)
