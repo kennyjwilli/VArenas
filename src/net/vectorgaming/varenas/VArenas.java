@@ -6,6 +6,7 @@ import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
 import net.vectorgaming.varenas.framework.enums.ArenaType;
 import net.vectorgaming.varenas.framework.PVPArena;
+import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
 import net.vectorgaming.varenas.framework.user.ArenaPlayer;
 import net.vectorgaming.varenas.framework.user.ArenaPlayerManager;
 import net.vectorgaming.varenas.listeners.PlayerDamageListener;
@@ -39,6 +40,7 @@ public class VArenas extends JavaPlugin
         slapi.loadAllArenas();
         ZoneConfig usersConfig = new ZoneConfig(this,new File("plugins/VArenas/arena-players.yml"));
         playerManager = new ArenaPlayerManager(this,usersConfig);
+        ArenaAPI.registerArenaCreator("PVP_ARENA", new PVPArenaCreator());
     }
     
     @Override
