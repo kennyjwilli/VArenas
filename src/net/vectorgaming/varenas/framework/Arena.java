@@ -16,6 +16,7 @@ import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -132,6 +133,7 @@ public abstract class Arena implements Listener
         
         for(Player p : getPlayers())
         {
+            p.setGameMode(GameMode.SURVIVAL);
             p.teleport(this.getLobby().getSpawn());
             //temp fix until VChat is done
             p.sendMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
@@ -162,6 +164,12 @@ public abstract class Arena implements Listener
                        i++;
                    }
                 }
+                
+                if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() == gameTime)
+                {
+                    end();
+                }
+                
                 gameTime++;
             }
         }, 0L, 20L);
