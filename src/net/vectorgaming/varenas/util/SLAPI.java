@@ -124,11 +124,9 @@ public class SLAPI
              * Loads spawns
              */
             for(String str : frameworkConfig.getConfigurationSection(ArenaYMLPath.ARENA_SPAWNS).getKeys(false))
-            {
                 framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString(ArenaYMLPath.ARENA_SPAWNS+"."+str)));
-            }
             framework.setLobbyLocation(frameworkConfig.getLobbySpawn());
-            //framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
+            framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
             
             /*
              * Loads regions
