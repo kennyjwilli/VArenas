@@ -1,12 +1,12 @@
 
 package net.vectorgaming.varenas.framework;
 
-import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 /**
  *
@@ -22,7 +22,7 @@ public class ArenaLobby extends VRegion
     private ArenaSettings settings;
     private ArenaFramework framework;
     
-    public ArenaLobby(String arena, ZoneWorld world)
+    public ArenaLobby(String arena, World world)
     {
         setupDefaultInterval();
         this.settings = ArenaManager.getArenaSettings(ArenaManager.getArena(arena));
