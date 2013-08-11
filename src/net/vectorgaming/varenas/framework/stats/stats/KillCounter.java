@@ -104,7 +104,7 @@ public class KillCounter extends Stat implements Listener{
         for(Map.Entry kv : kills.entrySet())
         {
             if(((ArrayList<Player>) kv.getValue()).size() > highesKills)
-                highesKills = (Integer) kv.getValue();
+                highesKills = ((ArrayList<Player>) kv.getValue()).size();
         }
         return highesKills;
     }
