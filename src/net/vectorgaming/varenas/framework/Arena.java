@@ -146,7 +146,7 @@ public abstract class Arena implements Listener
         this.getLobby().startLobbyTimer();
                 
         //Teleports all players into game once lobby duration is complete
-        TASK_ID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
+        TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             public void run()
             {
@@ -166,8 +166,7 @@ public abstract class Arena implements Listener
                    }
                    world.setPVP(true);
                 }
-                
-                if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() == gameTime)
+                if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() - 1 == gameTime)
                 {
                     end();
                 }
