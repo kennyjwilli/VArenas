@@ -27,7 +27,7 @@ public class VArenas extends JavaPlugin
     private PlayerRespawnListener prl = new PlayerRespawnListener();
     private SLAPI slapi = new SLAPI(this);
     private ArenaManager am = new ArenaManager();
-    private ArenaPlayerManager<ArenaPlayer> playerManager;
+    //private ArenaPlayerManager<ArenaPlayer> playerManager;
     private ArenaAPI arenaAPI;
     
     @Override
@@ -39,7 +39,7 @@ public class VArenas extends JavaPlugin
         registerArenaTypes();
         slapi.loadAllArenas();
         ZoneConfig usersConfig = new ZoneConfig(this,new File("plugins/VArenas/arena-players.yml"));
-        playerManager = new ArenaPlayerManager(this,usersConfig);
+        //playerManager = new ArenaPlayerManager(this,usersConfig);
         ArenaAPI.registerArenaCreator("PVP_ARENA", new PVPArenaCreator());
     }
     
@@ -49,7 +49,7 @@ public class VArenas extends JavaPlugin
         slapi.saveAllArenas();
         //Need to delete all arena maps 
         
-        playerManager.getUsersConfig().save();
+        //playerManager.getUsersConfig().save();
     }
     
     private void setupCommands()
