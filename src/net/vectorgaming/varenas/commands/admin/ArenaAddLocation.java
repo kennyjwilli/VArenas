@@ -15,12 +15,11 @@ import org.bukkit.entity.Player;
  */
 public class ArenaAddLocation extends VCommand
 {
-
     @Override
     public boolean run(CommandSender cs, String[] arguments)
     {
         String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
-        
+
         if(args.length != 2)
         {
             cs.sendMessage(ChatColor.RED+getUsage());
