@@ -7,8 +7,6 @@ import net.vectorgaming.varenas.commands.user.ArenaCommand;
 import net.vectorgaming.varenas.framework.enums.ArenaType;
 import net.vectorgaming.varenas.framework.PVPArena;
 import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
-import net.vectorgaming.varenas.framework.user.ArenaPlayer;
-import net.vectorgaming.varenas.framework.user.ArenaPlayerManager;
 import net.vectorgaming.varenas.listeners.PlayerBlockBreakListener;
 import net.vectorgaming.varenas.listeners.PlayerDamageListener;
 import net.vectorgaming.varenas.listeners.PlayerRespawnListener;
