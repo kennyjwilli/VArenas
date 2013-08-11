@@ -55,7 +55,7 @@ public class ArenaFramework
      */
     public void addArenaSpawn(String spawnName, Point3D point)
     {
-        arenaSpawnsMap.put(name, point);
+        arenaSpawnsMap.put(spawnName, point);
         locationMap.put(ArenaYMLPath.ARENA_SPAWNS+"."+spawnName, point);
     }
     
