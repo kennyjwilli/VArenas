@@ -9,6 +9,7 @@ import net.vectorgaming.varenas.framework.PVPArena;
 import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
 import net.vectorgaming.varenas.framework.user.ArenaPlayer;
 import net.vectorgaming.varenas.framework.user.ArenaPlayerManager;
+import net.vectorgaming.varenas.listeners.PlayerBlockBreakListener;
 import net.vectorgaming.varenas.listeners.PlayerDamageListener;
 import net.vectorgaming.varenas.listeners.PlayerRespawnListener;
 import net.vectorgaming.varenas.util.SLAPI;
@@ -25,6 +26,7 @@ public class VArenas extends JavaPlugin
     private CommandManager cm = new CommandManager();
     private PlayerDamageListener edl = new PlayerDamageListener();
     private PlayerRespawnListener prl = new PlayerRespawnListener();
+    private PlayerBlockBreakListener pbl = new PlayerBlockBreakListener();
     private SLAPI slapi = new SLAPI(this);
     private ArenaManager am = new ArenaManager();
     //private ArenaPlayerManager<ArenaPlayer> playerManager;
@@ -63,6 +65,7 @@ public class VArenas extends JavaPlugin
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(edl, this);
         pm.registerEvents(prl, this);
+        pm.registerEvents(pbl, this);
     }
     
     private void registerArenaTypes()
