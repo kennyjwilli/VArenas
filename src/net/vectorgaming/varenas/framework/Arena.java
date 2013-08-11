@@ -41,8 +41,7 @@ public abstract class Arena implements Listener
     private boolean isRunning = false;
     private int maxPlayers;
     private int id;
-    private int TP_TASK_ID;
-    private int GAME_TIME_ID;
+    private int TASK_ID;
     private int gameTime = 0;
     private String authors;
     private String objective;
@@ -97,7 +96,7 @@ public abstract class Arena implements Listener
         for(String s : map.keySet())
         {
             Point3D point = map.get(s);
-            result.put(s, new Location(world, point.x, point.y, point.z));
+            result.put(s, new Location(world.getCraftWorld(), point.x, point.y, point.z));
         }
         return result;
     }
@@ -142,13 +141,13 @@ public abstract class Arena implements Listener
         //Silence other channels
         
         this.getLobby().startLobbyTimer();
-        
+                
         //Teleports all players into game once lobby duration is complete
-        TP_TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
+        TASK_ID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             public void run()
             {
-                if(!getLobby().isLobbyTimerRunning())
+                if(gameTime >= getLobby().getLobbyDuration())
                 {
                     /*
                     * Teleport all players into the arena at each spawn point
@@ -162,24 +161,8 @@ public abstract class Arena implements Listener
                        p.teleport(getSpawnPoints().get(i));
                        i++;
                    }
-                   Bukkit.getScheduler().cancelTask(TP_TASK_ID);
                 }
-            }
-        }, 0L, 20L);
-        
-        //Game timer
-        GAME_TIME_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
-        {
-            public void run()
-            {
-                if(!Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
-                {
-                    gameTime++;
-                    if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() == gameTime)
-                    {
-                        end();
-                    }
-                }
+                gameTime++;
             }
         }, 0L, 20L);
     }
@@ -191,10 +174,7 @@ public abstract class Arena implements Listener
     public void forceStop()
     {
         this.getLobby().forceStopTimer();
-        if(Bukkit.getScheduler().isCurrentlyRunning(TP_TASK_ID))
-            Bukkit.getScheduler().cancelTask(TP_TASK_ID);
-        if(Bukkit.getScheduler().isCurrentlyRunning(GAME_TIME_ID))
-            Bukkit.getScheduler().cancelTask(GAME_TIME_ID);
+        Bukkit.getScheduler().cancelTask(TASK_ID);
         this.removeAllPlayers();
     }
     
@@ -256,7 +236,7 @@ public abstract class Arena implements Listener
      * Gets the current game time in seconds
      * @return Game time in seconds
      */
-    public Integer getGameTime(){return gameTime;}
+    public Integer getGameTime(){return gameTime - getLobby().getLobbyDuration();}
     
     /**
      * Sets the arena running boolean value
