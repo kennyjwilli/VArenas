@@ -47,8 +47,9 @@ public class PVPArena extends TeamArena
     }
 
     @Override
-    public void sendEndMessage() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void sendEndMessage() 
+    {
+        Bukkit.broadcastMessage("Game Over!");
     }
 
     @Override
@@ -88,10 +89,17 @@ public class PVPArena extends TeamArena
          * Default is a timed match.
          * Ends the arena if the highest kills is the same as the most kills.
         */
-        if(settings.getWinningKills() <= 0 && kc.getHighestKills() >= settings.getWinningKills())
+        if(settings.getWinningKills() >= 0 && kc.getHighestKills() >= settings.getWinningKills())
         {
             arena.end();
         }
+        
+        if(!getSettings().isShowRespawnScreen())
+        {
+            dead.setHealth(20D);
+            dead.teleport(this.getSpawnLocation(dead));
+        }
+        
     }
 
 }
