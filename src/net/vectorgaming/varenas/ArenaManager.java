@@ -162,10 +162,7 @@ public class ArenaManager
     public static Arena createArena(String map, boolean start)
     {
         if(!arenaIdMap.containsKey(map))
-        {
-            System.out.println("ttttttttttttttttttt");
             arenaIdMap.put(map, 1);
-        }
         //Setup some initial variables
         int arenaid = arenaIdMap.get(map);
         String arenaName = map.toLowerCase()+"_"+arenaid;
@@ -190,8 +187,8 @@ public class ArenaManager
         ZoneWorld zWorld = worldLoader.loadZoneWorld();
         
         //Increment the arena id by one
-        arenaIdMap.put(map, arenaid++);
-        System.out.println(arenaIdMap.get(map)+"-------------");
+        arenaid++;
+        arenaIdMap.put(map, arenaid);
 
         //Create new arena
         Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(arenaName, map, zWorld);
