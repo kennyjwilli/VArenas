@@ -149,7 +149,7 @@ public class ArenaFramework
      */
     public Point3D getSpectatorBoxSpawn()
     {
-        return locationMap.get(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString());
+        return locationMap.get(ArenaYMLPath.SPECTATOR_BOX_SPAWN);
     }
     
     /**
@@ -167,7 +167,7 @@ public class ArenaFramework
      */
     public void setSpectatorBoxSpawn(Point3D point)
     {
-        locationMap.put(ArenaYMLPath.SPECTATOR_BOX_SPAWN.toString(), point);
+        locationMap.put(ArenaYMLPath.SPECTATOR_BOX_SPAWN, point);
     }
     
     /**
