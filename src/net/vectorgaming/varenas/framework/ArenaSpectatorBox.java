@@ -2,9 +2,9 @@
 package net.vectorgaming.varenas.framework;
 
 import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
+import info.jeppes.ZoneWorld.ZoneWorld;
 import net.vectorgaming.varenas.ArenaManager;
 import org.bukkit.Location;
-import org.bukkit.World;
 
 
 /**
@@ -13,10 +13,10 @@ import org.bukkit.World;
  */
 public class ArenaSpectatorBox extends VRegion
 {
-    public ArenaSpectatorBox(String arena, World world)
+    public ArenaSpectatorBox(String arena, ZoneWorld world)
     {
         Arena a = ArenaManager.getArena(arena);
         Point3D point = a.getFramework().getSpectatorBoxSpawn();
-        this.setSpawn(new Location(world, point.x, point.y, point.z));
+        this.setSpawn(new Location(world.getCraftWorld(), point.x, point.y, point.z));
     }
 }
