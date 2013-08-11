@@ -93,13 +93,5 @@ public class PVPArena extends TeamArena
         {
             arena.end();
         }
-        
-        if(!getSettings().isShowRespawnScreen())
-        {
-            dead.setHealth(20D);
-            dead.teleport(this.getSpawnLocation(dead));
-        }
-        
     }
-
 }
