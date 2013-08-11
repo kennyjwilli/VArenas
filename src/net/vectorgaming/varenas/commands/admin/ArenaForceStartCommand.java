@@ -52,6 +52,7 @@ public class ArenaForceStartCommand extends VCommand
             
             cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" is not currently queued.");
             cs.sendMessage(ChatColor.BLUE+"Currently queued arenas: "+output);
+            return true;
         }
         
         ArenaManager.getArena(args[0].toLowerCase()).start();
