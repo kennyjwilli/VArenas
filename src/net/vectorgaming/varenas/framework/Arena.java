@@ -133,7 +133,8 @@ public abstract class Arena implements Listener
         
         for(Player p : getPlayers())
         {
-            p.setGameMode(GameMode.SURVIVAL);
+            if(p.getGameMode() != GameMode.SURVIVAL)
+                p.setGameMode(GameMode.SURVIVAL);
             p.teleport(this.getLobby().getSpawn());
             //temp fix until VChat is done
             p.sendMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
@@ -149,7 +150,7 @@ public abstract class Arena implements Listener
         {
             public void run()
             {
-                if(gameTime >= getLobby().getLobbyDuration())
+                if(gameTime == getLobby().getLobbyDuration())
                 {
                     /*
                     * Teleport all players into the arena at each spawn point
@@ -163,6 +164,7 @@ public abstract class Arena implements Listener
                        p.teleport(getSpawnPoints().get(i));
                        i++;
                    }
+                   world.setPVP(true);
                 }
                 
                 if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() == gameTime)
