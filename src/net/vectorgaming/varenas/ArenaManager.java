@@ -163,6 +163,7 @@ public class ArenaManager
     {
         if(!arenaIdMap.containsKey(map))
         {
+            System.out.println("ttttttttttttttttttt");
             arenaIdMap.put(map, 1);
         }
         //Setup some initial variables
@@ -177,7 +178,7 @@ public class ArenaManager
             FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
                 @Override
                 public boolean accept(File pathname) {
-                    return !pathname.getName().equals("uid.dat");
+                    return !pathname.getName().equals("uid.dat") && !pathname.getName().equalsIgnoreCase("session.lock");
                 }
             });
         } catch (IOException ex) {
@@ -187,10 +188,10 @@ public class ArenaManager
         //Loads the world into ZoneWorld
         WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), "arenas/"+arenaName);
         ZoneWorld zWorld = worldLoader.loadZoneWorld();
-        zWorld.load();
         
         //Increment the arena id by one
         arenaIdMap.put(map, arenaid++);
+        System.out.println(arenaIdMap.get(map)+"-------------");
 
         //Create new arena
         Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(arenaName, map, zWorld);
