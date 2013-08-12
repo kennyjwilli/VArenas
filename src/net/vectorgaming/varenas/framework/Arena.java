@@ -231,6 +231,7 @@ public abstract class Arena implements Listener
         resetInventory();
         //rewardPlayers(null);
         recordStats();
+        sendEndMessage();
         removeAllPlayers();
         HandlerList.unregisterAll(this);
         world.unloadWorld();
