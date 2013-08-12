@@ -49,7 +49,8 @@ public class PVPArena extends TeamArena
     @Override
     public void sendEndMessage() 
     {
-        Bukkit.broadcastMessage("Game Over!");
+        KillCounter kc = (KillCounter) this.getStats().getStat("killcounter");
+        Bukkit.broadcastMessage("Game Over! "+kc.getPlayerWithHighestKills().getDisplayName()+" won with "+kc.getHighestKills());
     }
 
     @Override
@@ -70,17 +71,6 @@ public class PVPArena extends TeamArena
     {
         KillCounter kc = (KillCounter) this.getStats().getStat("killcounter");
         
-        Player killerPlayer;
-        if(killer instanceof Player)
-        {
-            killerPlayer = (Player) killer;
-        }else
-        {
-            return;
-        }
-        
-        kc.recordKill(dead, killerPlayer);
-        
         ArenaSettings settings = ArenaManager.getArenaSettings(ArenaPlayerManager.getArenaFromPlayer(dead));
         Arena arena = ArenaPlayerManager.getArenaFromPlayer(dead);
         
@@ -93,5 +83,11 @@ public class PVPArena extends TeamArena
         {
             arena.end();
         }
+    }
+    
+    public void endTeleportAction()
+    {
+        for(Player p : getPlayers())
+            p.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
     }
 }
