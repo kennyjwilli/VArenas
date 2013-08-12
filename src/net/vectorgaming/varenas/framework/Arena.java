@@ -8,6 +8,8 @@ import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import me.drayshak.WorldInventories.Group;
+import me.drayshak.WorldInventories.WorldInventories;
 import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
@@ -25,6 +27,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.plugin.Plugin;
 
 /**
  *
@@ -139,14 +142,17 @@ public abstract class Arena implements Listener
     {
         setRunning(true);
         stats = new ArenaStats(this);
+        this.setupWorldInventory();
         
-        for(Player p : ArenaPlayerManager.getPlayersInArena(this))
+        for(Player p : ArenaPlayerManager.getPlayersInArena(this)) {
             addPlayer(p);
+        }
         
         for(Player p : getPlayers())
         {
-            if(p.getGameMode() != GameMode.SURVIVAL)
+            if(p.getGameMode() != GameMode.SURVIVAL) {
                 p.setGameMode(GameMode.SURVIVAL);
+            }
             p.teleport(this.getLobby().getSpawn());
             //temp fix until VChat is done
             p.sendMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
@@ -160,6 +166,7 @@ public abstract class Arena implements Listener
         //Teleports all players into game once lobby duration is complete
         TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
+            @Override
             public void run()
             {
                 if(gameTime == getLobby().getLobbyDuration())
@@ -196,6 +203,7 @@ public abstract class Arena implements Listener
     {
         this.getLobby().forceStopTimer();
         Bukkit.getScheduler().cancelTask(TASK_ID);
+        deleteWorldInventory();
         this.removeAllPlayers();
     }
     
@@ -240,7 +248,7 @@ public abstract class Arena implements Listener
     {
         setRunning(false);
         endTeleportAction();
-        resetInventory();
+        deleteWorldInventory();
         //rewardPlayers(null);
         recordStats();
         sendEndMessage();
@@ -352,9 +360,21 @@ public abstract class Arena implements Listener
     /**
      * Resets all players inventories to the state before the match
      */
-    public void resetInventory()
-    {
-        
+    public void setupWorldInventory(){
+        if(Bukkit.getPluginManager().isPluginEnabled("WorldInventories")){
+            ArrayList<String> worlds = new ArrayList();
+            worlds.add(getWorld().getName());
+            Group group = new Group(getName() + "_" +getId(), worlds, GameMode.SURVIVAL);
+            
+            WorldInventories.groups.add(group);
+        }
+    }
+    
+    public void deleteWorldInventory(){
+        if(Bukkit.getPluginManager().isPluginEnabled("WorldInventories")){
+            Group findGroup = WorldInventories.findGroup(getWorld().getName());
+            WorldInventories.groups.remove(findGroup);
+        }
     }
     
     /**
