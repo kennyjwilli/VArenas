@@ -25,6 +25,7 @@ public abstract class Stat implements Listener{
 
     public void setArena(Arena arena){
         this.arena = arena;
+        init();
     }
     public Arena getArena(){
         return arena;
@@ -39,6 +40,7 @@ public abstract class Stat implements Listener{
         stop();
     }
     
+    public abstract void init();
     protected abstract void stop();
     public abstract void save(ZoneConfig config);
     public abstract void load(ZoneConfig config);
