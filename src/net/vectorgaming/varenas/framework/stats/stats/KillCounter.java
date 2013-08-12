@@ -17,10 +17,9 @@ import java.util.Map;
 import net.vectorgaming.varenas.framework.stats.Stat;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
 
 /**
  *
@@ -28,10 +27,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
  */
 public class KillCounter extends Stat implements Listener{
 
-    public TeamManager teamManager = null;
     private HashMap<Player, ArrayList<Player>> kills = new HashMap<>(); // {Killer, All the people Killer killed}
     private HashMap<Player, ArrayList<Player>> deaths = new HashMap<>(); // {Killed player, All the people who kill the guy}
     private int totalKills;
+    private boolean showAsObjective = true;
+    private Objective killsObj;
+    private Objective deathsObj;
     
     public KillCounter(){
         super("killcounter");
@@ -39,15 +40,27 @@ public class KillCounter extends Stat implements Listener{
     public KillCounter(String name){
         super(name);
     }
+    public KillCounter(boolean showAsObjective){
+        super("killcounter");
+        this.showAsObjective = showAsObjective;
+    }
+    public KillCounter(String name, boolean showAsObjective){
+        super(name);
+        this.showAsObjective = showAsObjective;
+    }
     
-    public boolean useTeams(){
-        return teamManager != null;
-    }
-    public TeamManager getTeamManager() {
-        return teamManager;
-    }
-    public void setTeamManager(TeamManager teamManager) {
-        this.teamManager = teamManager;
+    
+    @Override
+    public void init() {
+        if(showAsObjective){
+            TeamManager teamManager = getArena().getTeamManager();
+            killsObj = teamManager.getScoreboard().registerNewObjective("kills", "dummy");
+            killsObj.setDisplayName("Kills");
+            killsObj.setDisplaySlot(DisplaySlot.SIDEBAR);
+            deathsObj = teamManager.getScoreboard().registerNewObjective("deaths", "dummy");
+            deathsObj.setDisplayName("Deaths");
+            deathsObj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        }
     }
     
     /**
@@ -59,28 +72,30 @@ public class KillCounter extends Stat implements Listener{
     {
         ArrayList<Player> killerKills;
         ArrayList<Player> playerDeaths;
-        if(kills.containsKey(killer))
-        {
-            //Adds the killer and his victim
+        //Adds the killer
+        if(kills.containsKey(killer)){
             killerKills = kills.get(killer);
             killerKills.add(dead);
             kills.put(killer, killerKills);
-            
-            //Adds a death to a player and the player's killer
-            playerDeaths = deaths.get(dead);
-            playerDeaths.add(killer);
-            deaths.put(dead, playerDeaths);
-        }else
-        {
-            //Adds the killer and his victim
+        } else {
             killerKills = new ArrayList<>();
             killerKills.add(dead);
             kills.put(killer, killerKills);
-            
-            //Adds a death to a player and the player's killer
+        }
+        //Adds a death to a player and the player's killer
+        if(kills.containsKey(killer))
+        {
+            playerDeaths = deaths.get(dead);
+            playerDeaths.add(killer);
+            deaths.put(dead, playerDeaths);
+        }else{
             playerDeaths = new ArrayList<>();
             playerDeaths.add(killer);
             deaths.put(dead, playerDeaths);
+        }
+        if(showAsObjective){
+            killsObj.getScore(killer).setScore(getKills(killer));
+            deathsObj.getScore(dead).setScore(getDeaths(dead));
         }
         totalKills++;
     }

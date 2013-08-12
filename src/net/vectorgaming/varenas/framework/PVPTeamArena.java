@@ -29,7 +29,6 @@ public class PVPTeamArena extends TeamArena{
     public void start(){
         super.start();
         KillCounter killCounter = new KillCounter();
-        killCounter.setTeamManager(getTeamManager());
         getStats().addStat(killCounter);
     }
     
