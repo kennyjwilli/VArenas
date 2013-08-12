@@ -71,6 +71,13 @@ public class PVPArena extends TeamArena
     {
         KillCounter kc = (KillCounter) this.getStats().getStat("killcounter");
         
+        Player killerPlayer;
+        if(killer instanceof Player)
+        {
+            killerPlayer = (Player) killer;
+            kc.recordKill(killerPlayer, dead);
+        }
+        
         ArenaSettings settings = ArenaManager.getArenaSettings(ArenaPlayerManager.getArenaFromPlayer(dead));
         Arena arena = ArenaPlayerManager.getArenaFromPlayer(dead);
         
