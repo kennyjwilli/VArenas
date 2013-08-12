@@ -37,6 +37,7 @@ public class ArenaManager
     private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
     private static ArrayList<String> queuedArenas = new ArrayList<>();
     private static ArrayList<String> runningArenasList = new ArrayList<>();
+    private static ArrayList<ZoneWorld> arenaWorlds = new ArrayList<>();
     
     private static VArenas plugin = ArenaAPI.getPlugin();
     
@@ -195,6 +196,7 @@ public class ArenaManager
         
         //Add arena to maps
         arenas.put(arenaName, arena);
+        arenaWorlds.add(zWorld);
         if(!runningArenasMap.containsKey(map))
         {
             runningArenasMap.put(map, new ArrayList<Arena>());
@@ -218,6 +220,15 @@ public class ArenaManager
         
         return arena;
     }
+    
+    /**
+     * Gets a list of all the worlds that arenas have ran in.
+     * 
+     * NOTE: This list is primarily kept to unload and deleted worlds when the plugin gets disabled.
+     * It contains ALL worlds that arenas have ran in, are running in, or will run in.
+     * @return A list of ZoneWorlds
+     */
+    public static ArrayList<ZoneWorld> getArenaWorlds() {return arenaWorlds;}
     
     /**
      * Generates the next avaliable id for the map
