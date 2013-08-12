@@ -216,15 +216,15 @@ public class KillCounter extends Stat implements Listener{
      * Listens for entity death events to record kills and deaths
      * @param event
      */
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onEntityDeath(EntityDeathEvent event){
-        if(event.getEntity().getKiller() != null){
-            if(event.getEntity() instanceof Player){
-                Player killed = (Player)event.getEntity();
-                recordKill(killed.getKiller(), killed);
-            }
-        }
-    }
+//    @EventHandler(priority = EventPriority.MONITOR)
+//    public void onEntityDeath(EntityDeathEvent event){
+//        if(event.getEntity().getKiller() != null){
+//            if(event.getEntity() instanceof Player){
+//                Player killed = (Player)event.getEntity();
+//                recordKill(killed.getKiller(), killed);
+//            }
+//        }
+//    }
 //    @EventHandler(priority = EventPriority.MONITOR)
 //    public void onEntityDeath(EntityDamageEvent event){
 //        if(event instanceof EntityDamageByEntityEvent) {
