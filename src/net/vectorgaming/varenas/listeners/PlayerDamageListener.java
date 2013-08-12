@@ -42,6 +42,8 @@ public class PlayerDamageListener implements Listener
             ArenaPlayerManager.getArenaFromPlayer(p).onDeath(p, event.getEntity());
             if(ArenaManager.getArenaSettings(arena).isShowRespawnScreen())
                 return;
+            p.setHealth(20D);
+            p.teleport(arena.getSpawnLocation(p));
             event.setCancelled(true);
         }
     }
