@@ -1,11 +1,14 @@
 package net.vectorgaming.varenas;
 
 import info.jeppes.ZoneCore.ZoneConfig;
+import info.jeppes.ZoneCore.ZoneTools;
+import info.jeppes.ZoneWorld.ZoneWorld;
 import java.io.File;
 import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
 import net.vectorgaming.varenas.framework.enums.ArenaType;
 import net.vectorgaming.varenas.framework.PVPArena;
+import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
 import net.vectorgaming.varenas.listeners.PlayerBlockBreakListener;
 import net.vectorgaming.varenas.listeners.PlayerDamageListener;
@@ -47,9 +50,23 @@ public class VArenas extends JavaPlugin
     public void onDisable()
     {
         slapi.saveAllArenas();
+        unloadAndDeleteArenas();
         //Need to delete all arena maps 
         
         //playerManager.getUsersConfig().save();
+    }
+    
+    private void unloadAndDeleteArenas()
+    {
+        for(ZoneWorld world : ArenaManager.getArenaWorlds())
+        {
+            world.unloadWorld();
+            world.deleteWorld();
+        }
+        for(File f : new File(ArenaDirectory.ARENAS_DIR).listFiles())
+        {
+            ZoneTools.deleteDirectory(f);
+        }
     }
     
     private void setupCommands()
