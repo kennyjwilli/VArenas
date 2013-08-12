@@ -13,6 +13,7 @@ import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.enums.EventResult;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
+import net.vectorgaming.varenas.framework.teams.TeamManager;
 import net.vectorgaming.varenas.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,6 +52,7 @@ public abstract class Arena implements Listener
     private ArenaLobby lobby;
     private ArenaSpectatorBox spectatorBox;
     private ArenaStats stats;
+    private final TeamManager teamManager;
     
     private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
     private HashMap<String, Location> locationMap = new HashMap<>();
@@ -71,6 +73,7 @@ public abstract class Arena implements Listener
         this.lobby = lobby;
         this.spectatorBox = spectatorBox;
         this.world = world;
+        teamManager = new TeamManager();
         locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
         spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
     }
@@ -87,8 +90,17 @@ public abstract class Arena implements Listener
         this.type = ArenaManager.getArenaSettings(map).getType();
         this.map = map;
         this.world = world;
+        teamManager = new TeamManager();
         locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
         spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
+    }
+    
+    /**
+     * Get the team manager used with the respective arena
+     * @return The team manager used by the arena
+     */
+    public TeamManager getTeamManager() {
+        return teamManager;
     }
     
     private HashMap<String,Location> convertToLocation(HashMap<String,Point3D> map)
