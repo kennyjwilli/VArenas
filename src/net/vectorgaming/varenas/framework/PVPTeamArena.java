@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PVPTeamArena extends TeamArena{
+    private KillCounter killCounter;
 
     public PVPTeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
         super(name, map, lobby, spectatorBox, world);
@@ -21,14 +22,14 @@ public class PVPTeamArena extends TeamArena{
         super(name, map, world);
     }
 
-    public void onTeamPlayerDeath(EntityEvent event, ArenaTeamData killedTeam, ArenaTeamData killingTeam){
+    public void onTeamPlayerDeath(ArenaTeamData killedTeam, ArenaTeamData killingTeam){
         
     }
     
     @Override
     public void start(){
         super.start();
-        KillCounter killCounter = new KillCounter();
+        killCounter = new KillCounter();
         getStats().addStat(killCounter);
     }
     
@@ -38,8 +39,8 @@ public class PVPTeamArena extends TeamArena{
         ArenaTeamData killingTeam = getTeamManager().getTeam(killer);
         //No reason to call onTeamPlayerDeath if no one was on a team
         if(killedTeam != null || killingTeam != null){
-            //Dan you need to fix this.
-            //onTeamPlayerDeath(event,killedTeam,killingTeam);
+            killCounter.recordKill(killer, death);
+            onTeamPlayerDeath(killedTeam,killingTeam);
         }
     }
 
@@ -61,7 +62,7 @@ public class PVPTeamArena extends TeamArena{
             ArenaTeamData killingTeam = getTeamManager().getTeam(eventDamage.getDamager());
             //No reason to call onTeamPlayerDeath if no one was on a team
             if(killedTeam != null || killingTeam != null){
-                onTeamPlayerDeath(event,killedTeam,killingTeam);
+                onTeamPlayerDeath(killedTeam,killingTeam);
             }
         }
     }
