@@ -27,7 +27,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.plugin.Plugin;
 
 /**
  *
@@ -129,11 +128,24 @@ public abstract class Arena implements Listener
      */
     public void setName(String name){this.name = name;}
     
+    /**
+     * Gets the map the arena is based off
+     * @return Map the arena is based off
+     */
     public String getMap() {return map;}
     
+    /**
+     * Gets the ID for the arena
+     * @return
+     */
     public Integer getId() {return id;}
     
-    public void setId(Integer id) {this.id = id;}
+    /**
+     * Sets the ID for the arena
+     * This method should generally not be used
+     * @param id New arena ID
+     */
+    public void setId(int id) {this.id = id;}
     
     /**
      * Starts the arena. Usually all players will be teleported to the lobby
@@ -214,7 +226,8 @@ public abstract class Arena implements Listener
     
     /**
      * Handles what happens when the player dies in the arena
-     * @param event PlayerDeathEvent
+     * @param dead Player who died
+     * @param killer Player who killed @param dead
      */
     public abstract void onDeath(Player dead, Entity killer);
     
