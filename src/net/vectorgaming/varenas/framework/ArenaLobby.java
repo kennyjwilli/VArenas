@@ -57,7 +57,6 @@ public class ArenaLobby extends VRegion
     
     /**
      * Starts the timer until the match starts. 
-     * CAUTION: DO NOT USE THIS UNLESS.. NOPE NO EXCEPTIONS UNLESS YOU WANT FREE CRASHES
      */
     public void startLobbyTimer()
     {
