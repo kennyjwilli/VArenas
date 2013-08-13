@@ -57,6 +57,7 @@ public class SLAPI
              */
             settingsConfig.setType(settings.getType());
             settingsConfig.setMaxPlayers(settings.getMaxPlayers());
+            settingsConfig.setMinPlayers(settings.getMinPlayers());
             settingsConfig.setTNTUse(settings.isTNTEnabled());
             settingsConfig.setBlockBreak(settings.isBlockBreakEnabled());
             settingsConfig.setShowRespawnScreen(settings.isShowRespawnScreen());
@@ -154,6 +155,7 @@ public class SLAPI
             settings.setBlockBreak(settingsConfig.isBlockBreakEnabled());
             settings.setTNTUse(settingsConfig.isTNTEnabled());
             settings.setMaxPlayers(settingsConfig.getMaxPlayers());
+            settings.setMinPlayers(settingsConfig.getMinPlayers());
             settings.setShowRespawnScreen(settingsConfig.isShowRespawnScreen());
             settings.setWinningKills(settingsConfig.getWinningKills());
             settings.setGameDuration(settingsConfig.getGameDuration());
