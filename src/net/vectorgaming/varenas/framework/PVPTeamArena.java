@@ -4,14 +4,14 @@ import info.jeppes.ZoneWorld.ZoneWorld;
 import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-public class PVPTeamArena extends TeamArena{
+public abstract class PVPTeamArena extends TeamArena{
     private KillCounter killCounter;
 
     public PVPTeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
@@ -35,13 +35,7 @@ public class PVPTeamArena extends TeamArena{
     
     @Override
     public void onDeath(Player death, Entity killer) {
-        ArenaTeamData killedTeam = getTeamManager().getTeam(death);
-        ArenaTeamData killingTeam = getTeamManager().getTeam(killer);
-        //No reason to call onTeamPlayerDeath if no one was on a team
-        if(killedTeam != null || killingTeam != null){
-            killCounter.recordKill(killer, death);
-            onTeamPlayerDeath(killedTeam,killingTeam);
-        }
+        //Method not used as it does not support death entities
     }
 
     @Override
@@ -55,8 +49,9 @@ public class PVPTeamArena extends TeamArena{
      * accounted for with @onTeamPlayerDeath()
      * @param event
      */
+    @EventHandler()
     public void onEntityDamage(EntityDamageEvent event){
-        if(event instanceof EntityDamageByEntityEvent) {
+        if(event instanceof EntityDamageByEntityEvent && event.getDamage() >= ((LivingEntity)event.getEntity()).getHealth()) {
             EntityDamageByEntityEvent eventDamage = (EntityDamageByEntityEvent) event;
             ArenaTeamData killedTeam = getTeamManager().getTeam(eventDamage.getEntity());
             ArenaTeamData killingTeam = getTeamManager().getTeam(eventDamage.getDamager());
@@ -66,13 +61,4 @@ public class PVPTeamArena extends TeamArena{
             }
         }
     }
-
-    @Override
-    public void sendEndMessage() {
-    }
-
-    @Override
-    public void onQuit(PlayerQuitEvent event) {
-    }
-    
 }
