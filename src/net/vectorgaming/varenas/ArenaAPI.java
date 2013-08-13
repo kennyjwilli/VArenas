@@ -26,6 +26,10 @@ public class ArenaAPI
         return plugin;
     }
     
+    /**
+     * Gets the plugin data folder
+     * @return File object
+     */
     public static File getDataFolder() 
     {
         return plugin.getDataFolder();
