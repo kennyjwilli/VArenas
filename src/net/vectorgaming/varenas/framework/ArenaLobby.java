@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import net.vectorgaming.varenas.ArenaAPI;
@@ -29,6 +30,16 @@ public class ArenaLobby extends VRegion
         this.framework = ArenaManager.getArenaFramework(ArenaManager.getArena(arena));
         
         this.setSpawn(new Location(world.getCraftWorld(), framework.getLobbySpawn().x, framework.getLobbySpawn().y, framework.getLobbySpawn().z));
+    }
+    
+    /**
+     *
+     * @param arena Arena object
+     */
+    public ArenaLobby(Arena arena)
+    {
+        Point3D point = arena.getFramework().getSpectatorBoxSpawn();
+        this.setSpawn(new Location(arena.getWorld(), point.x, point.y, point.z));
     }
     
     /**
