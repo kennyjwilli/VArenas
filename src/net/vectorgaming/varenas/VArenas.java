@@ -44,7 +44,6 @@ public class VArenas extends JavaPlugin
         slapi.loadAllArenas();
         ZoneConfig usersConfig = new ZoneConfig(this,new File("plugins/VArenas/arena-players.yml"));
         //playerManager = new ArenaPlayerManager(this,usersConfig);
-        ArenaAPI.registerArenaCreator("PVP_ARENA", new PVPArenaCreator());
     }
     
     @Override
@@ -90,6 +89,6 @@ public class VArenas extends JavaPlugin
     
     private void registerArenaTypes()
     {
-        ArenaRegister.registerArenaType(ArenaType.PVP_ARENA.toString(), PVPArena.class);
+        ArenaAPI.registerArenaCreator("PVP_ARENA", new PVPArenaCreator());    
     }
 }
