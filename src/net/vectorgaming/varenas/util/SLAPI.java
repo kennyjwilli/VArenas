@@ -57,6 +57,7 @@ public class SLAPI
              */
             settingsConfig.setType(settings.getType());
             settingsConfig.setMaxPlayers(settings.getMaxPlayers());
+            settingsConfig.setMinPlayers(settings.getMinPlayers());
             settingsConfig.setTNTUse(settings.isTNTEnabled());
             settingsConfig.setBlockBreak(settings.isBlockBreakEnabled());
             settingsConfig.setShowRespawnScreen(settings.isShowRespawnScreen());
@@ -154,6 +155,7 @@ public class SLAPI
             settings.setBlockBreak(settingsConfig.isBlockBreakEnabled());
             settings.setTNTUse(settingsConfig.isTNTEnabled());
             settings.setMaxPlayers(settingsConfig.getMaxPlayers());
+            settings.setMinPlayers(settingsConfig.getMinPlayers());
             settings.setShowRespawnScreen(settingsConfig.isShowRespawnScreen());
             settings.setWinningKills(settingsConfig.getWinningKills());
             settings.setGameDuration(settingsConfig.getGameDuration());
@@ -173,11 +175,21 @@ public class SLAPI
         }
     }
     
+    /**
+     * Saves a Bukkit location
+     * @param location Bukkit Location to be saved
+     * @return Location in its save format
+     */
     public static String saveLocation(Location location)
     {
         return location.getWorld().getName()+";"+location.getBlockX()+";"+location.getBlockY()+";"+location.getBlockZ();
     }
     
+    /**
+     * Loads a location from its save format
+     * @param save The string the location is saved in
+     * @return Bukkit Location
+     */
     public static Location getLocationFromSave(String save)
     {
         String[] split = save.split(";");

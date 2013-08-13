@@ -94,6 +94,11 @@ public class ArenaManager
         return arenaFramework.get(map.toLowerCase());
     }
     
+    /**
+     * Gets the arena framework for the specified arena
+     * @param arena Name of the map
+     * @return ArenaFramework object
+     */
     public static ArenaFramework getArenaFramework(Arena arena)
     {
         return arenaFramework.get(arena.getMap().toLowerCase());
@@ -101,7 +106,7 @@ public class ArenaManager
     
     /**
      * Gets the settings for the map
-     * @param map String
+     * @param map Name of the map
      * @return ArenaSettings
      */
     public static ArenaSettings getArenaSettings(String map)
@@ -156,9 +161,21 @@ public class ArenaManager
     }
     
     /**
+     * Gets if the arena is able to start or not
+     * @param arena Arena object
+     * @return boolean value
+     */
+    public static boolean canArenaStart(Arena arena)
+    {
+        if(ArenaPlayerManager.getPlayersInArena(arena).size() >= ArenaManager.getArenaSettings(arena).getMinPlayers())
+            return true;
+        return false;
+    }
+    
+    /**
      * Creates an arena from the specified map.
      * This will start the arena
-     * @param mapName String 
+     * @param mapName Name of map 
      */
     public static Arena createArena(String map, boolean start)
     {

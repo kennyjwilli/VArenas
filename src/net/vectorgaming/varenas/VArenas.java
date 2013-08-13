@@ -15,6 +15,7 @@ import net.vectorgaming.varenas.listeners.PlayerDamageListener;
 import net.vectorgaming.varenas.listeners.PlayerRespawnListener;
 import net.vectorgaming.varenas.util.SLAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,7 +44,6 @@ public class VArenas extends JavaPlugin
         slapi.loadAllArenas();
         ZoneConfig usersConfig = new ZoneConfig(this,new File("plugins/VArenas/arena-players.yml"));
         //playerManager = new ArenaPlayerManager(this,usersConfig);
-        ArenaAPI.registerArenaCreator("PVP_ARENA", new PVPArenaCreator());
     }
     
     @Override
@@ -58,6 +58,10 @@ public class VArenas extends JavaPlugin
     
     private void unloadAndDeleteArenas()
     {
+        for(Player p : ArenaPlayerManager.getAllArenaPlayers())
+        {
+            p.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
+        }
         for(ZoneWorld world : ArenaManager.getArenaWorlds())
         {
             world.unloadWorld();
@@ -85,6 +89,6 @@ public class VArenas extends JavaPlugin
     
     private void registerArenaTypes()
     {
-        ArenaRegister.registerArenaType(ArenaType.PVP_ARENA.toString(), PVPArena.class);
+        ArenaAPI.registerArenaCreator("PVP_ARENA", new PVPArenaCreator());    
     }
 }

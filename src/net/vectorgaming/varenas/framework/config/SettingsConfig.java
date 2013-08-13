@@ -57,7 +57,7 @@ public class SettingsConfig extends ZoneConfig implements Settings
         this.set("settings.type", type);
     }
     
-    public Integer getMaxPlayers()
+    public int getMaxPlayers()
     {
         return this.getInt("settings.max-players");
     }
@@ -65,6 +65,16 @@ public class SettingsConfig extends ZoneConfig implements Settings
     public void setMaxPlayers(int maxPlayers)
     {
         this.set("settings.max-players", maxPlayers);
+    }
+    
+    public int getMinPlayers()
+    {
+        return this.getInt("settings.min-players");
+    }
+    
+    public void setMinPlayers(int minPlayers)
+    {
+        this.set("settings.min-players", minPlayers);
     }
     
     public boolean isTNTEnabled()
@@ -87,7 +97,7 @@ public class SettingsConfig extends ZoneConfig implements Settings
         this.set("settings.block-break", value);
     }
     
-    public Integer getLobbyDuration()
+    public int getLobbyDuration()
     {
         return this.getInt("settings.lobby.time");
     }
@@ -120,7 +130,7 @@ public class SettingsConfig extends ZoneConfig implements Settings
     }
 
     @Override
-    public Integer getWinningKills()
+    public int getWinningKills()
     {
         return this.getInt("settings.winning-kills");
     }
@@ -132,7 +142,7 @@ public class SettingsConfig extends ZoneConfig implements Settings
     }
 
     @Override
-    public Integer getGameDuration()
+    public int getGameDuration()
     {
         return this.getInt("settings.game-duration");
     }

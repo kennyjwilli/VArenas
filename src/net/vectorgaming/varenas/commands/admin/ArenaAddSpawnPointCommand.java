@@ -35,8 +35,7 @@ public class ArenaAddSpawnPointCommand extends VCommand
             return true;
         }
         
-        ArenaConfig framework = ArenaManager.getArenaConfig(args[0].toLowerCase());
-        framework.addArenaSpawn(args[1], p.getLocation());
+        ArenaManager.getAreanFramework(args[0].toLowerCase()).addArenaSpawn(args[1].toLowerCase(), p.getLocation());
         
         cs.sendMessage(ChatColor.GREEN+"Added spawn point "+ChatColor.YELLOW+args[1]+ChatColor.GREEN+" to map "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+"!");
         return true;

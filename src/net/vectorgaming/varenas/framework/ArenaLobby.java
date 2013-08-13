@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.framework;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import net.vectorgaming.varenas.ArenaAPI;
@@ -32,6 +33,16 @@ public class ArenaLobby extends VRegion
     }
     
     /**
+     *
+     * @param arena Arena object
+     */
+    public ArenaLobby(Arena arena)
+    {
+        Point3D point = arena.getFramework().getSpectatorBoxSpawn();
+        this.setSpawn(new Location(arena.getWorld(), point.x, point.y, point.z));
+    }
+    
+    /**
      * Gets the duration until the lobby is closed and the match starts
      * @return Integer
      */
@@ -57,7 +68,6 @@ public class ArenaLobby extends VRegion
     
     /**
      * Starts the timer until the match starts. 
-     * CAUTION: DO NOT USE THIS UNLESS.. NOPE NO EXCEPTIONS UNLESS YOU WANT FREE CRASHES
      */
     public void startLobbyTimer()
     {

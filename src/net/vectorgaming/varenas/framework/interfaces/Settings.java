@@ -18,7 +18,10 @@ public interface Settings
     public boolean isTNTEnabled();
     
     public void setMaxPlayers(int maxPlayers);
-    public Integer getMaxPlayers();
+    public int getMaxPlayers();
+    
+    public void setMinPlayers(int minPlayers);
+    public int getMinPlayers();
     
     public void setAuthors(String authors);
     public String getAuthors();
@@ -26,7 +29,7 @@ public interface Settings
     public void setObjective(String objecitve);
     public String getObjective();
     
-    public Integer getLobbyDuration();
+    public int getLobbyDuration();
     public void setLobbyDuration(int duration);
     
     public List<String> getLobbyMessageInterval();
@@ -38,9 +41,9 @@ public interface Settings
     public boolean isShowRespawnScreen();
     public void setShowRespawnScreen(boolean value);
     
-    public Integer getWinningKills();
+    public int getWinningKills();
     public void setWinningKills(int winningKills);
     
-    public Integer getGameDuration();
+    public int getGameDuration();
     public void setGameDuration(int duration);
 }
