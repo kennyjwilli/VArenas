@@ -22,7 +22,7 @@ public abstract class PVPTeamArena extends TeamArena{
         super(name, map, world);
     }
 
-    public void onTeamPlayerDeath(ArenaTeamData killedTeam, ArenaTeamData killingTeam){
+    public void onTeamPlayerDeath(Entity killed, ArenaTeamData killedTeam, Entity killer, ArenaTeamData killingTeam){
         
     }
     
@@ -57,7 +57,7 @@ public abstract class PVPTeamArena extends TeamArena{
             ArenaTeamData killingTeam = getTeamManager().getTeam(eventDamage.getDamager());
             //No reason to call onTeamPlayerDeath if no one was on a team
             if(killedTeam != null || killingTeam != null){
-                onTeamPlayerDeath(killedTeam,killingTeam);
+                onTeamPlayerDeath(eventDamage.getEntity(),killedTeam,eventDamage.getDamager(),killingTeam);
             }
         }
     }
