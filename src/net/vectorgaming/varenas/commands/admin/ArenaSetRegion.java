@@ -7,6 +7,7 @@ import info.jeppes.ZoneCore.TriggerBoxes.PolygonTriggerBox;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
+import net.vectorgaming.varenas.framework.ArenaFramework;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import net.vectorgaming.varenas.framework.enums.ArenaYMLPath;
 import org.apache.commons.lang.WordUtils;
@@ -41,7 +42,7 @@ public class ArenaSetRegion extends VCommand
             return true;
         }
         
-        ArenaConfig framework = ArenaManager.getArenaConfig(args[0]);
+        ArenaFramework framework = ArenaManager.getAreanFramework(args[0].toLowerCase());
         
         WorldEditPlugin we = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
         Selection selection = we.getSelection((Player) cs);
@@ -59,7 +60,7 @@ public class ArenaSetRegion extends VCommand
         
         try
         {
-            framework.setArenaBox(new PolygonTriggerBox(ArenaManager.getPolygonPoints(minY, maxY), ArenaYMLPath.ARENA_REGION.toString()));
+            framework.setArenaTriggerBox(new PolygonTriggerBox(ArenaManager.getPolygonPoints(minY, maxY), ArenaYMLPath.ARENA_REGION.toString()));
         }catch(Exception e)
         {
             e.printStackTrace();
