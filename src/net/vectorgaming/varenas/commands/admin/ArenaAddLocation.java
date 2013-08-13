@@ -32,8 +32,7 @@ public class ArenaAddLocation extends VCommand
             return true;
         }
         
-        ArenaConfig framework = ArenaManager.getArenaConfig(args[0].toLowerCase());
-        framework.addLocation(args[1].toLowerCase(), ((Player) cs).getLocation());
+        ArenaManager.getAreanFramework(args[0].toLowerCase()).addLocation(args[1].toLowerCase(), ((Player) cs).getLocation());
         cs.sendMessage(ChatColor.GREEN+"Successfully added new location for "+ChatColor.YELLOW+args[1].toLowerCase()+ChatColor.GREEN+" in map "+ChatColor.YELLOW+args[0].toLowerCase());
         return true;
     }
