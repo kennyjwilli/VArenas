@@ -13,12 +13,12 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PVPTeamArena extends TeamArena{
 
-    public PVPTeamArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
-        super(name, type, lobby, spectatorBox, world);
+    public PVPTeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
+        super(name, map, lobby, spectatorBox, world);
     }
 
-    public PVPTeamArena(String name, String type, ZoneWorld world) {
-        super(name, type, world);
+    public PVPTeamArena(String name, String map, ZoneWorld world) {
+        super(name, map, world);
     }
 
     public void onTeamPlayerDeath(EntityEvent event, ArenaTeamData killedTeam, ArenaTeamData killingTeam){

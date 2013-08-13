@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 
 
 public abstract class TeamArena extends Arena{
-    public TeamArena(String name, String type, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
-        super(name, type, lobby, spectatorBox, world);
+    public TeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
+        super(name, map, lobby, spectatorBox, world);
     }
-    public TeamArena(String name, String type, ZoneWorld world) {
-        super(name, type, world);
+    public TeamArena(String name, String map, ZoneWorld world) {
+        super(name, map, world);
     }
 
     private String getBaseTeamSpawnKey(ArenaTeamData team){
