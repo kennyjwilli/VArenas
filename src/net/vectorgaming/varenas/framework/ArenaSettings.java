@@ -16,10 +16,11 @@ public class ArenaSettings implements Settings
     private boolean isBlockBreak;
     private boolean isTNT;
     private boolean showRespawnScreen;
-    private Integer maxPlayers;
-    private Integer lobbyDuration;
-    private Integer winningKills;
-    private Integer gameDuration;
+    private int maxPlayers;
+    private int minPlayers;
+    private int lobbyDuration;
+    private int winningKills;
+    private int gameDuration;
     private List<String> lobbyMsgInterval = new ArrayList<>();
     private String authors;
     private String objective;
@@ -31,6 +32,7 @@ public class ArenaSettings implements Settings
         isBlockBreak = false;
         isTNT = false;
         maxPlayers = 2;
+        minPlayers = 2;
         lobbyDuration = 30;
         authors = "Arcane Realms";
         objective = "Default objective";
@@ -53,7 +55,13 @@ public class ArenaSettings implements Settings
     
     public void setMaxPlayers(int maxPlayers) {this.maxPlayers = maxPlayers;}
     
-    public Integer getMaxPlayers() {return maxPlayers;}
+    public int getMaxPlayers() {return maxPlayers;}
+    
+    @Override
+    public void setMinPlayers(int minPlayers) {this.minPlayers = minPlayers;}
+
+    @Override
+    public int getMinPlayers() {return minPlayers;}
     
     public void setAuthors(String authors) {this.authors = authors;}
     
@@ -63,7 +71,7 @@ public class ArenaSettings implements Settings
     
     public String getObjective() {return objective;}
     
-    public Integer getLobbyDuration() {return lobbyDuration;}
+    public int getLobbyDuration() {return lobbyDuration;}
     
     public void setLobbyDuration(int duration) {this.lobbyDuration = duration;}
     
@@ -79,11 +87,11 @@ public class ArenaSettings implements Settings
     
     public void setShowRespawnScreen(boolean value) {this.showRespawnScreen = value;}
     
-    public Integer getWinningKills() {return this.winningKills;}
+    public int getWinningKills() {return this.winningKills;}
     
     public void setWinningKills(int winningKills) {this.winningKills = winningKills;}
     
-    public Integer getGameDuration() {return this.gameDuration;}
+    public int getGameDuration() {return this.gameDuration;}
     
     public void setGameDuration(int duration) {gameDuration = duration;}
     
