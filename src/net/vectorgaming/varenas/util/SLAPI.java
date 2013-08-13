@@ -175,11 +175,21 @@ public class SLAPI
         }
     }
     
+    /**
+     * Saves a Bukkit location
+     * @param location Bukkit Location to be saved
+     * @return Location in its save format
+     */
     public static String saveLocation(Location location)
     {
         return location.getWorld().getName()+";"+location.getBlockX()+";"+location.getBlockY()+";"+location.getBlockZ();
     }
     
+    /**
+     * Loads a location from its save format
+     * @param save The string the location is saved in
+     * @return Bukkit Location
+     */
     public static Location getLocationFromSave(String save)
     {
         String[] split = save.split(";");
