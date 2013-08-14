@@ -51,6 +51,7 @@ public class ArenaCommand extends VCommand
         this.addSubCommand("queuearena", ArenaQueueArenaCommand.class);
         this.addSubCommand("addlocation", ArenaAddLocation.class);
         this.addSubCommand("setpostgamespawn", ArenaSetPostGameSpawnCommand.class);
+        this.addSubCommand("reload", ArenaReloadCommand.class);
     }
 
     @Override
