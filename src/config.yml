@@ -1,1 +1,7 @@
 hub-world: ArcaneRealms
+
+allowed-commands:
+- /help
+- /list
+- /who
+- /wwho
