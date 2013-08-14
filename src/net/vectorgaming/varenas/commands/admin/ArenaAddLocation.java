@@ -28,7 +28,7 @@ public class ArenaAddLocation extends VCommand
         
         if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
             return true;
         }
         
