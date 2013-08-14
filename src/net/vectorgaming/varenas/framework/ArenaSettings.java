@@ -25,6 +25,7 @@ public class ArenaSettings implements Settings
     private String authors;
     private String objective;
     private String type;
+    private String postGameSpawn;
     
     public ArenaSettings(String name)
     {
@@ -41,6 +42,7 @@ public class ArenaSettings implements Settings
         showRespawnScreen = true;
         winningKills = -1;
         gameDuration = 600;
+        postGameSpawn = "{default}";
     }
     
     /**
@@ -231,4 +233,10 @@ public class ArenaSettings implements Settings
         lobbyMsgInterval.add("2");
         lobbyMsgInterval.add("1");
     }
+
+    @Override
+    public String getPostGameSpawn() {return postGameSpawn;}
+    
+    @Override
+    public void setPostGameSpawn(String location) {this.postGameSpawn = location;}
 }
