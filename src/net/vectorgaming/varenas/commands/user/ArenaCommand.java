@@ -45,12 +45,12 @@ public class ArenaCommand extends VCommand
         this.addSubCommand("setregion", ArenaSetRegion.class);
         this.addSubCommand("setlobby", ArenaSetLobbySpawnCommand.class);
         this.addSubCommand("setspectatorbox", ArenaSetSpectateSpawnCommand.class);
-        this.addSubCommand("readyarena", ArenaReadyArenaCommand.class);
         this.addSubCommand("forcestart", ArenaForceStartCommand.class);
         this.addSubCommand("forcestop", ArenaForceStopCommand.class);
         this.addSubCommand("addplayer", ArenaAddPlayerCommand.class);
         this.addSubCommand("queuearena", ArenaQueueArenaCommand.class);
         this.addSubCommand("addlocation", ArenaAddLocation.class);
+        this.addSubCommand("setpostgamespawn", ArenaSetPostGameSpawnCommand.class);
     }
 
     @Override
