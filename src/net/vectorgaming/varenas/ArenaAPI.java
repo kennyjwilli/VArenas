@@ -2,6 +2,7 @@ package net.vectorgaming.varenas;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -14,6 +15,7 @@ public class ArenaAPI
 {
     private static VArenas plugin;
     private static World hubWorld;
+    private static List<String> allowedCommands;
     private static HashMap<String, ArenaCreator> maps = new HashMap<>();
     
     public ArenaAPI(VArenas plugin)
@@ -26,6 +28,7 @@ public class ArenaAPI
             Bukkit.getLogger().log(Level.SEVERE, "[VArenas] Disabling plugin!");
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
+        allowedCommands = plugin.getConfig().getStringList("allowed-commands");
     }
 
     /**
@@ -82,6 +85,15 @@ public class ArenaAPI
     public static World getHubWorld()
     {
         return hubWorld;
+    }
+    
+    /**
+     * Gets a list of allowed commands
+     * @return List of commands
+     */
+    public static List<String> getAllowedCommands()
+    {
+        return allowedCommands;
     }
 
 }
