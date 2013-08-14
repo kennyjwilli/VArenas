@@ -71,6 +71,7 @@ public class SLAPI
          * Arena settings
          */
         settingsConfig.setType(settings.getType());
+        settingsConfig.setMapVersion(settings.getMapVersion());
         settingsConfig.setMaxPlayers(settings.getMaxPlayers());
         settingsConfig.setMinPlayers(settings.getMinPlayers());
         settingsConfig.setTNTUse(settings.isTNTEnabled());
@@ -79,6 +80,7 @@ public class SLAPI
         settingsConfig.setWinningKills(settings.getWinningKills());
         settingsConfig.setGameDuration(settings.getGameDuration());
         settingsConfig.setPostGameSpawn(settings.getPostGameSpawn());
+        settingsConfig.setRules(settings.getRules());
 
         /*
          * Lobby Settings
@@ -182,6 +184,8 @@ public class SLAPI
         settings.setWinningKills(settingsConfig.getWinningKills());
         settings.setGameDuration(settingsConfig.getGameDuration());
         settings.setPostGameSpawn(settingsConfig.getPostGameSpawn());
+        settings.setRules(settingsConfig.getRules());
+        settings.setMapVersion(settingsConfig.getMapVersion());
 
         /*
          * Loads lobby settings
