@@ -21,7 +21,9 @@ public class ArenaSettings implements Settings
     private int lobbyDuration;
     private int winningKills;
     private int gameDuration;
+    private double mapVersion;
     private List<String> lobbyMsgInterval = new ArrayList<>();
+    private List<String> rules = new ArrayList<>();
     private String authors;
     private String objective;
     private String type;
@@ -43,6 +45,7 @@ public class ArenaSettings implements Settings
         winningKills = -1;
         gameDuration = 600;
         postGameSpawn = "{default}";
+        mapVersion = 1;
     }
     
     /**
@@ -239,4 +242,30 @@ public class ArenaSettings implements Settings
     
     @Override
     public void setPostGameSpawn(String location) {this.postGameSpawn = location;}
+
+    @Override
+    public double getMapVersion() {return mapVersion;}
+
+    @Override
+    public void setMapVersion(double mapVersion){this.mapVersion = mapVersion;}
+
+    @Override
+    public List<String> getRules() {return rules;}
+
+    @Override
+    public void setRules(List<String> rules) {this.rules = rules;}
+
+    @Override
+    public void addRule(String rule)
+    {
+        if(!rules.contains(rule))
+            rules.add(rule);
+    }
+
+    @Override
+    public void removeRule(String rule)
+    {
+        if(rules.contains(rule))
+            rules.remove(rule);
+    }
 }
