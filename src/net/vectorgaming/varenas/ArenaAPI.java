@@ -15,6 +15,7 @@ public class ArenaAPI
 {
     private static VArenas plugin;
     private static World hubWorld;
+    private boolean canStart;
     private static List<String> allowedCommands;
     private static HashMap<String, ArenaCreator> maps = new HashMap<>();
     
@@ -24,12 +25,20 @@ public class ArenaAPI
         hubWorld = Bukkit.getWorld(plugin.getConfig().getString("hub-world"));
         if(hubWorld == null)
         {
+            canStart = false;
             Bukkit.getLogger().log(Level.SEVERE, "[VArenas] Hub world \""+plugin.getConfig().getString("hub-world")+"\" does not exist!");
             Bukkit.getLogger().log(Level.SEVERE, "[VArenas] Disabling plugin!");
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
+        canStart = true;
         allowedCommands = plugin.getConfig().getStringList("allowed-commands");
     }
+    
+    /**
+     * Checks to see if the plugin can enable
+     * @return boolean value
+     */
+    public boolean canPluginStart(){return canStart;}
 
     /**
      * Gets the VArenas plugin
