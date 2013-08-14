@@ -37,6 +37,7 @@ public class VArenas extends JavaPlugin
     @Override
     public void onEnable()
     {
+        this.saveDefaultConfig();
         arenaAPI = new ArenaAPI(this);
         setupCommands();
         setupEvents();
