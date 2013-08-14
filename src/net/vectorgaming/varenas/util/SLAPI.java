@@ -131,6 +131,10 @@ public class SLAPI
         }
     }
     
+    /**
+     * Loads an arena with all its settings from the configs
+     * @param map Name of the map
+     */
     public static void loadArena(String map)
     {
         SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+map+".yml"));
