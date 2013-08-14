@@ -61,6 +61,29 @@ public class ArenaManager
     }
     
     /**
+     * Sets all settings, config, and framework HashMaps to a new map to clear all data. This method should
+     * generally be used before the SLAPI.loadArena method.
+     */
+    public static void reloadHashMaps()
+    {
+        arenaSettings = new HashMap<>();
+        arenaConfigs = new HashMap<>();
+        arenaFramework = new HashMap<>();
+    }
+    
+    /**
+     * Checks to see if the map has been saved in the config yet or if it is just saved in the RAM
+     * @param map Name of the map
+     * @return boolean value
+     */
+    public static boolean isMapSavedToConfig(String map)
+    {
+        if(plugin.getConfig().getStringList("enabled-arenas").contains(map))
+            return true;
+        return false;
+    }
+    
+    /**
      * Gets a list of all maps that have been created
      * @return ArrayList<String>
      */
