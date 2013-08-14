@@ -46,4 +46,7 @@ public interface Settings
     
     public int getGameDuration();
     public void setGameDuration(int duration);
+    
+    public String getPostGameSpawn();
+    public void setPostGameSpawn(String location);
 }
