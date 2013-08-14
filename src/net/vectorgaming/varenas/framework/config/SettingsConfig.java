@@ -152,4 +152,16 @@ public class SettingsConfig extends ZoneConfig implements Settings
     {
         this.set("settings.game-duration", duration);
     }
+    
+    @Override
+    public String getPostGameSpawn()
+    {
+        return this.getString("settings.post-game.spawn");
+    }
+    
+    @Override
+    public void setPostGameSpawn(String location)
+    {
+        this.set("settings.post-game.spawn", location);
+    }
 }
