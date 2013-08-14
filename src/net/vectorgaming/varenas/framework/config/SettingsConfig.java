@@ -3,6 +3,7 @@ package net.vectorgaming.varenas.framework.config;
 
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import net.vectorgaming.varenas.framework.interfaces.Settings;
 import org.bukkit.plugin.Plugin;
@@ -163,5 +164,47 @@ public class SettingsConfig extends ZoneConfig implements Settings
     public void setPostGameSpawn(String location)
     {
         this.set("settings.post-game.spawn", location);
+    }
+
+    @Override
+    public double getMapVersion()
+    {
+        return this.getDouble("settings.map-version");
+    }
+
+    @Override
+    public void setMapVersion(double mapVersion)
+    {
+        this.set("settings.map-version", mapVersion);
+    }
+
+    @Override
+    public List<String> getRules()
+    {
+        return this.getStringList("settings.rules");
+    }
+
+    @Override
+    public void setRules(List<String> rules)
+    {
+        this.set("settings.rules", rules);
+    }
+
+    @Override
+    public void addRule(String rule)
+    {
+        List<String> rules = getRules();
+        if(!rules.contains(rule))
+            rules.add(rule);
+        this.set("settings.rules", rules);
+    }
+
+    @Override
+    public void removeRule(String rule)
+    {
+        List<String> rules = getRules();
+        if(rules.contains(rule))
+            rules.remove(rule);
+        this.set("settings.rules", rules);
     }
 }
