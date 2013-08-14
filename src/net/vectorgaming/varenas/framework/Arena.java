@@ -16,9 +16,8 @@ import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.enums.EventResult;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
-import net.vectorgaming.varenas.util.Msg;
+import net.vectorgaming.varenas.util.SLAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -54,6 +53,7 @@ public abstract class Arena implements Listener
     private ArenaLobby lobby;
     private ArenaSpectatorBox spectatorBox;
     private ArenaStats stats;
+    private Location postGameSpawn;
     private final TeamManager teamManager;
     
     private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
@@ -78,6 +78,13 @@ public abstract class Arena implements Listener
         teamManager = new TeamManager();
         locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
         spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
+        if(ArenaManager.getArenaSettings(this).getPostGameSpawn().equalsIgnoreCase("{default}"))
+        {
+            postGameSpawn = ArenaAPI.getHubWorld().getSpawnLocation();
+        }else
+        {
+            postGameSpawn = SLAPI.getLocationFromSave(getSettings().getPostGameSpawn());
+        }
     }
     
     /**
@@ -217,6 +224,11 @@ public abstract class Arena implements Listener
         Bukkit.getScheduler().cancelTask(TASK_ID);
         deleteWorldInventory();
         this.removeAllPlayers();
+        for(Player p : world.getPlayers())
+        {
+            p.teleport(postGameSpawn);
+        }
+        unloadAndDeleteWorld();
     }
     
     /**
@@ -238,7 +250,7 @@ public abstract class Arena implements Listener
     public abstract void onRespawn(PlayerRespawnEvent event);
     
     /**
-     * Handles what happens when a player diconnects from the server
+     * Handles what happens when a player disconnects from the server
      * @param event PlayerQuitEvent
      */
     public abstract void onQuit(PlayerQuitEvent event);
@@ -250,7 +262,7 @@ public abstract class Arena implements Listener
     {
         for(Player p : getPlayers())
         {
-            //ArenaPlayerManager.
+            ArenaPlayerManager.removePlayerFromArena(this.getName(), p);
         }
     }
     
@@ -267,13 +279,41 @@ public abstract class Arena implements Listener
         sendEndMessage();
         removeAllPlayers();
         HandlerList.unregisterAll(this);
+        unloadAndDeleteWorld();
+    }
+    
+    public void unloadAndDeleteWorld()
+    {
         world.unloadWorld();
         ZoneTools.deleteDirectory(world.getWorldFolder());
     }
     
-    public ArenaSettings getSettings() {return ArenaManager.getArenaSettings(this);}
+    /**
+     * Gets the location of the post game spawn. 
+     * @return Bukkit location
+     */
+    public Location getPostGameSpawn() {return postGameSpawn;}
     
-    public ArenaFramework getFramework() {return ArenaManager.getArenaFramework(this);}
+    /**
+     * Sets the post game spawn.
+     * 
+     * NOTE: This value will NOT be saved to the map settings. To save the post game spawn to the
+     * map use ArenaSettings.setPostGameSpawn
+     * @param location Bukkit location
+     */
+    public void setPostGameSpawn(Location location) {postGameSpawn = location;}
+    
+    /**
+     * Gets the ArenaSettings for the arena
+     * @return ArenaSettings object
+     */
+    public final ArenaSettings getSettings() {return ArenaManager.getArenaSettings(this);}
+    
+    /**
+     * Gets the arena framework for the arena
+     * @return ArenaFramework object
+     */
+    public final ArenaFramework getFramework() {return ArenaManager.getArenaFramework(this);}
     
     /**
      * Gets the current game time in seconds
@@ -397,120 +437,6 @@ public abstract class Arena implements Listener
     {
         //Still haven't decided how the file system will be set up
         //stats.save(null);
-    }
-
-    /**
-     * Specifies if blocks are able to be broken for this arena
-     * @return True if blocks can be broken; false if blocks cannot be broken
-     */
-    public boolean isBlockBreakEnabled(){return blockBreakEnabler;}
-    
-    /**
-     * Toggles block breaking in the arena
-     * @param value Enabler for block breaking
-     */
-    public void setBlockBreak(boolean value){this.blockBreakEnabler = value;}
-    
-    /**
-     * Gets if TNT is enabled for the arena
-     * @return boolean value
-     */
-    public boolean isTNTEnabled() {return tntEnabled;}
-    
-    /**
-     * Sets the use of TNT in the arena
-     * @param value boolean value
-     */
-    public void setTnTUse(boolean value) {this.tntEnabled = value;}
-    
-    /**
-     * Gets the max amount of players for the arena
-     * @return Integer
-     */
-    public Integer getMaxPlayers() {return maxPlayers;}
-    
-    /**
-     * Sets the max amount of players for the arena
-     * @param maxPlayers Integer
-     */
-    public void setMaxPlayers(int maxPlayers) {this.maxPlayers = maxPlayers;}
-    
-    /**
-     * Gets the authors for the arena map
-     * @return String
-     */
-    public String getAuthors() {return this.authors;}
-    
-    /**
-     * Sets the authors for the arena map
-     * @param authors String
-     */
-    public void setAuthors(String authors) {this.authors = authors;}
-    
-    /**
-     * Gets the objective for the arena.
-     * @return String
-     */
-    public String getObjective() {return objective;}
-    
-    /**
-     * Sets the objective for the arena
-     * @param objective String
-     */
-    public void setObjective(String objective) {this.objective = objective;}
-    
-    /**
-     * Checks to see if the arena is currently in edit mode. Edit mode disables the
-     * arena from being able to run
-     * @return True if enabled; false if disabled
-     */
-    public boolean isEditModeEnabled(){return editMode;}
-        
-    /**
-     * Enables or disables edit mode for the arena
-     * @param value Edit mode value
-     */
-    public void setEditMode(boolean value){editMode = value;}
-    
-    /**
-     * A function used by the plugin to tell the player what elements are missing
-     * before the arena can be ready
-     * @param p Player object to send the messages to
-     */
-    public void checkArenaSetup(Player p)
-    {
-        ArrayList<String> result = new ArrayList<>();
-//        if(getArenaBox() == null)
-//            result.add("Arena Region");
-        if(getSpawnPoints().isEmpty())
-            result.add("Arena Spawn Points");
-        if(this.getLobby().getSpawn() == null)
-            result.add("Lobby Location");
-        if(this.getSpectatorBox().getSpawn() == null)
-            result.add("Spectator Box Location");
-        
-        if(result.isEmpty())
-            {
-                Msg.sendPluginMessage(p, ChatColor.GREEN+"Arena "+getName()+" is now setup! Type "+ChatColor.YELLOW+"/arena ready "+getName()+ChatColor.GREEN+" to finish arena setup!");
-            }else
-            {
-                boolean first = false;
-                String output = "";
-                
-                for(String s : result)
-                {
-                    if(first)
-                    {
-                        output += ChatColor.WHITE+", ";
-                    }else
-                    {
-                        first = true;
-                    }
-                    output += ChatColor.RED+s;
-                }
-                p.sendMessage(ChatColor.BLUE+"Arena "+ChatColor.YELLOW+getName()+ChatColor.BLUE+" is not ready for use.");
-                p.sendMessage(ChatColor.DARK_RED+"Missing from Setup: "+output);
-            }
     }
     
     /**
