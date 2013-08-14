@@ -36,6 +36,7 @@ public class VArenas extends JavaPlugin
     {
         this.saveDefaultConfig();
         arenaAPI = new ArenaAPI(this);
+        if(!arenaAPI.canPluginStart()) return;
         setupCommands();
         setupEvents();
         registerArenaTypes();
