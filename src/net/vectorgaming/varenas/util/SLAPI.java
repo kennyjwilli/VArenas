@@ -63,6 +63,7 @@ public class SLAPI
             settingsConfig.setShowRespawnScreen(settings.isShowRespawnScreen());
             settingsConfig.setWinningKills(settings.getWinningKills());
             settingsConfig.setGameDuration(settings.getGameDuration());
+            settingsConfig.setPostGameSpawn(settings.getPostGameSpawn());
             
             /*
              * Lobby Settings
@@ -159,6 +160,7 @@ public class SLAPI
             settings.setShowRespawnScreen(settingsConfig.isShowRespawnScreen());
             settings.setWinningKills(settingsConfig.getWinningKills());
             settings.setGameDuration(settingsConfig.getGameDuration());
+            settings.setPostGameSpawn(settingsConfig.getPostGameSpawn());
             
             /*
              * Loads lobby settings
