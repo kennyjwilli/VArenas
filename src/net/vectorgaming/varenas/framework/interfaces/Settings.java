@@ -49,4 +49,12 @@ public interface Settings
     
     public String getPostGameSpawn();
     public void setPostGameSpawn(String location);
+    
+    public double getMapVersion();
+    public void setMapVersion(double mapVersion);
+    
+    public List<String> getRules();
+    public void setRules(List<String> rules);
+    public void addRule(String rule);
+    public void removeRule(String rule);
 }
