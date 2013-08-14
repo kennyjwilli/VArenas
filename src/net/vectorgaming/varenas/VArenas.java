@@ -6,13 +6,9 @@ import info.jeppes.ZoneWorld.ZoneWorld;
 import java.io.File;
 import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
-import net.vectorgaming.varenas.framework.enums.ArenaType;
-import net.vectorgaming.varenas.framework.PVPArena;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
-import net.vectorgaming.varenas.listeners.PlayerBlockBreakListener;
-import net.vectorgaming.varenas.listeners.PlayerDamageListener;
-import net.vectorgaming.varenas.listeners.PlayerRespawnListener;
+import net.vectorgaming.varenas.listeners.*;
 import net.vectorgaming.varenas.util.SLAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,6 +25,7 @@ public class VArenas extends JavaPlugin
     private PlayerDamageListener edl = new PlayerDamageListener();
     private PlayerRespawnListener prl = new PlayerRespawnListener();
     private PlayerBlockBreakListener pbl = new PlayerBlockBreakListener();
+    private CommandPreprocess cp = new CommandPreprocess();
     private SLAPI slapi = new SLAPI(this);
     private ArenaManager am = new ArenaManager();
     //private ArenaPlayerManager<ArenaPlayer> playerManager;
@@ -86,6 +83,7 @@ public class VArenas extends JavaPlugin
         pm.registerEvents(edl, this);
         pm.registerEvents(prl, this);
         pm.registerEvents(pbl, this);
+        pm.registerEvents(cp, this);
     }
     
     private void registerArenaTypes()
