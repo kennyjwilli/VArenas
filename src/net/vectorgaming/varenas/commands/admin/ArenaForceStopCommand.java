@@ -26,21 +26,17 @@ public class ArenaForceStopCommand extends VCommand
             return true;
         }
         
-        Arena arena = ArenaManager.getArena(args[0]);
-        
-//        if(!ArenaManager.arenaExists(arena))
-//        {
-//            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
-//            return true;
-//        }
-        
-        if(arena.isRunning())
+        if(!ArenaManager.isArenaRunning(args[0].toLowerCase()))
         {
-            arena.forceStop();
+            cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0].toLowerCase()+ChatColor.RED+" is not running or queued.");
+            return true;
         }
         
-        cs.sendMessage(ChatColor.GREEN+"Successfully force stopped arena "+ChatColor.YELLOW+arena.getName()+ChatColor.GREEN+".");
+        Arena arena = ArenaManager.getArena(args[0]);
         
+        arena.forceStop();
+        
+        cs.sendMessage(ChatColor.GREEN+"Successfully force stopped arena "+ChatColor.YELLOW+arena.getName()+ChatColor.GREEN+".");
         return true;
     }
 
