@@ -2,6 +2,9 @@ package net.vectorgaming.varenas;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.logging.Level;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 /**
  *
@@ -10,11 +13,19 @@ import java.util.HashMap;
 public class ArenaAPI 
 {
     private static VArenas plugin;
+    private static World hubWorld;
     private static HashMap<String, ArenaCreator> maps = new HashMap<>();
     
     public ArenaAPI(VArenas plugin)
     {
         ArenaAPI.plugin = plugin;
+        hubWorld = Bukkit.getWorld(plugin.getConfig().getString("hub-world"));
+        if(hubWorld == null)
+        {
+            Bukkit.getLogger().log(Level.SEVERE, "[VArenas] Hub world \""+plugin.getConfig().getString("hub-world")+"\" does not exist!");
+            Bukkit.getLogger().log(Level.SEVERE, "[VArenas] Disabling plugin!");
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
     }
 
     /**
@@ -62,6 +73,15 @@ public class ArenaAPI
     public static ArenaCreator getArenaCreator(String type)
     {
         return maps.get(type);
+    }
+    
+    /**
+     * Gets the hub world
+     * @return Bukkit world
+     */
+    public static World getHubWorld()
+    {
+        return hubWorld;
     }
 
 }
