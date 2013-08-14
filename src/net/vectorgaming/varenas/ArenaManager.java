@@ -202,6 +202,7 @@ public class ArenaManager
         
         //Loads the world into ZoneWorld
         WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), "arenas/"+arenaName);
+        worldLoader.setGenerator("empty");
         ZoneWorld zWorld = worldLoader.loadZoneWorld();
         
         //Increment the arena id by one
