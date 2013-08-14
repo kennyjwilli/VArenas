@@ -15,7 +15,7 @@ public class ArenaAPI
 {
     private static VArenas plugin;
     private static World hubWorld;
-    private boolean canStart;
+    private boolean canStart = true;
     private static List<String> allowedCommands;
     private static HashMap<String, ArenaCreator> maps = new HashMap<>();
     
@@ -30,7 +30,6 @@ public class ArenaAPI
             Bukkit.getLogger().log(Level.SEVERE, "[VArenas] Disabling plugin!");
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
-        canStart = true;
         allowedCommands = plugin.getConfig().getStringList("allowed-commands");
     }
     
