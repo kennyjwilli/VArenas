@@ -55,6 +55,7 @@ public class ArenaCommand extends VCommand
         this.addSubCommand("info", ArenaMapInfoCommand.class);
         this.addSubCommand("load", ArenaLoadArenaCommand.class);
         this.addSubCommand("addkit", ArenaAddKitCommand.class);
+        this.addSubCommand("kit", ArenaKitCommand.class);
     }
 
     @Override
