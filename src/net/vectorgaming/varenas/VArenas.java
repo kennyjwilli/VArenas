@@ -27,7 +27,6 @@ public class VArenas extends JavaPlugin
     private PlayerBlockBreakListener pbl = new PlayerBlockBreakListener();
     private CommandPreprocess cp = new CommandPreprocess();
     private SLAPI slapi = new SLAPI(this);
-    private ArenaManager am = new ArenaManager();
     //private ArenaPlayerManager<ArenaPlayer> playerManager;
     private ArenaAPI arenaAPI;
     
