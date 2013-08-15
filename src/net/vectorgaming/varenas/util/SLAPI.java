@@ -48,7 +48,7 @@ public class SLAPI
     {
         ArenaSettings settings = ArenaManager.getArenaSettings(map);
         ArenaFramework framework = ArenaManager.getAreanFramework(map);
-        SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+map+".yml"));
+        SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS+File.separator+map+".yml"));
         ArenaConfig frameworkConfig = ArenaManager.getArenaConfig(map.toLowerCase());
 
         settingsConfig.set("name", map.toLowerCase());
@@ -139,12 +139,12 @@ public class SLAPI
      */
     public static boolean loadArena(String map)
     {
-        File settingsFile = new File(ArenaDirectory.ARENA_SETTINGS_DIR+""+File.separator+map+".yml");
-        File frameworkFile = new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+""+File.separator+map+".yml");
+        File settingsFile = new File(ArenaDirectory.ARENA_SETTINGS+""+File.separator+map+".yml");
+        File frameworkFile = new File(ArenaDirectory.ARENA_FRAMEWORK+""+File.separator+map+".yml");
         if(!settingsFile.exists() || !frameworkFile.exists())
             return false;
-        SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+map+".yml"));
-        ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+File.separator+map+".yml"));
+        SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS+File.separator+map+".yml"));
+        ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK+File.separator+map+".yml"));
         ArenaManager.createMap(map);
         ArenaSettings settings = ArenaManager.getArenaSettings(map);
         ArenaFramework framework = ArenaManager.getAreanFramework(map);
