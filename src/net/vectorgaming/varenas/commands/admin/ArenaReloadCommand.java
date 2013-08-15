@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
+import net.vectorgaming.varenas.framework.kits.KitManager;
 import net.vectorgaming.varenas.util.SLAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -33,6 +34,14 @@ public class ArenaReloadCommand extends VCommand
         
         for(String a : maps)
             SLAPI.loadArena(a);
+        
+        for(String s : KitManager.getKitNames())
+        {
+            if(!KitManager.isSavedToConfig(s))
+                KitManager.saveKit(s);
+        }
+        
+        KitManager.loadAllKits();
         
         cs.sendMessage(ChatColor.GREEN+"Successfully reloaded VArenas!");
         return true;
