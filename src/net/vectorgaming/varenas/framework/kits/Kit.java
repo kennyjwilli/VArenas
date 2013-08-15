@@ -1,11 +1,84 @@
 
 package net.vectorgaming.varenas.framework.kits;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 /**
  *
  * @author Kenny
  */
-public class Kit 
+public class Kit
 {
+    private String name;
+    private ItemStack helmet;
+    private ItemStack chestplate;
+    private ItemStack leggings;
+    private ItemStack boots;
     
+    private ArrayList<ItemStack> inventory;
+    
+    public Kit(String name)
+    {
+        this.name = name;
+    }
+    
+    public Kit(String name, ItemStack[] armor, ArrayList<ItemStack> inventory)
+    {
+        setArmorContents(armor);
+        this.inventory = inventory;
+    }
+    
+    public String getName() {return name;}
+    
+    public ItemStack[] getArmorContents(){return new ItemStack[]{helmet, chestplate, leggings, boots};}
+    
+    public final void setArmorContents(ItemStack[] items) 
+    {
+        helmet = items[0];
+        chestplate = items[1];
+        leggings = items[2];
+        boots = items[3];
+    }
+    
+    public ItemStack getHelmet() {return helmet;}
+    
+    public void setHelmet(ItemStack item) {helmet = item;}
+    
+    public ItemStack getChestplate() {return chestplate;}
+    
+    public void setChestplate(ItemStack item) {chestplate = item;}
+    
+    public ItemStack getLeggings() {return leggings;}
+    
+    public void setLeggings(ItemStack item) {leggings = item;}
+    
+    public ItemStack getBoots() {return boots;}
+    
+    public void setBoots(ItemStack item) {boots = item;}
+    
+    public ArrayList<ItemStack> getInventoryContents() {return inventory;}
+    
+    public void setInventoryContents(ItemStack[] items) 
+    {
+        ArrayList<ItemStack> result = new ArrayList<>();
+        for(ItemStack item : items)
+            result.add(item);
+        inventory = result;
+    }
+    
+    public void addInventoryItem(ItemStack... item) {inventory.addAll(Arrays.asList(item));}
+    
+    public void giveKit(Player p, boolean clearInventory)
+    {
+        if(clearInventory)
+            p.getInventory().clear();
+        p.getInventory().setArmorContents(getArmorContents());
+        ItemStack[] inv = new ItemStack[getInventoryContents().size()];
+        inv = (ItemStack[]) getInventoryContents().toArray();
+        p.getInventory().addItem(inv);
+    }
 }
