@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
  */
 public class ArenaMapInfoCommand extends VCommand
 {
-
     @Override
     public boolean run(CommandSender cs, String[] arguments)
     {
@@ -43,14 +42,14 @@ public class ArenaMapInfoCommand extends VCommand
         {
             if(!ArenaManager.mapExists(args[0].toLowerCase()))
             {
-                cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
+                cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
                 return true;
             }
             settings = ArenaManager.getArenaSettings(args[0].toLowerCase());
         }
         
         
-        String solidLine = ChatColor.RED+""+ChatColor.STRIKETHROUGH+StringUtils.repeat(" ", 15);
+        String solidLine = ChatColor.RED+""+ChatColor.STRIKETHROUGH+StringUtils.repeat(" ", 30);
         String color = ChatColor.BOLD+""+ChatColor.DARK_PURPLE;
         
         cs.sendMessage(solidLine+ChatColor.AQUA+WordUtils.capitalizeFully(settings.getName())+" "+ChatColor.GRAY+settings.getMapVersion()+solidLine);
