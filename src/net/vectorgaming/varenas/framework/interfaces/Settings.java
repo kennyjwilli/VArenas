@@ -2,6 +2,7 @@
 package net.vectorgaming.varenas.framework.interfaces;
 
 import java.util.List;
+import net.vectorgaming.varenas.framework.kits.Kit;
 
 /**
  *
@@ -57,4 +58,13 @@ public interface Settings
     public void setRules(List<String> rules);
     public void addRule(String rule);
     public void removeRule(String rule);
+    
+    public String getSpawnKitName();
+    public void setSpawnKitName(String kit);
+    
+    public boolean isSpawnKitEnabled();
+    public void setSpawnKitEnabler(boolean value);
+    
+    public boolean isKitClearInventory();
+    public void setKitClearInventory(boolean value);
 }
