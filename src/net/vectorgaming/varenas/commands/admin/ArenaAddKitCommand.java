@@ -35,7 +35,7 @@ public class ArenaAddKitCommand extends VCommand
         }
         
         Kit kit = new Kit(args[0].toLowerCase());
-        kit.addInventoryItem(p.getInventory().getContents());
+        kit.setInventoryContents(p.getInventory().getContents());
         kit.setArmorContents(p.getInventory().getArmorContents());
         KitManager.addKit(args[0].toLowerCase(), kit);
         
