@@ -23,7 +23,7 @@ public class KitManager
     private static VArenas plugin = ArenaAPI.getPlugin();
     
     private static HashMap<String,Kit> kits = new HashMap<>();
-    
+        
     /**
      * Gets a kit from the specified name
      * @param name Name of the kit
@@ -50,7 +50,7 @@ public class KitManager
      * @return boolean value
      */
     public static boolean kitExists(String name) {return kits.containsKey(name);}
-    
+        
     /**
      * Checks to see if the given kit exists
      * @param kit Kit object
@@ -82,11 +82,23 @@ public class KitManager
         
         List<String> inventory = new ArrayList<>();
         for(ItemStack item : kit.getInventoryContents())
-        {
             inventory.add(itemStackToSaveString(item));
-        }
         config.set("inventory", inventory);
         config.save();
+        
+        //Adds to enabled kits in config.yml
+        List<String> kitsList;
+        if(!plugin.getConfig().contains("kits"))
+        {
+            kitsList = new ArrayList<>();
+        }else
+        {
+            kitsList = plugin.getConfig().getStringList("kits");
+        }
+        if(!kitsList.contains(name))
+            kitsList.add(name);
+        plugin.getConfig().set("kits", kitsList);
+        plugin.saveConfig();
     }
     
     /**
@@ -122,14 +134,8 @@ public class KitManager
      */
     public static void saveAllKits()
     {
-        List<String> kitsList = new ArrayList<>();
         for(String s : kits.keySet())
-        {
             saveKit(s);
-            kitsList.add(s);
-        }
-        plugin.getConfig().set("kits", kitsList);
-        plugin.saveConfig();
     }
     
     /**
