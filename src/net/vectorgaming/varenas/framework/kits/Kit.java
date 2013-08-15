@@ -79,8 +79,7 @@ public class Kit
         if(clearInventory)
             p.getInventory().clear();
         p.getInventory().setArmorContents(getArmorContents());
-        ItemStack[] inv = new ItemStack[getInventoryContents().size()];
-        inv = (ItemStack[]) getInventoryContents().toArray();
-        p.getInventory().addItem(inv);
+        for(ItemStack item : inventory)
+            p.getInventory().addItem(item);
     }
 }
