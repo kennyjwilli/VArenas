@@ -81,7 +81,7 @@ public abstract class Arena implements Listener
         teamManager = new TeamManager();
         locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
         spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
-        if(ArenaManager.getArenaSettings(this).getPostGameSpawn().equalsIgnoreCase("{default}"))
+        if(ArenaManager.getArenaSettings(name).getPostGameSpawn().equalsIgnoreCase("{default}"))
         {
             postGameSpawn = ArenaAPI.getHubWorld().getSpawnLocation();
         }else
