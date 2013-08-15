@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
@@ -20,16 +21,19 @@ public class ArenaReloadCommand extends VCommand
     {
         String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
         
+        ArrayList<String> maps = ArenaManager.getMaps();
+        
+        for(String a : maps)
+        {
+            if(!ArenaManager.isMapSavedToConfig(a.toLowerCase()))
+                SLAPI.saveArena(a);
+        }
+        
         ArenaManager.reloadHashMaps();
         
-        for(String a : ArenaManager.getMaps())
-        {
-            if(!ArenaManager.isMapSavedToConfig(args[0].toLowerCase()))
-            {
-                SLAPI.saveArena(a);
-            }
+        for(String a : maps)
             SLAPI.loadArena(a);
-        }
+        
         cs.sendMessage(ChatColor.GREEN+"Successfully reloaded VArenas!");
         return true;
     }
