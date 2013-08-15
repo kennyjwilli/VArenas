@@ -7,6 +7,7 @@ import info.jeppes.ZoneCore.ZoneTools;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import me.drayshak.WorldInventories.Group;
 import me.drayshak.WorldInventories.WorldInventories;
@@ -205,8 +206,23 @@ public abstract class Arena implements Listener
                        if(i > getSpawnPoints().size()) i = 0;
                        p.teleport(getSpawnPoints().get(i));
                        i++;
-                       if(getSettings().isSpawnKitEnabled() && KitManager.kitExists(spawnKit))
-                        spawnKit.giveKit(p, getSettings().isKitClearInventory());
+                       //Give players their kits if needed
+                       Kit kit = ArenaPlayerManager.getKitFromPlayer(p);
+                       boolean clear = getSettings().isKitClearInventory();
+                       if(kit == getSpawnKit() && getSettings().isSpawnKitEnabled())
+                           kit.giveKit(p, clear);
+                       if(getSettings().isCustomKitsEnabled())
+                       {
+                           List<String> allowedKits = getSettings().getAllowedCustomKits();
+                           if(allowedKits.isEmpty())
+                           {
+                               kit.giveKit(p, clear);
+                           }else
+                           {
+                               if(allowedKits.contains(kit.getName()))
+                                   kit.giveKit(p, clear);
+                           }
+                       }
                    }
                    world.setPVP(true);
                 }
