@@ -164,7 +164,7 @@ public class KitManager
         output += " ";
         output += item.getAmount();
         
-        if (item.getData().getData() == 0)
+        if (item.getData().getData() != 0)
         {
             output += " ";
             output += item.getData().getData();
@@ -199,7 +199,6 @@ public class KitManager
     public static ItemStack getItemStackFromSave(String saveString)
     {
         String[] split = saveString.split(" ");
-        
         
         Material mat = Material.matchMaterial(split[0]);
         int amount = Integer.parseInt(split[1]);
