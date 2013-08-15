@@ -52,6 +52,7 @@ public class ArenaSettings implements Settings
         postGameSpawn = "{default}";
         mapVersion = 1;
         isSpawnKit = false;
+        spawnKit = "default";
     }
     
     /**
