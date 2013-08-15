@@ -48,12 +48,12 @@ public class ArenaManager
      */
     public static void createMap(String map)
     {
-        File f = new File(ArenaDirectory.ARENA_FRAMEWORK_DIR);
-        File f1 = new File(ArenaDirectory.ARENA_SETTINGS_DIR);
+        File f = new File(ArenaDirectory.ARENA_FRAMEWORK);
+        File f1 = new File(ArenaDirectory.ARENA_SETTINGS);
         f.mkdirs();
         f1.mkdirs();
-        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+File.separator+map.toLowerCase()+".yml"));
-        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+map.toLowerCase()+".yml"));
+        ArenaConfig framework = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK+File.separator+map.toLowerCase()+".yml"));
+        ZoneConfig settings = new ZoneConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS+File.separator+map.toLowerCase()+".yml"));
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
         arenaFramework.put(map.toLowerCase(), new ArenaFramework(map));
@@ -208,8 +208,8 @@ public class ArenaManager
         String arenaName = map.toLowerCase()+"_"+arenaid;
         
         //Copy the map to the arenas
-        File mapFile = new File(ArenaDirectory.MAPS_DIR+File.separator+map.toLowerCase());
-        File arenaFile = new File(ArenaDirectory.ARENAS_DIR+File.separator+arenaName);
+        File mapFile = new File(ArenaDirectory.MAPS+File.separator+map.toLowerCase());
+        File arenaFile = new File(ArenaDirectory.ARENAS+File.separator+arenaName);
         ZoneTools.deleteDirectory(arenaFile);
         try {
             FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
