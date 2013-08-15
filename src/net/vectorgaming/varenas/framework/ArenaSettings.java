@@ -16,6 +16,8 @@ public class ArenaSettings implements Settings
     private boolean isBlockBreak;
     private boolean isTNT;
     private boolean showRespawnScreen;
+    private boolean isSpawnKit;
+    private boolean clearInv;
     private int maxPlayers;
     private int minPlayers;
     private int lobbyDuration;
@@ -28,6 +30,7 @@ public class ArenaSettings implements Settings
     private String objective;
     private String type;
     private String postGameSpawn;
+    private String spawnKit;
     
     public ArenaSettings(String name)
     {
@@ -46,6 +49,7 @@ public class ArenaSettings implements Settings
         gameDuration = 600;
         postGameSpawn = "{default}";
         mapVersion = 1;
+        isSpawnKit = false;
     }
     
     /**
@@ -268,4 +272,34 @@ public class ArenaSettings implements Settings
         if(rules.contains(rule))
             rules.remove(rule);
     }
+
+    @Override
+    public String getSpawnKitName()
+    {
+        return spawnKit;
+    }
+
+    @Override
+    public void setSpawnKitName(String kit)
+    {
+        spawnKit = kit;
+    }
+
+    @Override
+    public boolean isSpawnKitEnabled()
+    {
+        return isSpawnKit;
+    }
+
+    @Override
+    public void setSpawnKitEnabler(boolean value)
+    {
+        isSpawnKit = value;
+    }
+
+    @Override
+    public boolean isKitClearInventory() {return clearInv;}
+
+    @Override
+    public void setKitClearInventory(boolean value) {clearInv = value;}
 }
