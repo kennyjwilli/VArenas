@@ -42,14 +42,14 @@ public class KitManager
      * Removed a kit from the plugin
      * @param name Name of the kit
      */
-    public static void removeKit(String name) {kits.remove(name);}
+    public static void removeKit(String name) {kits.remove(name.toLowerCase());}
     
     /**
      * Checks to see if the given kit exists
      * @param name Name of the kit
      * @return boolean value
      */
-    public static boolean kitExists(String name) {return kits.containsKey(name);}
+    public static boolean kitExists(String name) {return kits.containsKey(name.toLowerCase());}
         
     /**
      * Checks to see if the given kit exists
@@ -123,10 +123,24 @@ public class KitManager
      */
     public static void loadAllKits()
     {
+        kits.clear();
+        plugin.reloadConfig();
         if(!plugin.getConfig().contains("kits"))
             return;
         for(String s : plugin.getConfig().getStringList("kits"))
             loadKit(s);
+    }
+    
+    /**
+     * Checks to see if the kit is saved to the config
+     * @param name Name of the kit
+     * @return boolean value
+     */
+    public static boolean isSavedToConfig(String name)
+    {
+        if(!plugin.getConfig().contains("kits"))
+            return false;
+        return plugin.getConfig().getStringList("kits").contains(name);
     }
     
     /**
@@ -161,11 +175,15 @@ public class KitManager
         {
             output += " ";
             String enchantment = "";
+            int i = 1;
             for(Enchantment e : item.getEnchantments().keySet())
             {
                 enchantment += e.getName();
                 enchantment += ":";
                 enchantment += item.getEnchantmentLevel(e);
+                if(i != item.getEnchantments().keySet().size())
+                    enchantment += ",";
+                i++;
             }
             output += enchantment;
         }
@@ -201,10 +219,16 @@ public class KitManager
         
         if(split.length == 4)
         {
-            splitEnchant = split[3].split(":");
-            String enchantName = splitEnchant[0];
-            int level = Integer.parseInt(splitEnchant[1]);
-            result.addEnchantment(Enchantment.getByName(enchantName), level);
+            splitEnchant = split[3].split(",");
+            int i = 0;
+            for(String s : splitEnchant)
+            {
+                String[] splitFinal = splitEnchant[i].split(":");
+                String enchantName = splitFinal[0];
+                int level = Integer.parseInt(splitFinal[1]);
+                result.addEnchantment(Enchantment.getByName(enchantName), level);
+                i++;
+            }
         }
         return result;
     }
