@@ -65,6 +65,15 @@ public interface Settings
     public boolean isSpawnKitEnabled();
     public void setSpawnKitEnabler(boolean value);
     
+    public boolean isCustomKitsEnabled();
+    public void setCustomKitsEnabled(boolean value);
+    
+    public List<String> getAllowedCustomKits();
+    public void setAllowedCustomKits(List<String> list);
+    public void addAllowedKit(String kit);
+    public void removeAllowedKit(String kit);
+    
+    
     public boolean isKitClearInventory();
     public void setKitClearInventory(boolean value);
 }
