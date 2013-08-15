@@ -72,8 +72,11 @@ public class SLAPI
         settingsConfig.setGameDuration(settings.getGameDuration());
         settingsConfig.setPostGameSpawn(settings.getPostGameSpawn());
         settingsConfig.setRules(settings.getRules());
+        settingsConfig.setKitClearInventory(settings.isKitClearInventory());
         settingsConfig.setSpawnKitEnabler(settings.isSpawnKitEnabled());
         settingsConfig.setSpawnKitName(settings.getSpawnKitName());
+        settingsConfig.setCustomKitsEnabled(settings.isCustomKitsEnabled());
+        settingsConfig.setAllowedCustomKits(settings.getAllowedCustomKits());
 
         /*
          * Lobby Settings
@@ -194,6 +197,9 @@ public class SLAPI
         settings.setMapVersion(settingsConfig.getMapVersion());
         settings.setSpawnKitEnabler(settingsConfig.isSpawnKitEnabled());
         settings.setSpawnKitName(settingsConfig.getSpawnKitName());
+        settings.setKitClearInventory(settingsConfig.isKitClearInventory());
+        settings.setAllowedCustomKits(settingsConfig.getAllowedCustomKits());
+        settings.setCustomKitsEnabled(settingsConfig.isCustomKitsEnabled());
 
         /*
          * Loads lobby settings
