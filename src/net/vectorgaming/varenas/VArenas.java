@@ -65,7 +65,7 @@ public class VArenas extends JavaPlugin
             world.unloadWorld();
             world.deleteWorld();
         }
-        for(File f : new File(ArenaDirectory.ARENAS_DIR).listFiles())
+        for(File f : new File(ArenaDirectory.ARENAS).listFiles())
         {
             ZoneTools.deleteDirectory(f);
         }
