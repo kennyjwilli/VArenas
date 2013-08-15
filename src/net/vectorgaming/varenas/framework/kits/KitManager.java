@@ -73,7 +73,7 @@ public class KitManager
     public static void saveKit(String name)
     {
         Kit kit = getKit(name);
-        ZoneConfig config = new ZoneConfig(ArenaAPI.getPlugin(), new File(ArenaDirectory.KITS_DIR+File.separator+name+".yml"));
+        ZoneConfig config = new ZoneConfig(ArenaAPI.getPlugin(), new File(ArenaDirectory.KITS+File.separator+name+".yml"));
         config.set("name", name);
         config.set("armor.helmet", itemStackToSaveString(kit.getHelmet()));
         config.set("armor.chestplate", itemStackToSaveString(kit.getChestplate()));
@@ -95,7 +95,7 @@ public class KitManager
      */
     public static void loadKit(String name)
     {
-        ZoneConfig config = new ZoneConfig(ArenaAPI.getPlugin(), new File(ArenaDirectory.KITS_DIR+File.separator+name+".yml"));
+        ZoneConfig config = new ZoneConfig(ArenaAPI.getPlugin(), new File(ArenaDirectory.KITS+File.separator+name+".yml"));
         Kit kit = new Kit(name);
         kit.setHelmet(getItemStackFromSave(config.getString("armor.helmet")));
         kit.setChestplate(getItemStackFromSave(config.getString("armor.chestplate")));
