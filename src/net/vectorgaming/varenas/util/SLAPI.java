@@ -114,6 +114,8 @@ public class SLAPI
         }
         if(!enabledArenas.contains(map))
             enabledArenas.add(map);
+        
+        plugin.getConfig().set("enabled-arenas", enabledArenas);
         plugin.saveConfig();
     }
 
