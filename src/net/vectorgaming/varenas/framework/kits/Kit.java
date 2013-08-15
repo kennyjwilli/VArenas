@@ -3,7 +3,6 @@ package net.vectorgaming.varenas.framework.kits;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,7 +18,7 @@ public class Kit
     private ItemStack leggings;
     private ItemStack boots;
     
-    private ArrayList<ItemStack> inventory;
+    private ArrayList<ItemStack> inventory = new ArrayList<>();
     
     public Kit(String name)
     {
@@ -34,14 +33,14 @@ public class Kit
     
     public String getName() {return name;}
     
-    public ItemStack[] getArmorContents(){return new ItemStack[]{helmet, chestplate, leggings, boots};}
+    public ItemStack[] getArmorContents(){return new ItemStack[]{boots, leggings, chestplate, helmet};}
     
     public final void setArmorContents(ItemStack[] items) 
     {
-        helmet = items[0];
-        chestplate = items[1];
-        leggings = items[2];
-        boots = items[3];
+        helmet = items[3];
+        chestplate = items[2];
+        leggings = items[1];
+        boots = items[0];
     }
     
     public ItemStack getHelmet() {return helmet;}
@@ -63,10 +62,13 @@ public class Kit
     public ArrayList<ItemStack> getInventoryContents() {return inventory;}
     
     public void setInventoryContents(ItemStack[] items) 
-    {
+    {      
         ArrayList<ItemStack> result = new ArrayList<>();
         for(ItemStack item : items)
-            result.add(item);
+        {
+            if(item != null)
+                result.add(item);
+        }
         inventory = result;
     }
     
