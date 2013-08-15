@@ -18,6 +18,7 @@ public class ArenaSettings implements Settings
     private boolean showRespawnScreen;
     private boolean isSpawnKit;
     private boolean clearInv;
+    private boolean isCustomKits;
     private int maxPlayers;
     private int minPlayers;
     private int lobbyDuration;
@@ -26,6 +27,7 @@ public class ArenaSettings implements Settings
     private double mapVersion;
     private List<String> lobbyMsgInterval = new ArrayList<>();
     private List<String> rules = new ArrayList<>();
+    private List<String> allowedKits = new ArrayList<>();
     private String authors;
     private String objective;
     private String type;
@@ -302,4 +304,30 @@ public class ArenaSettings implements Settings
 
     @Override
     public void setKitClearInventory(boolean value) {clearInv = value;}
+
+    @Override
+    public boolean isCustomKitsEnabled() {return isCustomKits;}
+
+    @Override
+    public void setCustomKitsEnabled(boolean value) {isCustomKits = value;}
+
+    @Override
+    public List<String> getAllowedCustomKits() {return allowedKits;}
+
+    @Override
+    public void setAllowedCustomKits(List<String> list) {allowedKits = list;}
+
+    @Override
+    public void addAllowedKit(String kit)
+    {
+        if(!allowedKits.contains(kit))
+            allowedKits.add(kit);
+    }
+
+    @Override
+    public void removeAllowedKit(String kit)
+    {
+        if(allowedKits.contains(kit))
+            allowedKits.add(kit);
+    }
 }
