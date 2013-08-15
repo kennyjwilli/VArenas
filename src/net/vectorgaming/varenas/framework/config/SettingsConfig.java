@@ -210,25 +210,25 @@ public class SettingsConfig extends ZoneConfig implements Settings
     @Override
     public String getSpawnKitName()
     {
-        return this.getString("settings.kits.spawn-kit");
+        return this.getString("settings.kits.spawn.name");
     }
 
     @Override
     public void setSpawnKitName(String kit)
     {
-        this.set("settings.kits.spawn-kit", kit);
+        this.set("settings.kits.spawn.name", kit);
     }
 
     @Override
     public boolean isSpawnKitEnabled()
     {
-        return this.getBoolean("settings.kits.enabled");
+        return this.getBoolean("settings.kits.spawn.enabled");
     }
 
     @Override
     public void setSpawnKitEnabler(boolean value)
     {
-        this.set("settings.kits.enabled", value);
+        this.set("settings.kits.spawn.enabled", value);
     }
 
     @Override
@@ -241,5 +241,47 @@ public class SettingsConfig extends ZoneConfig implements Settings
     public void setKitClearInventory(boolean value)
     {
         this.set("settings.kits.clear-inventory", value);
+    }
+
+    @Override
+    public boolean isCustomKitsEnabled()
+    {
+        return this.getBoolean("settings.kits.custom-kits.enabled");
+    }
+
+    @Override
+    public void setCustomKitsEnabled(boolean value)
+    {
+        this.set("settings.kits.custom-kits.enabled", value);
+    }
+
+    @Override
+    public List<String> getAllowedCustomKits()
+    {
+        return this.getStringList("settings.kits.custom-kits.allowed-kits");
+    }
+
+    @Override
+    public void setAllowedCustomKits(List<String> list)
+    {
+        this.set("settings.kits.custom-kits.allowed-kits", list);
+    }
+
+    @Override
+    public void addAllowedKit(String kit)
+    {
+        List<String> list = getAllowedCustomKits();
+        if(!list.contains(kit))
+            list.add(kit);
+        set("settings.kits.custom-kits.allowed-kits", list);
+    }
+
+    @Override
+    public void removeAllowedKit(String kit)
+    {
+        List<String> list = getAllowedCustomKits();
+        if(list.contains(kit))
+            list.remove(kit);
+        set("settings.kits.custom-kits.allowed-kits", list);
     }
 }
