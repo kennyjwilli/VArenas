@@ -3,7 +3,6 @@ package net.vectorgaming.varenas.framework.config;
 
 import info.jeppes.ZoneCore.ZoneConfig;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import net.vectorgaming.varenas.framework.interfaces.Settings;
 import org.bukkit.plugin.Plugin;
@@ -206,5 +205,41 @@ public class SettingsConfig extends ZoneConfig implements Settings
         if(rules.contains(rule))
             rules.remove(rule);
         this.set("settings.rules", rules);
+    }
+
+    @Override
+    public String getSpawnKitName()
+    {
+        return this.getString("settings.kits.spawn-kit");
+    }
+
+    @Override
+    public void setSpawnKitName(String kit)
+    {
+        this.set("settings.kits.spawn-kit", kit);
+    }
+
+    @Override
+    public boolean isSpawnKitEnabled()
+    {
+        return this.getBoolean("settings.kits.enabled");
+    }
+
+    @Override
+    public void setSpawnKitEnabler(boolean value)
+    {
+        this.set("settings.kits.enabled", value);
+    }
+
+    @Override
+    public boolean isKitClearInventory()
+    {
+        return this.getBoolean("settings.kits.clear-inventory");
+    }
+
+    @Override
+    public void setKitClearInventory(boolean value)
+    {
+        this.set("settings.kits.clear-inventory", value);
     }
 }
