@@ -14,6 +14,8 @@ import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.enums.EventResult;
+import net.vectorgaming.varenas.framework.kits.Kit;
+import net.vectorgaming.varenas.framework.kits.KitManager;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
 import net.vectorgaming.varenas.util.SLAPI;
@@ -55,6 +57,7 @@ public abstract class Arena implements Listener
     private ArenaStats stats;
     private Location postGameSpawn;
     private final TeamManager teamManager;
+    private Kit spawnKit;
     
     private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
     private HashMap<String, Location> locationMap = new HashMap<>();
@@ -85,6 +88,7 @@ public abstract class Arena implements Listener
         {
             postGameSpawn = SLAPI.getLocationFromSave(getSettings().getPostGameSpawn());
         }
+        spawnKit = KitManager.getKit(getSettings().getSpawnKitName());
     }
     
     /**
@@ -201,6 +205,8 @@ public abstract class Arena implements Listener
                        if(i > getSpawnPoints().size()) i = 0;
                        p.teleport(getSpawnPoints().get(i));
                        i++;
+                       if(getSettings().isSpawnKitEnabled())
+                        spawnKit.giveKit(p, getSettings().isKitClearInventory());
                    }
                    world.setPVP(true);
                 }
@@ -287,6 +293,18 @@ public abstract class Arena implements Listener
         world.unloadWorld();
         ZoneTools.deleteDirectory(world.getWorldFolder());
     }
+    
+    /**
+     * Gets the kit the players spawn with
+     * @return Kit object
+     */
+    public Kit getSpawnKit() {return spawnKit;}
+    
+    /**
+     * Sets the spawn kit for the arena
+     * @param kit Kit object
+     */
+    public void setSpawnKit(Kit kit) {spawnKit = kit;}
     
     /**
      * Gets the location of the post game spawn. 
