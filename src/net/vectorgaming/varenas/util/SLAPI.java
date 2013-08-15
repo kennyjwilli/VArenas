@@ -136,9 +136,14 @@ public class SLAPI
     /**
      * Loads an arena with all its settings from the configs
      * @param map Name of the map
+     * @return boolean value if all the files exist to load the arena
      */
-    public static void loadArena(String map)
+    public static boolean loadArena(String map)
     {
+        File settingsFile = new File(ArenaDirectory.ARENA_SETTINGS_DIR+""+File.separator+map+".yml");
+        File frameworkFile = new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+""+File.separator+map+".yml");
+        if(!settingsFile.exists() || !frameworkFile.exists())
+            return false;
         SettingsConfig settingsConfig = new SettingsConfig(plugin, new File(ArenaDirectory.ARENA_SETTINGS_DIR+File.separator+map+".yml"));
         ArenaConfig frameworkConfig = new ArenaConfig(plugin, new File(ArenaDirectory.ARENA_FRAMEWORK_DIR+File.separator+map+".yml"));
         ArenaManager.createMap(map);
@@ -192,6 +197,7 @@ public class SLAPI
          */
         settings.setLobbyDuration(settingsConfig.getLobbyDuration());
         settings.setLobbyMessageInterval((ArrayList<String>)settingsConfig.getLobbyMessageInterval());
+        return true;
     }
     
     /**
