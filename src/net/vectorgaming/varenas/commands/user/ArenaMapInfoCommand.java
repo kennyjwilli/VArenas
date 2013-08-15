@@ -50,10 +50,10 @@ public class ArenaMapInfoCommand extends VCommand
         
         
         String solidLine = ChatColor.RED+""+ChatColor.STRIKETHROUGH+StringUtils.repeat(" ", 30);
-        String color = ChatColor.BOLD+""+ChatColor.DARK_PURPLE;
+        String color = ChatColor.DARK_PURPLE+""+ChatColor.BOLD;
         
-        cs.sendMessage(solidLine+ChatColor.AQUA+WordUtils.capitalizeFully(settings.getName())+" "+ChatColor.GRAY+settings.getMapVersion()+solidLine);
-        cs.sendMessage(color+"Objective: "+settings.getObjective());
+        cs.sendMessage(solidLine+ChatColor.AQUA+" "+WordUtils.capitalizeFully(settings.getName())+" "+ChatColor.GRAY+settings.getMapVersion()+" "+solidLine);
+        cs.sendMessage(color+"Objective: "+ChatColor.RED+settings.getObjective());
         cs.sendMessage(color+"Authors: "+ChatColor.RED+settings.getAuthors().replaceAll(",", ChatColor.WHITE+","));
         if(!settings.getRules().isEmpty())
         {
@@ -64,7 +64,7 @@ public class ArenaMapInfoCommand extends VCommand
                 i++;
             }
         }
-        cs.sendMessage(color+"Max Players: "+settings.getMaxPlayers());
+        cs.sendMessage(color+"Max Players: "+ChatColor.RED+settings.getMaxPlayers());
         return true;
     }
 
