@@ -205,7 +205,7 @@ public abstract class Arena implements Listener
                        if(i > getSpawnPoints().size()) i = 0;
                        p.teleport(getSpawnPoints().get(i));
                        i++;
-                       if(getSettings().isSpawnKitEnabled())
+                       if(getSettings().isSpawnKitEnabled() && KitManager.kitExists(spawnKit))
                         spawnKit.giveKit(p, getSettings().isKitClearInventory());
                    }
                    world.setPVP(true);
