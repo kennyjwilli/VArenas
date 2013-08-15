@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.varenas.framework.kits.Kit;
+import net.vectorgaming.varenas.framework.kits.KitManager;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,6 +16,7 @@ import org.bukkit.entity.Player;
 public class ArenaPlayerManager 
 {
     private static HashMap<Player, String> players = new HashMap<>();
+    private static HashMap<Player,String> kits = new HashMap<>();
     private static HashMap<String, ArrayList<Player>> arenas = new HashMap<>();
     
     /**
@@ -36,6 +39,7 @@ public class ArenaPlayerManager
             arenas.put(arena, temp);
         }
         players.put(p, arena);
+        kits.put(p, getArenaFromPlayer(p).getSpawnKit().getName());
     }
     
     /**
@@ -84,6 +88,41 @@ public class ArenaPlayerManager
     {
         return players.get(p);
     }
+    
+    /**
+     * Gets the kit name from the player name
+     * @param p Player object
+     * @return Name of kit
+     */
+    public static String getKitNameFromPlayer(Player p) {return kits.get(p);}
+    
+    /**
+     * Gets a kit object from a player.
+     * 
+     * NOTE: This will return the default spawn kit if the kit given to the player does not exist
+     * @param p Player object
+     * @return Kit object
+     */
+    public static Kit getKitFromPlayer(Player p)
+    {
+        if(!KitManager.kitExists(getKitFromPlayer(p)))
+            return getArenaFromPlayer(p).getSpawnKit();
+        return KitManager.getKit(getKitNameFromPlayer(p));
+    }
+    
+    /**
+     * Sets the kit for the given player
+     * @param p Player to be given the kit
+     * @param name Name of the kit given
+     */
+    public static void setKit(Player p, String name) {kits.put(p, name);}
+    
+    /**
+     * Sets the kit for the given player 
+     * @param p Player to be given the kit
+     * @param kit Kit that will be given to the player
+     */
+    public static void setKit(Player p, Kit kit) {setKit(p, kit.getName());}
     
     /**
      * Checks to see if the specified player is in the arena
