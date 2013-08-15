@@ -210,25 +210,25 @@ public class SettingsConfig extends ZoneConfig implements Settings
     @Override
     public String getSpawnKitName()
     {
-        return this.getString("settings.kits.spawn.name");
+        return this.getString("settings.kits.spawn-kit.name");
     }
 
     @Override
     public void setSpawnKitName(String kit)
     {
-        this.set("settings.kits.spawn.name", kit);
+        this.set("settings.kits.spawn-kit.name", kit);
     }
 
     @Override
     public boolean isSpawnKitEnabled()
     {
-        return this.getBoolean("settings.kits.spawn.enabled");
+        return this.getBoolean("settings.kits.spawn-kit.enabled");
     }
 
     @Override
     public void setSpawnKitEnabler(boolean value)
     {
-        this.set("settings.kits.spawn.enabled", value);
+        this.set("settings.kits.spawn-kit.enabled", value);
     }
 
     @Override
