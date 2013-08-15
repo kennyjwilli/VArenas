@@ -25,7 +25,6 @@ import org.bukkit.Location;
 public class SLAPI 
 {
     private static VArenas plugin;
-    private static List<String> enabledArenas = new ArrayList<>();
     
     public SLAPI(VArenas instance)
     {
@@ -37,15 +36,7 @@ public class SLAPI
     public void saveAllArenas()
     {
         for(String s : ArenaManager.getMaps())
-        {
             saveArena(s);
-        }
-        
-        /*
-         * Save enabled arenas
-         */
-        plugin.getConfig().set("enabled-arenas", enabledArenas);
-        plugin.saveConfig();
     }
     
     /**
@@ -111,9 +102,19 @@ public class SLAPI
         frameworkConfig.save();
         
         /*
-         * Add to enabled arenas list
+         * Add to enabled arenas list and save in config.yml
          */
-        enabledArenas.add(map);
+        List<String> enabledArenas;
+        if(!plugin.getConfig().contains("enabled-arenas"))
+        {
+            enabledArenas = new ArrayList<>();
+        }else
+        {
+            enabledArenas = plugin.getConfig().getStringList("enabled-arenas");
+        }
+        if(!enabledArenas.contains(map))
+            enabledArenas.add(map);
+        plugin.saveConfig();
     }
 
     
@@ -123,14 +124,10 @@ public class SLAPI
     public void loadAllArenas()
     {
         if(!plugin.getConfig().contains("enabled-arenas"))
-        {
             return;
-        }
         
         for(String s : plugin.getConfig().getStringList("enabled-arenas"))
-        {
             loadArena(s);
-        }
     }
     
     /**
