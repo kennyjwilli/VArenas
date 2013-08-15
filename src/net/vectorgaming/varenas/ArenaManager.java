@@ -11,6 +11,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.vectorgaming.varenas.framework.Arena;
@@ -56,7 +57,6 @@ public class ArenaManager
         arenaConfigs.put(map.toLowerCase(), framework);
         arenaSettings.put(map.toLowerCase(), new ArenaSettings(map));
         arenaFramework.put(map.toLowerCase(), new ArenaFramework(map));
-        
         //Set first arnea id 
     }
     
@@ -78,7 +78,8 @@ public class ArenaManager
      */
     public static boolean isMapSavedToConfig(String map)
     {
-        if(plugin.getConfig().getStringList("enabled-arenas").contains(map))
+        List<String> list = plugin.getConfig().getStringList("enabled-arenas");
+        if(!list.isEmpty() && list.contains(map))
             return true;
         return false;
     }
@@ -91,9 +92,7 @@ public class ArenaManager
     {
         ArrayList<String> result = new ArrayList<>();
         for(String s : arenaSettings.keySet())
-        {
             result.add(s);
-        }
         return result;
     }
     
