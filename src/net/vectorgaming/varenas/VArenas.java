@@ -26,6 +26,7 @@ public class VArenas extends JavaPlugin
     private PlayerDamageListener edl = new PlayerDamageListener();
     private PlayerRespawnListener prl = new PlayerRespawnListener();
     private PlayerBlockBreakListener pbl = new PlayerBlockBreakListener();
+    private PlayerDeathListener pdl = new PlayerDeathListener();
     private CommandPreprocess cp = new CommandPreprocess();
     private SLAPI slapi = new SLAPI(this);
     //private ArenaPlayerManager<ArenaPlayer> playerManager;
@@ -87,6 +88,7 @@ public class VArenas extends JavaPlugin
         pm.registerEvents(prl, this);
         pm.registerEvents(pbl, this);
         pm.registerEvents(cp, this);
+        pm.registerEvents(pdl, this);
     }
     
     private void registerArenaTypes()
