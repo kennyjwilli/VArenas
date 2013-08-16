@@ -78,6 +78,7 @@ public class SLAPI
         settingsConfig.setSpawnKitName(settings.getSpawnKitName());
         settingsConfig.setCustomKitsEnabled(settings.isCustomKitsEnabled());
         settingsConfig.setAllowedCustomKits(settings.getAllowedCustomKits());
+        settingsConfig.setAllowItemDrop(settings.getAllowedItemDrop());
 
         /*
          * Lobby Settings
@@ -202,6 +203,7 @@ public class SLAPI
         settings.setAllowedCustomKits(settingsConfig.getAllowedCustomKits());
         settings.setCustomKitsEnabled(settingsConfig.isCustomKitsEnabled());
         settings.setRespawnWithKit(settingsConfig.isRespawnWithKit());
+        settings.setAllowItemDrop(settingsConfig.getAllowedItemDrop());
 
         /*
          * Loads lobby settings
