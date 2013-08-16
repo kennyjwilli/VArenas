@@ -28,7 +28,9 @@ public class PlayerRespawnListener implements Listener
         if(!ArenaManager.isArenaRunning(arenaName))
             return;
         Arena arena = ArenaManager.getArena(arenaName);
-        arena.onRespawn(event);
+        if(arena.getSettings().isRespawnWithKit())
+            ArenaPlayerManager.getKitFromPlayer(p).giveKit(p, arena.getSettings().isKitClearInventory());
+        event.setRespawnLocation(arena.onRespawn(p));
     }
 
 }
