@@ -84,7 +84,7 @@ public class KillCounter extends Stat implements Listener{
             kills.put(killer, killerKills);
         }
         //Adds a death to a player and the player's killer
-        if(kills.containsKey(killer))
+        if(deaths.containsKey(killer))
         {
             playerDeaths = deaths.get(dead);
             playerDeaths.add(killer);
