@@ -284,4 +284,17 @@ public class SettingsConfig extends ZoneConfig implements Settings
             list.remove(kit);
         set("settings.kits.custom-kits.allowed-kits", list);
     }
+
+    @Override
+    public boolean isRespawnWithKit()
+    {
+        return getBoolean("settings.kits.respawn-with-kit");
+    }
+    
+
+    @Override
+    public void setRespawnWithKit(boolean value)
+    {
+        set("settings.kits.respawn-with-kit", value);
+    }
 }
