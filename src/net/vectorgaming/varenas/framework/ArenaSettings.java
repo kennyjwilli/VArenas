@@ -357,10 +357,10 @@ public class ArenaSettings implements Settings
         {
             split = itemDrop.split(",");
             for(int i = 0; i < split.length; i++)
-                result.add(split[i]);
+                result.add(split[i].toUpperCase());
         }else
         {
-            result.add(itemDrop);
+            result.add(itemDrop.toUpperCase());
         }
         return result;
     }
