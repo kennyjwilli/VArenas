@@ -297,4 +297,16 @@ public class SettingsConfig extends ZoneConfig implements Settings
     {
         set("settings.kits.respawn-with-kit", value);
     }
+
+    @Override
+    public String getAllowedItemDrop()
+    {
+        return getString("settings.allow-dropped-items");
+    }
+
+    @Override
+    public void setAllowItemDrop(String type)
+    {
+        set("settings.allow-dropped-items", type);
+    }
 }
