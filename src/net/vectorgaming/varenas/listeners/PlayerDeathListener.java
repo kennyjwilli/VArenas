@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 /**
@@ -25,6 +26,7 @@ public class PlayerDeathListener implements Listener
         final Player dead = event.getEntity();
         Player killer = dead.getKiller();
         
+        //Basic checks to see if the death event should actually be fired
         if(!ArenaPlayerManager.isPlayerInArena(dead))
             return;
         
@@ -38,8 +40,17 @@ public class PlayerDeathListener implements Listener
         if(!arena.getWorld().getName().equalsIgnoreCase(dead.getWorld().getName()))
             return;
         
+        //Fires arena death event
         arena.onDeath(dead, killer);
         
+        //Removes dropped items if needed
+        if(arena.getSettings().getAllowedItemDropTypes().contains("death"))
+        {
+            for(ItemStack drop : event.getDrops())
+                event.getDrops().remove(drop);
+        }
+        
+        //Checks to see if the respawn screen is enabled
         if(arena.getSettings().isShowRespawnScreen())
             return;
         
