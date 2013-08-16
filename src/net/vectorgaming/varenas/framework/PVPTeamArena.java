@@ -3,6 +3,7 @@ package net.vectorgaming.varenas.framework;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -39,8 +40,8 @@ public abstract class PVPTeamArena extends TeamArena{
     }
 
     @Override
-    public void onRespawn(PlayerRespawnEvent event) {
-        event.setRespawnLocation(getSpawnLocation(event.getPlayer()));
+    public Location onRespawn(Player player) {
+        return this.getSpawnLocation(player);
     }
     
     
