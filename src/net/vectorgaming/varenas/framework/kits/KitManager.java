@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.vectorgaming.varenas.ArenaAPI;
+import net.vectorgaming.varenas.Exceptions.KitFormatException;
 import net.vectorgaming.varenas.VArenas;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -107,15 +111,21 @@ public class KitManager
      */
     public static void loadKit(String name)
     {
-        ZoneConfig config = new ZoneConfig(ArenaAPI.getPlugin(), new File(ArenaDirectory.KITS+File.separator+name+".yml"));
-        Kit kit = new Kit(name);
-        kit.setHelmet(getItemStackFromSave(config.getString("armor.helmet")));
-        kit.setChestplate(getItemStackFromSave(config.getString("armor.chestplate")));
-        kit.setLeggings(getItemStackFromSave(config.getString("armor.leggings")));
-        kit.setBoots(getItemStackFromSave(config.getString("armor.boots")));
-        for(String s : config.getStringList("inventory"))
-            kit.addInventoryItem(getItemStackFromSave(s));
-        kits.put(name, kit);
+        try
+        {
+            ZoneConfig config = new ZoneConfig(ArenaAPI.getPlugin(), new File(ArenaDirectory.KITS+File.separator+name+".yml"));
+            Kit kit = new Kit(name);
+            kit.setHelmet(getItemStackFromSave(config.getString("armor.helmet")));
+            kit.setChestplate(getItemStackFromSave(config.getString("armor.chestplate")));
+            kit.setLeggings(getItemStackFromSave(config.getString("armor.leggings")));
+            kit.setBoots(getItemStackFromSave(config.getString("armor.boots")));
+            for(String s : config.getStringList("inventory"))
+                kit.addInventoryItem(getItemStackFromSave(s));
+            kits.put(name, kit);
+        } catch (KitFormatException ex)
+        {
+            Logger.getLogger(KitManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -196,38 +206,63 @@ public class KitManager
      * @param saveString ItemStack save string
      * @return ItemStack object
      */
-    public static ItemStack getItemStackFromSave(String saveString)
+    public static ItemStack getItemStackFromSave(String saveString) throws KitFormatException
     {
         String[] split = saveString.split(" ");
         
         Material mat = Material.matchMaterial(split[0]);
         int amount = Integer.parseInt(split[1]);
+        byte data;
         
         ItemStack result;
         
-        if(split.length == 3)
-        {
-            byte data = Byte.parseByte(split[2]);
-            result = new ItemStack(mat, amount, mat.getMaxDurability(), data);
-        }else
+        try
         {
             result = new ItemStack(mat, amount);
+        }catch(Exception e)
+        {
+            Bukkit.getLogger().log(Level.WARNING, "Could not load ItemStack from save string: "+saveString);
+            throw new KitFormatException();
         }
         
-        String[] splitEnchant;
-        
+        if(split.length == 3)
+        {
+            try
+            {
+                data = Byte.parseByte(split[2]);
+                result = new ItemStack(mat, amount, mat.getMaxDurability(), data);
+            }catch(Exception e){}
+            
+            try
+            {
+                result = addEnchantmentFromSave(result, split[2]);
+            }catch(Exception e){}
+            return result;
+        }
         if(split.length == 4)
         {
-            splitEnchant = split[3].split(",");
-            int i = 0;
-            for(String s : splitEnchant)
+            try
             {
-                String[] splitFinal = splitEnchant[i].split(":");
-                String enchantName = splitFinal[0];
-                int level = Integer.parseInt(splitFinal[1]);
-                result.addEnchantment(Enchantment.getByName(enchantName), level);
-                i++;
-            }
+                data = Byte.parseByte(split[2]);
+                result = new ItemStack(mat, amount, mat.getMaxDurability(), data);
+                result = addEnchantmentFromSave(result, split[3]);
+            }catch(Exception e) {}
+        }
+        return result;
+    }
+    
+    private static ItemStack addEnchantmentFromSave(ItemStack item, String enchantSave)
+    {
+        ItemStack result = item;
+        String[] splitEnchant = enchantSave.split(",");
+        int i = 0;
+        for(String s : splitEnchant)
+        {
+            String[] splitFinal = splitEnchant[i].split(":");
+            String enchantName = splitFinal[0];
+            int level = Integer.parseInt(splitFinal[1]);
+            result.addEnchantment(Enchantment.getByName(enchantName), level);
+            i++;
         }
         return result;
     }
