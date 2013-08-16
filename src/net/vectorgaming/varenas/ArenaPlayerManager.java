@@ -39,7 +39,8 @@ public class ArenaPlayerManager
             arenas.put(arena, temp);
         }
         players.put(p, arena);
-        kits.put(p, getArenaFromPlayer(p).getSpawnKit().getName());
+        if(getArenaFromPlayer(p).getSettings().isSpawnKitEnabled() && getArenaFromPlayer(p).getSpawnKit() != null)
+            kits.put(p, getArenaFromPlayer(p).getSpawnKit().getName());
     }
     
     /**
@@ -105,7 +106,7 @@ public class ArenaPlayerManager
      */
     public static Kit getKitFromPlayer(Player p)
     {
-        if(!KitManager.kitExists(getKitFromPlayer(p)))
+        if(!KitManager.kitExists(getKitNameFromPlayer(p)))
             return getArenaFromPlayer(p).getSpawnKit();
         return KitManager.getKit(getKitNameFromPlayer(p));
     }
