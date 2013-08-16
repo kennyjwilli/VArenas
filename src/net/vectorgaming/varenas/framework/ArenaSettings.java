@@ -19,6 +19,7 @@ public class ArenaSettings implements Settings
     private boolean isSpawnKit;
     private boolean clearInv;
     private boolean isCustomKits;
+    private boolean respawnWithKit;
     private int maxPlayers;
     private int minPlayers;
     private int lobbyDuration;
@@ -53,6 +54,8 @@ public class ArenaSettings implements Settings
         mapVersion = 1;
         isSpawnKit = false;
         spawnKit = "default";
+        respawnWithKit = true;
+        clearInv = true;
     }
     
     /**
@@ -331,4 +334,10 @@ public class ArenaSettings implements Settings
         if(allowedKits.contains(kit))
             allowedKits.add(kit);
     }
+
+    @Override
+    public boolean isRespawnWithKit() {return respawnWithKit;}
+
+    @Override
+    public void setRespawnWithKit(boolean value) {respawnWithKit = value;}
 }
