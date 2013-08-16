@@ -82,14 +82,20 @@ public abstract class Arena implements Listener
         teamManager = new TeamManager();
         locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
         spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
-        if(ArenaManager.getArenaSettings(name).getPostGameSpawn().equalsIgnoreCase("{default}"))
+        if(ArenaManager.getArenaSettings(map).getPostGameSpawn().equalsIgnoreCase("{default}"))
         {
             postGameSpawn = ArenaAPI.getHubWorld().getSpawnLocation();
         }else
         {
             postGameSpawn = SLAPI.getLocationFromSave(getSettings().getPostGameSpawn());
         }
-        spawnKit = KitManager.getKit(getSettings().getSpawnKitName());
+        if(getSettings().isSpawnKitEnabled())
+        {
+            spawnKit = KitManager.getKit(getSettings().getSpawnKitName());
+        }else
+        {
+            spawnKit = null;
+        }
     }
     
     /**
@@ -107,6 +113,20 @@ public abstract class Arena implements Listener
         teamManager = new TeamManager();
         locationMap = convertToLocation(ArenaManager.getAreanFramework(map).getLocationMap());
         spawnPoints = convertToLocation(ArenaManager.getAreanFramework(map).getSpawnsMap());
+        if(ArenaManager.getArenaSettings(map).getPostGameSpawn().equalsIgnoreCase("{default}"))
+        {
+            postGameSpawn = ArenaAPI.getHubWorld().getSpawnLocation();
+        }else
+        {
+            postGameSpawn = SLAPI.getLocationFromSave(getSettings().getPostGameSpawn());
+        }
+        if(getSettings().isSpawnKitEnabled())
+        {
+            spawnKit = KitManager.getKit(getSettings().getSpawnKitName());
+        }else
+        {
+            spawnKit = null;
+        }
     }
     
     /**
@@ -265,11 +285,14 @@ public abstract class Arena implements Listener
      */
     public abstract void onDeath(Player dead, Entity killer);
     
+
     /**
-     * Handles where the player respawns after they die in the arena
-     * @param event PlayerRespawnEvent
+     * Handles what happens to a player when the respawn. Also sets the location of where the player
+     * will respawn
+     * @param player Player that is respawning
+     * @return Location that the player will respawn at
      */
-    public abstract void onRespawn(PlayerRespawnEvent event);
+    public abstract Location onRespawn(Player player);
     
     /**
      * Handles what happens when a player disconnects from the server
