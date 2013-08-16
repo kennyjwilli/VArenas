@@ -73,7 +73,9 @@ public interface Settings
     public void addAllowedKit(String kit);
     public void removeAllowedKit(String kit);
     
-    
     public boolean isKitClearInventory();
     public void setKitClearInventory(boolean value);
+    
+    public boolean isRespawnWithKit();
+    public void setRespawnWithKit(boolean value);
 }
