@@ -93,7 +93,7 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     public void sendEndMessage(){}
 
     @Override
-    public void onRespawn(PlayerRespawnEvent event)
+    public Location onRespawn(Player player)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }

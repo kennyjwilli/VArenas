@@ -6,6 +6,7 @@ import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -54,10 +55,9 @@ public class PVPArena extends TeamArena
     }
 
     @Override
-    public void onRespawn(PlayerRespawnEvent event)
+    public Location onRespawn(Player player)
     {
-        Player p = event.getPlayer();
-        event.setRespawnLocation(this.getSpawnLocation(p));
+        return this.getSpawnLocation(player);
     }
 
     @Override
