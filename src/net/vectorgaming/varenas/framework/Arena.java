@@ -227,21 +227,24 @@ public abstract class Arena implements Listener
                        p.teleport(getSpawnPoints().get(i));
                        i++;
                        //Give players their kits if needed
-                       Kit kit = ArenaPlayerManager.getKitFromPlayer(p);
-                       boolean clear = getSettings().isKitClearInventory();
-                       if(kit == getSpawnKit() && getSettings().isSpawnKitEnabled())
-                           kit.giveKit(p, clear);
-                       if(getSettings().isCustomKitsEnabled())
+                       if(KitManager.kitExists(getSettings().getSpawnKitName()))
                        {
-                           List<String> allowedKits = getSettings().getAllowedCustomKits();
-                           if(allowedKits.isEmpty())
-                           {
-                               kit.giveKit(p, clear);
-                           }else
-                           {
-                               if(allowedKits.contains(kit.getName()))
-                                   kit.giveKit(p, clear);
-                           }
+                           Kit kit = ArenaPlayerManager.getKitFromPlayer(p);
+                            boolean clear = getSettings().isKitClearInventory();
+                            if(kit == getSpawnKit() && getSettings().isSpawnKitEnabled())
+                                kit.giveKit(p, clear);
+                            if(getSettings().isCustomKitsEnabled())
+                            {
+                                List<String> allowedKits = getSettings().getAllowedCustomKits();
+                                if(allowedKits.isEmpty())
+                                {
+                                    kit.giveKit(p, clear);
+                                }else
+                                {
+                                    if(allowedKits.contains(kit.getName()))
+                                        kit.giveKit(p, clear);
+                                }
+                            }
                        }
                    }
                    world.setPVP(true);
