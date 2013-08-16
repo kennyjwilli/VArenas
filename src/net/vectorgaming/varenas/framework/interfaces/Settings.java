@@ -78,4 +78,7 @@ public interface Settings
     
     public boolean isRespawnWithKit();
     public void setRespawnWithKit(boolean value);
+    
+    public String getAllowedItemDrop();
+    public void setAllowItemDrop(String type);
 }
