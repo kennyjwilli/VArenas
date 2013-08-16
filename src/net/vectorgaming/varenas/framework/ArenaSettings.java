@@ -34,6 +34,7 @@ public class ArenaSettings implements Settings
     private String type;
     private String postGameSpawn;
     private String spawnKit;
+    private String itemDrop;
     
     public ArenaSettings(String name)
     {
@@ -56,6 +57,7 @@ public class ArenaSettings implements Settings
         spawnKit = "default";
         respawnWithKit = true;
         clearInv = true;
+        itemDrop = "ALL";
     }
     
     /**
@@ -340,4 +342,26 @@ public class ArenaSettings implements Settings
 
     @Override
     public void setRespawnWithKit(boolean value) {respawnWithKit = value;}
+
+    @Override
+    public String getAllowedItemDrop() {return itemDrop;}
+
+    @Override
+    public void setAllowItemDrop(String type) {itemDrop = type;}
+    
+    public ArrayList<String> getAllowedItemDropTypes()
+    {
+        ArrayList<String> result = new ArrayList<>();
+        String[] split;
+        if(itemDrop.contains(","))
+        {
+            split = itemDrop.split(",");
+            for(int i = 0; i < split.length; i++)
+                result.add(split[i]);
+        }else
+        {
+            result.add(itemDrop);
+        }
+        return result;
+    }
 }
