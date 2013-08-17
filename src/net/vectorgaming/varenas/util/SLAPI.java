@@ -57,7 +57,7 @@ public class SLAPI
          */
         settingsConfig.setAuthors(settings.getAuthors());
         settingsConfig.setObjective(settings.getObjective());
-
+        
         /*
          * Arena settings
          */
