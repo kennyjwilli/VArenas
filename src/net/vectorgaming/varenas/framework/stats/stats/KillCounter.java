@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import net.vectorgaming.varenas.framework.stats.Stat;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -28,8 +29,8 @@ import org.bukkit.scoreboard.Objective;
  */
 public class KillCounter extends Stat implements Listener{
 
-    private HashMap<Entity, ArrayList<Entity>> kills = new HashMap<>(); // {Killer, All the people Killer killed}
-    private HashMap<Entity, ArrayList<Entity>> deaths = new HashMap<>(); // {Killed player, All the people who kill the guy}
+    private HashMap<Player, ArrayList<Player>> kills = new HashMap<>(); // {Killer, All the people Killer killed}
+    private HashMap<Player, ArrayList<Player>> deaths = new HashMap<>(); // {Killed player, All the people who kill the guy}
     private int totalKills;
     private boolean showAsObjective = true;
     private Objective killsObj;
@@ -69,10 +70,10 @@ public class KillCounter extends Stat implements Listener{
      * @param killer Player who killed
      * @param dead Player who died
      */
-    public void recordKill(Entity killer, Entity dead)
+    public void recordKill(Player killer, Player dead)
     {
-        ArrayList<Entity> killerKills;
-        ArrayList<Entity> playerDeaths;
+        ArrayList<Player> killerKills;
+        ArrayList<Player> playerDeaths;
         //Adds the killer
         if(kills.containsKey(killer)){
             killerKills = kills.get(killer);
@@ -84,7 +85,7 @@ public class KillCounter extends Stat implements Listener{
             kills.put(killer, killerKills);
         }
         //Adds a death to a player and the player's killer
-        if(deaths.containsKey(killer))
+        if(deaths.containsKey(dead))
         {
             playerDeaths = deaths.get(dead);
             playerDeaths.add(killer);
@@ -129,41 +130,36 @@ public class KillCounter extends Stat implements Listener{
      * Gets the player who has the highest kills in the arena
      * @return Player
      */
-    public Player getPlayerWithHighestKills()
-    {
-        ArrayList<Player> result = new ArrayList<>(); 
-        for(Map.Entry kv : getTopPlayers().entrySet())
-        {
-            if(kv.getKey() instanceof Player) {
-                result.add((Player)kv.getKey());
-            }
-        }
-        return result.get(0);
-    }
+    public Player getPlayerWithHighestKills() {return getTopPlayers().get(0);}
     
     /**
      * Gets a list of players ordered by their kills
      * @return Map<Player, Integer>
      */
-    public Map<Player, Integer> getTopPlayers()
+    public List<Player> getTopPlayers()
     {
-        List list = new LinkedList(kills.entrySet());
-        Collections.sort(list, new Comparator(){
+        List<String> stringList = new ArrayList<>();
+        List<Player> result = new ArrayList<>();
+        for(Player p : kills.keySet())
+            stringList.add(p.getName());
+        
+        Collections.sort(stringList, new Comparator<String>()
+        {
             @Override
-            public int compare(Object o1, Object o2)
+            public int compare(String s1, String s2)
             {
-                return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
+                if(kills.get(Bukkit.getPlayer(s1)).size() > kills.get(Bukkit.getPlayer(s2)).size())
+                {
+                    return 1;
+                }else if (kills.get(Bukkit.getPlayer(s1)).size() < kills.get(Bukkit.getPlayer(s2)).size())
+                    return -1;
+                return 0;
             }
         });
-        Map sortedMap = new LinkedHashMap();
-        for(Iterator it = list.iterator(); it.hasNext();)
-        {
-            Map.Entry entry = (Map.Entry) it.next();
-            if(entry.getKey() instanceof Player) {
-                sortedMap.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return sortedMap;
+        
+        for(String s : stringList)
+            result.add(Bukkit.getPlayer(s));
+        return result;
     }
     
     /**
@@ -171,7 +167,7 @@ public class KillCounter extends Stat implements Listener{
      * @param p Player
      * @return Boolean
      */
-    public boolean hasDied(Entity p)
+    public boolean hasDied(Player p)
     {
         if(deaths.containsKey(p)) {
             return true;
@@ -184,7 +180,7 @@ public class KillCounter extends Stat implements Listener{
      * @param p Player
      * @return Boolean
      */
-    public boolean hasKilledAnyone(Entity p)
+    public boolean hasKilledAnyone(Player p)
     {
         if(kills.containsKey(p)) {
             return true;
@@ -197,7 +193,7 @@ public class KillCounter extends Stat implements Listener{
      * @param p Player
      * @return Integer
      */
-    public Integer getDeaths(Entity p)
+    public Integer getDeaths(Player p)
     {
         return deaths.get(p).size();
     }
@@ -207,7 +203,7 @@ public class KillCounter extends Stat implements Listener{
      * @param p Player
      * @return Integer
      */
-    public Integer getKills(Entity p)
+    public Integer getKills(Player p)
     {
         return kills.get(p).size();
     }
@@ -217,7 +213,7 @@ public class KillCounter extends Stat implements Listener{
      * @param p Player
      * @return ArrayList<Player>
      */
-    public ArrayList<Entity> getWhoKilled(Entity p)
+    public ArrayList<Player> getWhoKilled(Player p)
     {
         return deaths.get(p);
     }
@@ -227,7 +223,7 @@ public class KillCounter extends Stat implements Listener{
      * @param p Player
      * @return ArrayList<Player>
      */
-    public ArrayList<Entity> getKilledEntities(Entity p)
+    public ArrayList<Player> getKilledEntities(Player p)
     {
         return kills.get(p);
     }
