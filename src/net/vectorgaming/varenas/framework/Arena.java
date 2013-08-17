@@ -268,11 +268,12 @@ public abstract class Arena implements Listener
         this.getLobby().forceStopTimer();
         Bukkit.getScheduler().cancelTask(TASK_ID);
         deleteWorldInventory();
-        this.removeAllPlayers();
         for(Player p : world.getPlayers())
         {
+            System.out.println("1");
             p.teleport(postGameSpawn);
         }
+        this.removeAllPlayers();
         unloadAndDeleteWorld();
     }
     
