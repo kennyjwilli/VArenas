@@ -31,9 +31,9 @@ public class PlayerDropItemListener implements Listener
         if(!arena.isRunning())
             return;
         
-        if(arena.getSettings().getAllowedItemDropTypes().contains("all"))
+        if(arena.getSettings().getAllowedItemDropTypes().contains("ALL"))
             return;
-        if(arena.getSettings().getAllowedItemDropTypes().contains("none"))
+        if(arena.getSettings().getAllowedItemDropTypes().contains("NONE"))
         {
             event.setCancelled(true);
             p.getInventory().remove(event.getItemDrop().getItemStack());
