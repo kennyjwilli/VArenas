@@ -1,11 +1,12 @@
 
 package net.vectorgaming.varenas.listeners;
 
-import net.minecraft.server.v1_6_R2.Packet205ClientCommand;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.Arena;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -43,20 +44,29 @@ public class PlayerDeathListener implements Listener
         //Fires arena death event
         arena.onDeath(dead, killer);
         
-        //Removes dropped items if needed
-        if(arena.getSettings().getAllowedItemDropTypes().contains("death"))
+        if(!arena.isRunning())
         {
-            for(ItemStack drop : event.getDrops())
-                event.getDrops().remove(drop);
+            dead.setHealth(20D);
+            dead.teleport(arena.getPostGameSpawn());
         }
+        //Removes dropped items if needed
+        if(!arena.getSettings().getAllowedItemDropTypes().contains("DEATH") && !arena.getSettings().getAllowedItemDropTypes().contains("ALL"))
+            event.getDrops().clear();
         
         //Checks to see if the respawn screen is enabled
         if(arena.getSettings().isShowRespawnScreen())
             return;
         
-        Packet205ClientCommand packet = new Packet205ClientCommand();
-        packet.a = 1;
-        ((CraftPlayer) dead).getHandle().playerConnection.a(packet);
-        arena.onRespawn(dead);
+        dead.setHealth(20D);
+        dead.teleport(arena.getSpawnLocation(dead));
+        
+        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
+        {
+            public void run()
+            {
+                if(arena.getSettings().isRespawnWithKit())
+                    ArenaPlayerManager.getKitFromPlayer(dead).giveKit(dead, arena.getSettings().isKitClearInventory());
+            }
+        }, 4L);
     }
 }
