@@ -4,8 +4,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
+import net.minecraft.server.v1_6_R2.Packet205ClientCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 /**
  *
@@ -102,6 +105,17 @@ public class ArenaAPI
     public static List<String> getAllowedCommands()
     {
         return allowedCommands;
+    }
+    
+    /**
+     * Cancels the respawn screen for the given player and resets everything to normal
+     * @param p Player to cancel the screen
+     */
+    public static void cancelRespawnScreen(Player p)
+    {
+        Packet205ClientCommand packet = new Packet205ClientCommand();
+        packet.a = 1;
+        ((CraftPlayer) p).getHandle().playerConnection.a(packet);
     }
 
 }
