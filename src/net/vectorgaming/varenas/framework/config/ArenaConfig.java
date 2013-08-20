@@ -170,7 +170,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public TriggerBox getArenaBox() throws Exception
     {
-        return getTriggerBoxFromString(this.getString(""+ArenaYMLPath.ARENA_REGION));
+        return getTriggerBoxFromString(this.getString(ArenaYMLPath.ARENA_REGION));
     }
     
     /**
@@ -181,7 +181,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public TriggerBox getArenaBox(TriggerBoxEventHandler eventHandler) throws Exception
     {
-        return getTriggerBoxFromString(this.getString(""+ArenaYMLPath.ARENA_REGION), eventHandler);
+        return getTriggerBoxFromString(this.getString(ArenaYMLPath.ARENA_REGION), eventHandler);
     }
     
     /**
