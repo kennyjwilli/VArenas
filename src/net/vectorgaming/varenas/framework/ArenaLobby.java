@@ -15,9 +15,9 @@ import org.bukkit.Location;
  */
 public class ArenaLobby extends VRegion
 {
-    private int duration = 30;
+    private int duration;
     private ArrayList<String> interval = new ArrayList<>();
-    private int timeLeftLobby = duration;
+    private int timeLeftLobby;
     private int TASK_ID;
     private boolean isLobbyTimerRunning = false;
     private ArenaSettings settings;
@@ -28,6 +28,9 @@ public class ArenaLobby extends VRegion
         setupDefaultInterval();
         this.settings = ArenaManager.getArenaSettings(ArenaManager.getArena(arena));
         this.framework = ArenaManager.getArenaFramework(ArenaManager.getArena(arena));
+        
+        duration = settings.getLobbyDuration();
+        timeLeftLobby = duration;
         
         this.setSpawn(new Location(world.getCraftWorld(), framework.getLobbySpawn().x, framework.getLobbySpawn().y, framework.getLobbySpawn().z));
     }
