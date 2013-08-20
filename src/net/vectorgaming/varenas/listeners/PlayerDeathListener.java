@@ -6,13 +6,11 @@ import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.Arena;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
 
 /**
@@ -58,7 +56,7 @@ public class PlayerDeathListener implements Listener
             return;
         
         ArenaAPI.resetPlayerState(dead);
-        dead.teleport(arena.getSpawnLocation(dead));
+        dead.teleport(arena.onRespawn(dead));
         
         Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
         {
