@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 
 /**
  *
@@ -111,11 +112,16 @@ public class ArenaAPI
      * Cancels the respawn screen for the given player and resets everything to normal
      * @param p Player to cancel the screen
      */
-    public static void cancelRespawnScreen(Player p)
+    public static void resetPlayerState(Player p)
     {
-        Packet205ClientCommand packet = new Packet205ClientCommand();
-        packet.a = 1;
-        ((CraftPlayer) p).getHandle().playerConnection.a(packet);
+//        Packet205ClientCommand packet = new Packet205ClientCommand();
+//        packet.a = 1;
+//        ((CraftPlayer) p).getHandle().playerConnection.a(packet);
+        p.setHealth(20D);
+        p.setFoodLevel(20);
+        for(PotionEffect effect : p.getActivePotionEffects())
+            p.removePotionEffect(effect.getType());
+        p.setFireTicks(0);
     }
 
 }
