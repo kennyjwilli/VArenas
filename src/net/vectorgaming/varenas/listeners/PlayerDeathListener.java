@@ -46,7 +46,7 @@ public class PlayerDeathListener implements Listener
         
         if(!arena.isRunning())
         {
-            ArenaAPI.cancelRespawnScreen(dead);
+            ArenaAPI.resetPlayerState(dead);
             dead.teleport(arena.getPostGameSpawn());
         }
         //Removes dropped items if needed
@@ -57,7 +57,7 @@ public class PlayerDeathListener implements Listener
         if(arena.getSettings().isShowRespawnScreen())
             return;
         
-        ArenaAPI.cancelRespawnScreen(dead);
+        ArenaAPI.resetPlayerState(dead);
         dead.teleport(arena.getSpawnLocation(dead));
         
         Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
