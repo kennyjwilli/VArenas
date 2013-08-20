@@ -27,8 +27,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  *
@@ -303,6 +304,18 @@ public abstract class Arena implements Listener
      * @param event PlayerQuitEvent
      */
     public abstract void onQuit(PlayerQuitEvent event);
+    
+    /**
+     * Called when a player places a block and if the block place is set to true in the settings
+     * @param event Bukkit event
+     */
+    public abstract void onBlockPlace(BlockPlaceEvent event);
+    
+    /**
+     * Called when a player breaks a block and if the block break is set to true in the settings
+     * @param event Bukkit event
+     */
+    public abstract void onBlockBreak(BlockBreakEvent event);
         
     /**
      * Removes all players from the arena
