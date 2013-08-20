@@ -2,7 +2,6 @@
 package net.vectorgaming.varenas.framework.interfaces;
 
 import java.util.List;
-import net.vectorgaming.varenas.framework.kits.Kit;
 
 /**
  *
@@ -81,4 +80,7 @@ public interface Settings
     
     public String getAllowedItemDrop();
     public void setAllowItemDrop(String type);
+    
+    public boolean isBlockPlaceAllow();
+    public void setBlockPlaceAllow(boolean value);
 }
