@@ -32,6 +32,11 @@ public class PlayerBlockBreakListener implements Listener
         Arena arena = ArenaManager.getArena(arenaName);
         
         if(!arena.getSettings().isBlockBreakEnabled())
+        {
             event.setCancelled(true);
+            return;
+        }
+        
+        arena.onBlockBreak(event);
     }
 }
