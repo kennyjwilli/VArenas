@@ -42,16 +42,10 @@ public abstract class Arena implements Listener
     private String map;
     private ArrayList<Player> players = new ArrayList();
     private ZoneWorld world;
-    private boolean blockBreakEnabler = false;
-    private boolean editMode = false;
-    private boolean tntEnabled = false;
     private boolean isRunning = false;
-    private int maxPlayers;
     private int id;
     private int TASK_ID;
     private int gameTime = 0;
-    private String authors;
-    private String objective;
     private HashMap<String, Location> spawnPoints = new HashMap();
     private TriggerBox arenaBox;
     private ArenaLobby lobby;
