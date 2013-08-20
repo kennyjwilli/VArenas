@@ -9,8 +9,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  *
@@ -44,7 +45,7 @@ public class PVPArena extends TeamArena
     @Override
     public void forceStop() 
     {
-        Bukkit.getScheduler().cancelTask(TASK_ID);
+        super.forceStop();
     }
 
     @Override
@@ -57,6 +58,7 @@ public class PVPArena extends TeamArena
     @Override
     public Location onRespawn(Player player)
     {
+        System.out.println("ttttttttttttttttttttttttttttttttttttt");
         return this.getSpawnLocation(player);
     }
 
@@ -97,4 +99,10 @@ public class PVPArena extends TeamArena
         for(Player p : getPlayers())
             p.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
     }
+
+    @Override
+    public void onBlockPlace(BlockPlaceEvent event){}
+
+    @Override
+    public void onBlockBreak(BlockBreakEvent event) {}
 }
