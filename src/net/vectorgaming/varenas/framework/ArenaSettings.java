@@ -14,6 +14,7 @@ public class ArenaSettings implements Settings
 {
     private String name;
     private boolean isBlockBreak;
+    private boolean isBlockPlace;
     private boolean isTNT;
     private boolean showRespawnScreen;
     private boolean isSpawnKit;
@@ -40,6 +41,7 @@ public class ArenaSettings implements Settings
     {
         this.name = name;
         isBlockBreak = false;
+        isBlockPlace = false;
         isTNT = false;
         maxPlayers = 2;
         minPlayers = 2;
@@ -364,4 +366,10 @@ public class ArenaSettings implements Settings
         }
         return result;
     }
+
+    @Override
+    public boolean isBlockPlaceAllow() {return isBlockPlace;}
+
+    @Override
+    public void setBlockPlaceAllow(boolean value) {isBlockPlace = value;}
 }
