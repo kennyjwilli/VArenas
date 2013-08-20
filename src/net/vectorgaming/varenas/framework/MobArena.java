@@ -11,8 +11,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  *
@@ -109,5 +110,11 @@ public class MobArena extends net.vectorgaming.varenas.framework.Arena
     {
         
     }
+
+    @Override
+    public void onBlockPlace(BlockPlaceEvent event) {}
+
+    @Override
+    public void onBlockBreak(BlockBreakEvent event) {}
     
 }
