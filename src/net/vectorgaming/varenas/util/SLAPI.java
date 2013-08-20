@@ -67,6 +67,7 @@ public class SLAPI
         settingsConfig.setMinPlayers(settings.getMinPlayers());
         settingsConfig.setTNTUse(settings.isTNTEnabled());
         settingsConfig.setBlockBreak(settings.isBlockBreakEnabled());
+        settingsConfig.setBlockPlaceAllow(settings.isBlockPlaceAllow());
         settingsConfig.setShowRespawnScreen(settings.isShowRespawnScreen());
         settingsConfig.setWinningKills(settings.getWinningKills());
         settingsConfig.setGameDuration(settings.getGameDuration());
@@ -204,6 +205,7 @@ public class SLAPI
         settings.setCustomKitsEnabled(settingsConfig.isCustomKitsEnabled());
         settings.setRespawnWithKit(settingsConfig.isRespawnWithKit());
         settings.setAllowItemDrop(settingsConfig.getAllowedItemDrop());
+        settings.setBlockPlaceAllow(settingsConfig.isBlockPlaceAllow());
 
         /*
          * Loads lobby settings
