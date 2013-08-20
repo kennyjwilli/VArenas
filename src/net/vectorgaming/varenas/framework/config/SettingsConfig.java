@@ -309,4 +309,18 @@ public class SettingsConfig extends ZoneConfig implements Settings
     {
         set("settings.allow-dropped-items", type);
     }
+
+    @Override
+    public boolean isBlockPlaceAllow()
+    {
+        return getBoolean("settings.block-place");
+    }
+
+    @Override
+    public void setBlockPlaceAllow(boolean value)
+    {
+        set("settings.block-place", value);
+    }
+    
+    
 }
