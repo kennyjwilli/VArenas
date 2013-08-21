@@ -7,7 +7,6 @@ import java.io.File;
 import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
-import net.vectorgaming.varenas.framework.kits.KitManager;
 import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
 import net.vectorgaming.varenas.listeners.*;
 import net.vectorgaming.varenas.util.SLAPI;
@@ -44,7 +43,6 @@ public class VArenas extends JavaPlugin
         setupEvents();
         registerArenaTypes();
         slapi.loadAllArenas();
-        KitManager.loadAllKits();
         ZoneConfig usersConfig = new ZoneConfig(this,new File("plugins/VArenas/arena-players.yml"));
         //playerManager = new ArenaPlayerManager(this,usersConfig);
     }
@@ -54,7 +52,6 @@ public class VArenas extends JavaPlugin
     {
         slapi.saveAllArenas();
         unloadAndDeleteArenas();
-        KitManager.saveAllKits();
         //Need to delete all arena maps 
         
         //playerManager.getUsersConfig().save();
