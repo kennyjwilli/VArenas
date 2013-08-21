@@ -42,14 +42,17 @@ public class PlayerDeathListener implements Listener
         //Fires arena death event
         arena.onDeath(dead, killer);
         
-        if(!arena.isRunning())
-        {
-            ArenaAPI.resetPlayerState(dead);
-            dead.teleport(arena.getPostGameSpawn());
-        }
         //Removes dropped items if needed
         if(!arena.getSettings().getAllowedItemDropTypes().contains("DEATH") && !arena.getSettings().getAllowedItemDropTypes().contains("ALL"))
             event.getDrops().clear();
+        
+        if(!arena.isRunning())
+        {
+            event.getDrops().clear();
+            ArenaAPI.resetPlayerState(dead);
+            dead.teleport(arena.getPostGameSpawn());
+            return;
+        }
         
         //Checks to see if the respawn screen is enabled
         if(arena.getSettings().isShowRespawnScreen())
