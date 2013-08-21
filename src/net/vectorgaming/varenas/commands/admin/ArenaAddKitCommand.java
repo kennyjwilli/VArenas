@@ -2,9 +2,9 @@
 package net.vectorgaming.varenas.commands.admin;
 
 import java.util.Arrays;
+import net.vectorgaming.arenakits.KitManager;
+import net.vectorgaming.arenakits.framework.Kit;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.kits.Kit;
-import net.vectorgaming.varenas.framework.kits.KitManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
