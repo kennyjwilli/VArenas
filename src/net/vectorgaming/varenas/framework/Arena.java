@@ -335,7 +335,13 @@ public abstract class Arena implements Listener
         sendEndMessage();
         removeAllPlayers();
         HandlerList.unregisterAll(this);
-        unloadAndDeleteWorld();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
+        {
+            public void run()
+            {
+                unloadAndDeleteWorld();
+            }
+        }, 20L);
     }
     
     public void unloadAndDeleteWorld()
@@ -475,7 +481,12 @@ public abstract class Arena implements Listener
     {
         //later should teleport all players to the realm gates or whatever we end up calling them
         //Location loc = Bukkit.getWorld("spawn").getSpawnLocation();
-        for(Player p : players){p.teleport(this.getLobby().getSpawn());}
+        for(Player p : players)
+        {
+            System.out.println(p.getName());
+            ArenaAPI.resetPlayerState(p);
+            p.teleport(this.getLobby().getSpawn());
+        }
     }
     
     /**
