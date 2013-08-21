@@ -3,9 +3,9 @@ package net.vectorgaming.varenas.commands.admin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import net.vectorgaming.arenakits.KitManager;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.kits.KitManager;
 import net.vectorgaming.varenas.util.SLAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
