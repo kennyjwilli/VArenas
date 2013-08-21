@@ -4,9 +4,9 @@ package net.vectorgaming.varenas;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import net.vectorgaming.arenakits.KitManager;
+import net.vectorgaming.arenakits.framework.Kit;
 import net.vectorgaming.varenas.framework.Arena;
-import net.vectorgaming.varenas.framework.kits.Kit;
-import net.vectorgaming.varenas.framework.kits.KitManager;
 import org.bukkit.entity.Player;
 
 /**
