@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 
 /**
  *
@@ -122,6 +123,7 @@ public class ArenaAPI
         for(PotionEffect effect : p.getActivePotionEffects())
             p.removePotionEffect(effect.getType());
         p.setFireTicks(0);
+        p.setVelocity(new Vector());
     }
 
 }
