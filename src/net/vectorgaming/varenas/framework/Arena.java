@@ -5,6 +5,7 @@ import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import info.jeppes.ZoneCore.ZoneTools;
 import info.jeppes.ZoneWorld.ZoneWorld;
+import info.jeppes.ZoneWorld.ZoneWorldAPI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -122,6 +123,8 @@ public abstract class Arena implements Listener
         {
             spawnKit = null;
         }
+        System.out.println(postGameSpawn.getWorld().getName());
+        System.out.println(postGameSpawn.toString());
     }
     
     /**
@@ -329,25 +332,39 @@ public abstract class Arena implements Listener
     {
         setRunning(false);
         endTeleportAction();
-        deleteWorldInventory();
-        //rewardPlayers(null);
-        recordStats();
-        sendEndMessage();
-        removeAllPlayers();
-        HandlerList.unregisterAll(this);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
-        {
-            public void run()
-            {
-                unloadAndDeleteWorld();
-            }
-        }, 20L);
+//        deleteWorldInventory();
+//        //rewardPlayers(null);
+//        recordStats();
+//        sendEndMessage();
+//        removeAllPlayers();
+//        HandlerList.unregisterAll(this);
+//       
+//        for(Entity entity : world.getEntities())
+//        {
+//            entity.remove();
+//        }
+//        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
+//        {
+//            public void run()
+//            {
+//                unloadAndDeleteWorld();
+//            }
+//        }, 60L);
     }
     
     public void unloadAndDeleteWorld()
     {
-        world.unloadWorld();
-        ZoneTools.deleteDirectory(world.getWorldFolder());
+        //world.unloadWorld();
+        Bukkit.getServer().unloadWorld(world, false);
+        world.setLoadOnStart(false);
+        
+        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
+        {
+            public void run()
+            {
+                ZoneTools.deleteDirectory(world.getWorldFolder());
+            }
+        }, 60L);
     }
     
     /**
@@ -481,11 +498,27 @@ public abstract class Arena implements Listener
     {
         //later should teleport all players to the realm gates or whatever we end up calling them
         //Location loc = Bukkit.getWorld("spawn").getSpawnLocation();
+//        ZoneWorld postWorld = ZoneWorldAPI.getWorld(getPostGameSpawn().getWorld());
+//        System.out.println("123");
+//        if(postWorld != null)
+//        {
+//            System.out.println("11");
+//            if(!world.isLoaded())
+//            {
+//                world.load();
+//                System.out.println("22");
+//            }
+//            System.out.println("33");
+//        }else
+//        {
+//            System.out.println("NULL POST WORLD");
+//        }
+        
         for(Player p : players)
         {
             System.out.println(p.getName());
             ArenaAPI.resetPlayerState(p);
-            p.teleport(this.getLobby().getSpawn());
+            p.teleport(postGameSpawn);
         }
     }
     
