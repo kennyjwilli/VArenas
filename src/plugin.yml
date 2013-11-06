@@ -6,6 +6,7 @@ website: http://vectorgaming.net
 description: Player versus player arena manager
 
 depend: [ZoneCore, ZoneWorld]
+softdepend: [WorldInventories,MobArena,ArenaKits]
 
 commands:
   arena:
