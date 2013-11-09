@@ -11,9 +11,9 @@ import net.vectorgaming.vchat.framework.channel.ChannelCreator;
 public class ArenaChannelCreator extends ChannelCreator
 {
     @Override
-    public Channel createChannel(String name)
+    public Channel createChannel(String arena)
     {
-        return new ArenaChannel(name);
+        return new ArenaChannel(arena);
     }
 
     @Override
