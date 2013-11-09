@@ -1,7 +1,10 @@
 
 package net.vectorgaming.varenas.chat;
 
+import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.vchat.framework.channel.Channel;
+import org.bukkit.entity.Player;
 
 /**
  *
@@ -9,9 +12,26 @@ import net.vectorgaming.vchat.framework.channel.Channel;
  */
 public class ArenaChannel extends Channel
 {
-    public ArenaChannel(String name)
+    private String arenaName;
+    /**
+     *
+     * @param arena Name of the arena that the channel will use
+     */
+    public ArenaChannel(String arena)
     {
-        super(name, "ARENA_CHANNEL");
+        super(arena, "ARENA_CHANNEL");
+        arenaName = arena;
     }
-
+    
+    @Override
+    public void onChat(Player player, String message)
+    {
+        Arena arena = ArenaManager.getArena(arenaName);
+        super.onChat(player, message);
+        String formatted = getChatParser().replaceAll(getFormat());
+        for(Player p : arena.getPlayers())
+        {
+            p.sendMessage(formatted);
+        }
+    }
 }
