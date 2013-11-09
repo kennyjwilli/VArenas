@@ -22,12 +22,14 @@ public class ArenaLobby extends VRegion
     private boolean isLobbyTimerRunning = false;
     private ArenaSettings settings;
     private ArenaFramework framework;
+    private Arena arena;
     
     public ArenaLobby(String arena, ZoneWorld world)
     {
         setupDefaultInterval();
         this.settings = ArenaManager.getArenaSettings(ArenaManager.getArena(arena));
         this.framework = ArenaManager.getArenaFramework(ArenaManager.getArena(arena));
+        this.arena = ArenaManager.getArena(arena);
         
         duration = settings.getLobbyDuration();
         timeLeftLobby = duration;
@@ -85,8 +87,7 @@ public class ArenaLobby extends VRegion
                 {
                     if(Integer.parseInt(s) == timeLeftLobby)
                     {
-                        //temp until VChat
-                        Bukkit.broadcastMessage(s+" seconds until match starts!");
+                        arena.getChannel().sendChannelMessage(s+" seconds until match starts!");
                     }
                 }
                 if(timeLeftLobby == 0)
