@@ -5,8 +5,6 @@ import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.Arena;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -16,7 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
  */
 public class PlayerDamageListener implements Listener
 {
-    @EventHandler(priority = EventPriority.MONITOR)
+    //@EventHandler(priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageEvent event)
     {
         Player p;
@@ -42,7 +40,10 @@ public class PlayerDamageListener implements Listener
         {
             ArenaPlayerManager.getArenaFromPlayer(p).onDeath(p, event.getEntity());
             if(ArenaManager.getArenaSettings(arena).isShowRespawnScreen())
+            {
                 return;
+            }
+            
             p.setHealth(20D);
             p.teleport(arena.getSpawnLocation(p));
             event.setCancelled(true);
