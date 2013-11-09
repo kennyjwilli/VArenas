@@ -1,5 +1,6 @@
 package net.vectorgaming.varenas;
 
+import net.vectorgaming.varenas.framework.ArenaCreator;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
