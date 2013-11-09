@@ -3,6 +3,7 @@ package net.vectorgaming.varenas.framework;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import net.vectorgaming.varenas.framework.stats.stats.KillCounter;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
+import net.vectorgaming.vchat.framework.channel.Channel;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -15,8 +16,8 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 public abstract class PVPTeamArena extends TeamArena{
     private KillCounter killCounter;
 
-    public PVPTeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
-        super(name, map, lobby, spectatorBox, world);
+    public PVPTeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world, Channel ch) {
+        super(name, map, lobby, spectatorBox, world, ch);
     }
 
     public PVPTeamArena(String name, String map, ZoneWorld world) {
