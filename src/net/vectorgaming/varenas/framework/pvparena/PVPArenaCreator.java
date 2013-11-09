@@ -2,7 +2,7 @@
 package net.vectorgaming.varenas.framework.pvparena;
 
 import info.jeppes.ZoneWorld.ZoneWorld;
-import net.vectorgaming.varenas.ArenaCreator;
+import net.vectorgaming.varenas.framework.ArenaCreator;
 import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.PVPArena;
 
