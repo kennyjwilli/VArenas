@@ -5,7 +5,7 @@ author: Kenny Williams
 website: http://vectorgaming.net
 description: Player versus player arena manager
 
-depend: [ZoneCore, ZoneWorld]
+depend: [ZoneCore, ZoneWorld, VCore, VChat]
 softdepend: [WorldInventories,MobArena,ArenaKits]
 
 commands:
