@@ -195,6 +195,7 @@ public abstract class Arena implements Listener
             if(p.getGameMode() != GameMode.SURVIVAL) {
                 p.setGameMode(GameMode.SURVIVAL);
             }
+            ArenaAPI.resetPlayerState(p);
             p.teleport(this.getLobby().getSpawn());
             //temp fix until VChat is done
             p.sendMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
@@ -333,30 +334,29 @@ public abstract class Arena implements Listener
         setRunning(false);
         endTeleportAction();
 //        deleteWorldInventory();
-//        //rewardPlayers(null);
-//        recordStats();
-//        sendEndMessage();
-//        removeAllPlayers();
-//        HandlerList.unregisterAll(this);
-//       
-//        for(Entity entity : world.getEntities())
-//        {
-//            entity.remove();
-//        }
-//        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
-//        {
-//            public void run()
-//            {
-//                unloadAndDeleteWorld();
-//            }
-//        }, 60L);
+        //rewardPlayers(null);
+        recordStats();
+        sendEndMessage();
+        removeAllPlayers();
+        HandlerList.unregisterAll(this);
+       
+        for(Entity entity : world.getEntities())
+        {
+            entity.remove();
+        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
+        {
+            public void run()
+            {
+                unloadAndDeleteWorld();
+            }
+        }, 60L);
     }
     
     public void unloadAndDeleteWorld()
     {
         //world.unloadWorld();
-        Bukkit.getServer().unloadWorld(world, false);
-        world.setLoadOnStart(false);
+        Bukkit.getServer().unloadWorld(world.getCraftWorld(), false);
         
         Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
         {
