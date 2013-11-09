@@ -196,8 +196,10 @@ public class ArenaManager
     
     /**
      * Creates an arena from the specified map.
-     * This will start the arena
-     * @param mapName Name of map 
+     * This will start the arena 
+     * @param map Name of the map to start an arena off of
+     * @param start If the match should start or not
+     * @return Arena created
      */
     public static Arena createArena(String map, boolean start)
     {
