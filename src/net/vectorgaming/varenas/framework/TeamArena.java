@@ -5,13 +5,14 @@ import info.jeppes.ZoneWorld.ZoneWorld;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
 import net.vectorgaming.varenas.framework.teams.ArenaTeamData;
 import java.util.ArrayList;
+import net.vectorgaming.vchat.framework.channel.Channel;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 
 public abstract class TeamArena extends Arena{
-    public TeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world) {
-        super(name, map, lobby, spectatorBox, world);
+    public TeamArena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world, Channel ch) {
+        super(name, map, lobby, spectatorBox, world, ch);
     }
     public TeamArena(String name, String map, ZoneWorld world) {
         super(name, map, world);
