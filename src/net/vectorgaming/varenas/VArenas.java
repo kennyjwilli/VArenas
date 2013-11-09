@@ -4,12 +4,14 @@ import info.jeppes.ZoneCore.ZoneConfig;
 import info.jeppes.ZoneCore.ZoneTools;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import java.io.File;
+import net.vectorgaming.varenas.chat.ArenaChannelCreator;
 import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
 import net.vectorgaming.varenas.listeners.*;
 import net.vectorgaming.varenas.util.SLAPI;
+import net.vectorgaming.vchat.VChatAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -44,6 +46,7 @@ public class VArenas extends JavaPlugin
         registerArenaTypes();
         slapi.loadAllArenas();
         ZoneConfig usersConfig = new ZoneConfig(this,new File("plugins/VArenas/arena-players.yml"));
+        VChatAPI.registerChannelType("ARENA_CHANNEL", new ArenaChannelCreator());
         //playerManager = new ArenaPlayerManager(this,usersConfig);
     }
     
