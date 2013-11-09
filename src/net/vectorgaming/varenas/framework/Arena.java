@@ -5,8 +5,8 @@ import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import info.jeppes.ZoneCore.ZoneTools;
 import info.jeppes.ZoneWorld.ZoneWorld;
-import info.jeppes.ZoneWorld.ZoneWorldAPI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +21,8 @@ import net.vectorgaming.varenas.framework.enums.EventResult;
 import net.vectorgaming.varenas.framework.stats.ArenaStats;
 import net.vectorgaming.varenas.framework.teams.TeamManager;
 import net.vectorgaming.varenas.util.SLAPI;
+import net.vectorgaming.vchat.ChatManager;
+import net.vectorgaming.vchat.framework.channel.Channel;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -55,9 +57,11 @@ public abstract class Arena implements Listener
     private Location postGameSpawn;
     private final TeamManager teamManager;
     private Kit spawnKit;
+    private Channel channel;
     
     private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
     private HashMap<String, Location> locationMap = new HashMap<>();
+    private HashMap<Player, ArrayList<Channel>> oldChannels = new HashMap<>();
     
     /**
      * 
@@ -66,8 +70,9 @@ public abstract class Arena implements Listener
      * @param lobby ArenaLobby
      * @param spectatorBox ArenaSpectatorBox
      * @param world World the arena will be based in
+     * @param ch Chat channel for the arena
      */
-    public Arena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world)
+    public Arena(String name, String map, ArenaLobby lobby, ArenaSpectatorBox spectatorBox, ZoneWorld world, Channel ch)
     {
         this.name = name;
         this.type = ArenaManager.getArenaSettings(map).getType();
@@ -92,6 +97,7 @@ public abstract class Arena implements Listener
         {
             spawnKit = null;
         }
+        channel = ch;
     }
     
     /**
@@ -123,15 +129,15 @@ public abstract class Arena implements Listener
         {
             spawnKit = null;
         }
-        System.out.println(postGameSpawn.getWorld().getName());
-        System.out.println(postGameSpawn.toString());
+        channel = ChatManager.createChannel(name, "ARENA_CHANNEL");
     }
     
     /**
      * Get the team manager used with the respective arena
      * @return The team manager used by the arena
      */
-    public TeamManager getTeamManager() {
+    public TeamManager getTeamManager() 
+    {
         return teamManager;
     }
     
@@ -186,23 +192,33 @@ public abstract class Arena implements Listener
         stats = new ArenaStats(this);
         this.setupWorldInventory();
         
-        for(Player p : ArenaPlayerManager.getPlayersInArena(this)) {
+        for(Player p : ArenaPlayerManager.getPlayersInArena(this)) 
+        {
             addPlayer(p);
         }
         
         for(Player p : getPlayers())
         {
-            if(p.getGameMode() != GameMode.SURVIVAL) {
+            if(p.getGameMode() != GameMode.SURVIVAL) 
+            {
                 p.setGameMode(GameMode.SURVIVAL);
             }
             ArenaAPI.resetPlayerState(p);
             p.teleport(this.getLobby().getSpawn());
-            //temp fix until VChat is done
-            p.sendMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
+            /*
+            Adds players to the arena chat channel and saves their old channels
+            */
+            if(ChatManager.getJoinedChannels(p) != null)
+            {
+                
+                ArrayList<Channel> tempList = (ArrayList<Channel>) ChatManager.getJoinedChannels(p).clone();
+                oldChannels.put(p, tempList);
+                for(int i = 0; i < tempList.size(); i++) ChatManager.leaveChannel(p, tempList.get(i), true);
+                for(Channel chh : oldChannels.get(p)) System.out.println(chh.getName()+" oldch test2");
+            }
+            ChatManager.focusChannel(p, channel);
+            channel.sendChannelMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
         }
-        
-        //Add all players to Arena Chat Channel
-        //Silence other channels
         
         this.getLobby().startLobbyTimer();
                 
@@ -271,7 +287,16 @@ public abstract class Arena implements Listener
         {
             System.out.println("1");
             p.teleport(postGameSpawn);
+            /*
+            Add players back into their previous chat channels
+            */
+            ChatManager.leaveChannel(p, channel, true);
+            if(oldChannels.containsKey(p))
+            {
+                for(Channel ch : oldChannels.get(p)) ChatManager.focusChannel(p, ch);
+            }
         }
+        ChatManager.deleteChannel(channel.getName());
         this.removeAllPlayers();
         unloadAndDeleteWorld();
     }
@@ -335,6 +360,7 @@ public abstract class Arena implements Listener
         endTeleportAction();
 //        deleteWorldInventory();
         //rewardPlayers(null);
+        deleteAndResetChannels();
         recordStats();
         sendEndMessage();
         removeAllPlayers();
@@ -351,6 +377,26 @@ public abstract class Arena implements Listener
                 unloadAndDeleteWorld();
             }
         }, 60L);
+    }
+    
+    private void deleteAndResetChannels()
+    {
+        for(Player p : getPlayers())
+        {
+            ChatManager.leaveChannel(p, channel, true);
+            if(oldChannels.containsKey(p))
+            {
+                System.out.println("1"+p.getName());
+                System.out.println(oldChannels.get(p).size()+"size for "+p.getName());
+                for(Channel ch : oldChannels.get(p))
+                {
+                    System.out.println(ch.getName()+"2");
+                    ChatManager.focusChannel(p, ch);
+                }
+            }
+            System.out.println("3"+p.getName());
+        }
+        ChatManager.deleteChannel(channel.getName());
     }
     
     public void unloadAndDeleteWorld()
@@ -520,6 +566,15 @@ public abstract class Arena implements Listener
             ArenaAPI.resetPlayerState(p);
             p.teleport(postGameSpawn);
         }
+    }
+    
+    /**
+     * Gets the chat channel for the arena
+     * @return A chat channel
+     */
+    public Channel getChannel()
+    {
+        return channel;
     }
     
     /**
