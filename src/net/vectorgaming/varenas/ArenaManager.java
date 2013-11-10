@@ -257,7 +257,8 @@ public class ArenaManager
         arena.setSpectatorBox(new ArenaSpectatorBox(arenaName, zWorld));
         
         //Starts the arena if required to
-        if(start) {
+        if(start) 
+        {
             arena.start();
         }
         
