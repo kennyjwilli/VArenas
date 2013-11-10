@@ -6,7 +6,6 @@ import info.jeppes.ZoneCore.TriggerBoxes.TriggerBox;
 import info.jeppes.ZoneCore.ZoneTools;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
@@ -339,6 +340,18 @@ public abstract class Arena implements Listener
      * @param event Bukkit event
      */
     public abstract void onBlockBreak(BlockBreakEvent event);
+    
+    /**
+     * Called when an entity is damaged by another entity
+     * @param event Bukkit event
+     */
+    public abstract void onEntityDamageByEntity(EntityDamageByEntityEvent event);
+    
+    /**
+     * Called when a player launches a projectile
+     * @param event Bukkit event
+     */
+    public abstract void onProjectileLaunch(ProjectileLaunchEvent event);
         
     /**
      * Removes all players from the arena
