@@ -11,6 +11,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
@@ -104,4 +106,16 @@ public class PVPArena extends TeamArena
 
     @Override
     public void onBlockBreak(BlockBreakEvent event) {}
+
+    @Override
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+    {
+        
+    }
+
+    @Override
+    public void onProjectileLaunch(ProjectileLaunchEvent event)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
