@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
+import info.jeppes.ZoneCore.TriggerBoxes.Point3D;
 import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.commands.VCommand;
@@ -31,7 +32,7 @@ public class ArenaAddLocation extends VCommand
             return true;
         }
         
-        ArenaManager.getAreanFramework(args[0].toLowerCase()).addLocation(args[1].toLowerCase(), ((Player) cs).getLocation());
+        ArenaManager.getAreanFramework(args[0].toLowerCase()).addLocation(args[1].toLowerCase(), new Point3D(((Player) cs).getLocation()));
         cs.sendMessage(ChatColor.GREEN+"Successfully added new location for "+ChatColor.YELLOW+args[1].toLowerCase()+ChatColor.GREEN+" in map "+ChatColor.YELLOW+args[0].toLowerCase());
         return true;
     }
