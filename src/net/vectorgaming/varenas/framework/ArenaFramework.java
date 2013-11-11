@@ -229,11 +229,11 @@ public class ArenaFramework
     /**
      * Adds a location to an arena
      * @param path Path to be saved in the YML file
-     * @param loc Location 
+     * @param point 3D point to add
      */
-    public void addLocation(String path, Location loc)
+    public void addLocation(String path, Point3D point)
     {
-        locationMap.put("locations."+path, new Point3D(loc));
+        locationMap.put("locations."+path, point);
     }
     
     /**
