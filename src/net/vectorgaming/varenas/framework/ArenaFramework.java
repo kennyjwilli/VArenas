@@ -15,10 +15,10 @@ import org.bukkit.Location;
  */
 public class ArenaFramework 
 {
-    private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
-    private HashMap<String, Point3D> locationMap = new HashMap<>();
-    private HashMap<String, Point3D> arenaSpawnsMap = new HashMap<>();
-    private String name;
+    private final HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
+    private final HashMap<String, Point3D> locationMap = new HashMap<>();
+    private final HashMap<String, Point3D> arenaSpawnsMap = new HashMap<>();
+    private final String name;
     
     /**
      * 
@@ -122,7 +122,7 @@ public class ArenaFramework
      */
     public Point3D getLobbySpawn()
     {
-        return locationMap.get(ArenaYMLPath.LOBBY_SPAWN.toString());
+        return locationMap.get(ArenaYMLPath.LOBBY_SPAWN);
     }
     
     /**
@@ -140,7 +140,7 @@ public class ArenaFramework
      */
     public void setLobbyLocation(Point3D point)
     {
-        locationMap.put(ArenaYMLPath.LOBBY_SPAWN.toString(), point);
+        locationMap.put(ArenaYMLPath.LOBBY_SPAWN, point);
     }
     
     /**
@@ -233,7 +233,7 @@ public class ArenaFramework
      */
     public void addLocation(String path, Point3D point)
     {
-        locationMap.put("locations."+path, point);
+        locationMap.put(path, point);
     }
     
     /**
