@@ -117,6 +117,8 @@ public class ArenaAPI
 //        Packet205ClientCommand packet = new Packet205ClientCommand();
 //        packet.a = 1;
 //        ((CraftPlayer) p).getHandle().playerConnection.a(packet);
+        p.setHealthScale(20.0D);
+        p.setHealthScaled(false);
         p.setHealth(20D);
         p.setFoodLevel(20);
         for(PotionEffect effect : p.getActivePotionEffects())
