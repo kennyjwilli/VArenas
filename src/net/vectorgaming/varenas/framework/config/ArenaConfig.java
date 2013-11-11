@@ -262,7 +262,7 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Adds a location to the arena
+     * Adds a location to the arena in the path 'location'
      * @param path Path to save the location
      * @param location Location of the spawn
      */
@@ -272,12 +272,17 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Adds a location to the arena
+     * Adds a location to the arena in the path 'location'
      * @param path Path to save the location
      * @param point 3D location of the spawn
      */
     public void addLocation(String path, Point3D point)
     {
-        this.set(path, point.toSaveString());
+        this.set("locations."+path, point.toSaveString());
+    }
+    
+    public Point3D getLocation(String path)
+    {
+        return Point3D.toPoint3D("locations."+path);
     }
 }
