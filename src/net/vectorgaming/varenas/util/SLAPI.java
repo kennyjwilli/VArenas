@@ -164,7 +164,12 @@ public class SLAPI
             framework.addArenaSpawn(str, Point3D.toPoint3D(frameworkConfig.getString(ArenaYMLPath.ARENA_SPAWNS+"."+str)));
         framework.setLobbyLocation(frameworkConfig.getLobbySpawn());
         framework.setSpectatorBoxSpawn(frameworkConfig.getSpectatorBoxSpawn());
-
+        
+        /*
+        Loading of custom locations must be done by the plugin using the API. VArenas does not know the
+        path of your location and therefore cannot load it. 
+        */
+        
         /*
          * Loads regions
          */
