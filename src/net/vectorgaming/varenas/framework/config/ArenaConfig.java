@@ -272,17 +272,18 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Adds a location to the arena in the path 'location'
+     * Adds a location to the arena. If it is a location then ensure you prefix the 
+     * path with 'location.'+path
      * @param path Path to save the location
      * @param point 3D location of the spawn
      */
     public void addLocation(String path, Point3D point)
     {
-        this.set("locations."+path, point.toSaveString());
+        this.set(path, point.toSaveString());
     }
     
     public Point3D getLocation(String path)
     {
-        return Point3D.toPoint3D("locations."+path);
+        return Point3D.toPoint3D(getString("locations."+path));
     }
 }
