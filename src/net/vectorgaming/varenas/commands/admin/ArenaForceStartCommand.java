@@ -57,7 +57,7 @@ public class ArenaForceStartCommand extends SubCommand
     @Override
     public String getUsage()
     {
-        return "Usage: /arena forcestart <arena>";
+        return "/arena forcestart <arena>";
     }
 
     @Override

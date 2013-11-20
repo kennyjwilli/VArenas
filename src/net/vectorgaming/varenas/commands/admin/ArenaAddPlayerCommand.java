@@ -44,7 +44,7 @@ public class ArenaAddPlayerCommand extends SubCommand
     @Override
     public String getUsage()
     {
-        return "Usage: /arena addplayer <arena> <player>";
+        return "/arena addplayer <arena> <player>";
     }
 
     @Override

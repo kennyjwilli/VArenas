@@ -37,7 +37,7 @@ public class ArenaSetPostGameSpawnCommand extends SubCommand
     public String getName() {return "arena setpostgamespawn";}
 
     @Override
-    public String getUsage() {return "Usage: /arena setpostgamespawn <map>";}
+    public String getUsage() {return "/arena setpostgamespawn <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

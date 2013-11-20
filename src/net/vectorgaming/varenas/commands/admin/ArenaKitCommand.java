@@ -48,7 +48,7 @@ public class ArenaKitCommand extends SubCommand
     }
 
     @Override
-    public String getUsage() {return "Usage: /arena kit <name> [clearInventory]";}
+    public String getUsage() {return "/arena kit <name> [clearInventory]";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

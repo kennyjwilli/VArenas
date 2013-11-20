@@ -49,10 +49,7 @@ public class ArenaReloadCommand extends SubCommand
     }
 
     @Override
-    public String getName() {return "arena reload";}
-
-    @Override
-    public String getUsage() {return "Usage: /arena reload";}
+    public String getUsage() {return "/arena reload";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return false;}

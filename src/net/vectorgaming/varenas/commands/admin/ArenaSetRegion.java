@@ -70,7 +70,7 @@ public class ArenaSetRegion extends SubCommand
     }
     
     @Override
-    public String getUsage() {return "Usage: /arena setregion <map>";}
+    public String getUsage() {return "/arena setregion <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

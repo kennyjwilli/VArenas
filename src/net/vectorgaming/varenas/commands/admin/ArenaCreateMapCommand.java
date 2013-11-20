@@ -32,7 +32,7 @@ public class ArenaCreateMapCommand extends SubCommand
     }
 
     @Override
-    public String getUsage() {return "Usage: /arena createmap <map>";}
+    public String getUsage() {return "/arena createmap <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

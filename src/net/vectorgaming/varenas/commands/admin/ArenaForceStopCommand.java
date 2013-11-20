@@ -39,7 +39,7 @@ public class ArenaForceStopCommand extends SubCommand
     @Override
     public String getUsage()
     {
-        return "Usage: /arena forcestop <arena>";
+        return "/arena forcestop <arena>";
     }
 
     @Override

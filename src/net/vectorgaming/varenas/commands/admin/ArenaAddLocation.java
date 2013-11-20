@@ -37,14 +37,13 @@ public class ArenaAddLocation extends SubCommand
         
         ArenaManager.getAreanFramework(args[0].toLowerCase()).addLocation(args[1].toLowerCase(), new Point3D(((Player) cs).getLocation()));
         cs.sendMessage(ChatColor.GREEN+"Successfully added new location for "+ChatColor.YELLOW+args[1].toLowerCase()+ChatColor.GREEN+" in map "+ChatColor.YELLOW+args[0].toLowerCase());
-        return;
     }
 
     @Override
     public String getName() {return "arena addlocation";}
 
     @Override
-    public String getUsage(){return "Usage: /arena addlocation <map> <locationName>";}
+    public String getUsage(){return "/arena addlocation <map> <locationName>";}
 
     @Override
     public boolean isPlayerOnlyCommand(){return true;}

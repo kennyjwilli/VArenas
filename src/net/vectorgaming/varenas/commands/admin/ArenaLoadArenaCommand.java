@@ -40,7 +40,7 @@ public class ArenaLoadArenaCommand extends SubCommand
     public String getName() {return "arena load";}
 
     @Override
-    public String getUsage() {return "Usage: /arena load <map>";}
+    public String getUsage() {return "/arena load <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return false;}

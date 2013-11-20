@@ -36,7 +36,7 @@ public class ArenaSetSpectateSpawnCommand extends SubCommand
     }
 
     @Override
-    public String getUsage() {return "Usage: /arena setspectatorbox <map>";}
+    public String getUsage() {return "/arena setspectatorbox <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

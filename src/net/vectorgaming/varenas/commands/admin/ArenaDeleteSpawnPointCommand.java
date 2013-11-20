@@ -68,7 +68,7 @@ public class ArenaDeleteSpawnPointCommand extends SubCommand
     }
 
     @Override
-    public String getUsage() {return "Usage: /arena deletespawn <map> <spawn>";}
+    public String getUsage() {return "/arena deletespawn <map> <spawn>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

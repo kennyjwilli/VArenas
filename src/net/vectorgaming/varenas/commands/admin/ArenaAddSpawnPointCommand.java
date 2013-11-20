@@ -40,7 +40,7 @@ public class ArenaAddSpawnPointCommand extends SubCommand
     public String getName() {return "arena addspawn";}
 
     @Override
-    public String getUsage() {return "Usage: /arena addspawn <map> <spawn>";}
+    public String getUsage() {return "/arena addspawn <map> <spawn>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

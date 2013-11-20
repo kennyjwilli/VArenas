@@ -40,7 +40,7 @@ public class ArenaAddKitCommand extends SubCommand
     }
 
     @Override
-    public String getUsage() {return "Usage: /arena addkit <name>";}
+    public String getUsage() {return "/arena addkit <name>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}

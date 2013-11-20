@@ -45,7 +45,7 @@ public class ArenaQueueArenaCommand extends SubCommand
     }
 
     @Override
-    public String getUsage() {return "Usage: /arena queuearena <map>";}
+    public String getUsage() {return "/arena queuearena <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return false;}

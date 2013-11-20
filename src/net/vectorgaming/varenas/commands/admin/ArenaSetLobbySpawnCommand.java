@@ -35,7 +35,7 @@ public class ArenaSetLobbySpawnCommand extends SubCommand
     }
 
     @Override
-    public String getUsage() {return "Usage: /arena setlobby <map>";}
+    public String getUsage() {return "/arena setlobby <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}
