@@ -1,8 +1,11 @@
 
 package net.vectorgaming.varenas.commands.user;
 
-import net.vectorgaming.varenas.commands.VCommand;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.commands.admin.*;
+import net.vectorgaming.vcore.VCoreAPI;
+import net.vectorgaming.vcore.framework.commands.VCommand;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -11,16 +14,31 @@ import org.bukkit.command.CommandSender;
  */
 public class ArenaCommand extends VCommand
 {
-
+    public ArenaCommand()
+    {
+        super("arena", ArenaAPI.getPlugin());
+        addSubCommand(new ArenaCreateMapCommand());
+        addSubCommand(new ArenaAddKitCommand());
+        addSubCommand(new ArenaAddPlayerCommand());
+        addSubCommand(new ArenaAddSpawnPointCommand());
+        addSubCommand(new ArenaCreateMapCommand());
+        addSubCommand(new ArenaDeleteSpawnPointCommand());
+        addSubCommand(new ArenaForceStartCommand());
+        addSubCommand(new ArenaForceStopCommand());
+        addSubCommand(new ArenaKitCommand());
+        addSubCommand(new ArenaLoadArenaCommand());
+        addSubCommand(new ArenaQueueArenaCommand());
+        addSubCommand(new ArenaReloadCommand());
+        addSubCommand(new ArenaSetLobbySpawnCommand());
+        addSubCommand(new ArenaSetPostGameSpawnCommand());
+        addSubCommand(new ArenaSetRegion());
+        addSubCommand(new ArenaSetSpectateSpawnCommand());
+    }
+    
     @Override
-    public boolean run(CommandSender cs, String[] args) {
-        if(args.length == 0)
-        {
-            cs.sendMessage(getUsage());
-            return true;
-        }
-        this.runSubCommand(cs, args[0], args);
-        return true;
+    public void run(CommandSender cs, String[] args) {
+        cs.sendMessage(VCoreAPI.getColorScheme().getTitleBar("VArenas Help"));
+        cs.sendMessage(ChatColor.GREEN+"Type "+VCoreAPI.getColorScheme().getArgumentColor()+"/arena help "+ChatColor.GREEN+"for a list of commands.");
     }
 
     @Override
@@ -33,32 +51,24 @@ public class ArenaCommand extends VCommand
     public boolean isPlayerOnlyCommand() {return false;}
 
     @Override
-    public String[] getAliases() {
+    public String getPermission() {return "varena.help";}
+
+    @Override
+    public String getDescription()
+    {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void setupSubCommands() {
-        this.addSubCommand("createmap", ArenaCreateMapCommand.class);
-        this.addSubCommand("addspawn", ArenaAddSpawnPointCommand.class);
-        this.addSubCommand("deletespawn", ArenaDeleteSpawnPointCommand.class);
-        this.addSubCommand("setregion", ArenaSetRegion.class);
-        this.addSubCommand("setlobby", ArenaSetLobbySpawnCommand.class);
-        this.addSubCommand("setspectatorbox", ArenaSetSpectateSpawnCommand.class);
-        this.addSubCommand("forcestart", ArenaForceStartCommand.class);
-        this.addSubCommand("forcestop", ArenaForceStopCommand.class);
-        this.addSubCommand("addplayer", ArenaAddPlayerCommand.class);
-        this.addSubCommand("queuearena", ArenaQueueArenaCommand.class);
-        this.addSubCommand("addlocation", ArenaAddLocation.class);
-        this.addSubCommand("setpostgamespawn", ArenaSetPostGameSpawnCommand.class);
-        this.addSubCommand("reload", ArenaReloadCommand.class);
-        this.addSubCommand("info", ArenaMapInfoCommand.class);
-        this.addSubCommand("load", ArenaLoadArenaCommand.class);
-        this.addSubCommand("addkit", ArenaAddKitCommand.class);
-        this.addSubCommand("kit", ArenaKitCommand.class);
+    public Integer getMinArgsLength()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String getPermission() {return "varena.help";}
+    public Integer getMaxArgsLength()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }
