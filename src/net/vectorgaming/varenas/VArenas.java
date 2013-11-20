@@ -96,6 +96,7 @@ public class VArenas extends JavaPlugin
         
         pm.registerEvents(new EntityDamageByEntityListener(), this);
         pm.registerEvents(new ProjectileLaunchListener(), this);
+        pm.registerEvents(new PlayerQuitListener(), this);
     }
     
     private void registerArenaTypes()
