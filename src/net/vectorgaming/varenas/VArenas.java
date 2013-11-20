@@ -99,6 +99,7 @@ public class VArenas extends VertexPlugin
         pm.registerEvents(new EntityDamageByEntityListener(), this);
         pm.registerEvents(new ProjectileLaunchListener(), this);
         pm.registerEvents(new PlayerQuitListener(), this);
+        pm.registerEvents(new PlayerJoinListener(), this);
     }
     
     private void registerArenaTypes()
