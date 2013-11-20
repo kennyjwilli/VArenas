@@ -324,7 +324,7 @@ public abstract class Arena implements Listener
     public abstract Location onRespawn(Player player);
     
     /**
-     * Handles what happens when a player disconnects from the server
+     * Handles what happens when a player disconnects from the server when in an arena
      * @param event PlayerQuitEvent
      */
     public abstract void onQuit(PlayerQuitEvent event);
