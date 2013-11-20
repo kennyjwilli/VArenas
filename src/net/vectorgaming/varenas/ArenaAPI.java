@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
+import net.vectorgaming.vcore.framework.VertexAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ import org.bukkit.util.Vector;
  *
  * @author jeppe
  */
-public class ArenaAPI 
+public class ArenaAPI extends VertexAPI
 {
     private static VArenas plugin;
     private static World hubWorld;
@@ -25,6 +26,7 @@ public class ArenaAPI
     
     public ArenaAPI(VArenas plugin)
     {
+        super(plugin);
         ArenaAPI.plugin = plugin;
         hubWorld = Bukkit.getWorld(plugin.getConfig().getString("hub-world"));
         if(hubWorld == null)
