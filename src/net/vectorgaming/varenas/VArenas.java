@@ -5,7 +5,6 @@ import info.jeppes.ZoneCore.ZoneTools;
 import info.jeppes.ZoneWorld.ZoneWorld;
 import java.io.File;
 import net.vectorgaming.varenas.chat.ArenaChannelCreator;
-import net.vectorgaming.varenas.commands.CommandManager;
 import net.vectorgaming.varenas.commands.user.ArenaCommand;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
@@ -14,6 +13,7 @@ import net.vectorgaming.varenas.util.SLAPI;
 import net.vectorgaming.vchat.VChatAPI;
 import net.vectorgaming.vcore.framework.VertexAPI;
 import net.vectorgaming.vcore.framework.VertexPlugin;
+import net.vectorgaming.vcore.framework.commands.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -82,8 +82,7 @@ public class VArenas extends VertexPlugin
     @Override
     public void setupCommands()
     {
-        this.getCommand("arena").setExecutor(cm);
-        CommandManager.registerCommand("arena", ArenaCommand.class);
+        CommandManager.registerCommand(new ArenaCommand());
     }
     
     private void setupEvents()
