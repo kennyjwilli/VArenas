@@ -12,16 +12,18 @@ import net.vectorgaming.varenas.framework.pvparena.PVPArenaCreator;
 import net.vectorgaming.varenas.listeners.*;
 import net.vectorgaming.varenas.util.SLAPI;
 import net.vectorgaming.vchat.VChatAPI;
+import net.vectorgaming.vcore.framework.VertexAPI;
+import net.vectorgaming.vcore.framework.VertexPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  *
  * @author Kenny
  */
-public class VArenas extends JavaPlugin
+public class VArenas extends VertexPlugin
 {
     private CommandManager cm = new CommandManager();
     private PlayerDamageListener edl = new PlayerDamageListener();
@@ -77,7 +79,8 @@ public class VArenas extends JavaPlugin
         }
     }
     
-    private void setupCommands()
+    @Override
+    public void setupCommands()
     {
         this.getCommand("arena").setExecutor(cm);
         CommandManager.registerCommand("arena", ArenaCommand.class);
@@ -102,5 +105,17 @@ public class VArenas extends JavaPlugin
     private void registerArenaTypes()
     {
         ArenaAPI.registerArenaCreator("PVP_ARENA", new PVPArenaCreator());    
+    }
+
+    @Override
+    public Plugin getPlugin()
+    {
+        return this;
+    }
+
+    @Override
+    public VertexAPI getAPI()
+    {
+        return arenaAPI;
     }
 }
