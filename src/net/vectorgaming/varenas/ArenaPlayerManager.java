@@ -54,11 +54,11 @@ public class ArenaPlayerManager
     /**
      * Removes a player from an arena
      * @param arena Name of the arena
-     * @param p BNukkit player 
+     * @param p Bukkit player 
      */
     public static void removePlayerFromArena(String arena, Player p) 
     {
-        arenas.remove(arena);
+        arenas.get(arena).remove(p);
         players.remove(p);
     }
     
