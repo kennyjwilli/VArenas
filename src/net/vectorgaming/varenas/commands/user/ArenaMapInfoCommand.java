@@ -1,11 +1,11 @@
 
 package net.vectorgaming.varenas.commands.user;
 
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
-import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.ArenaSettings;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.ChatColor;
@@ -16,12 +16,16 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public class ArenaMapInfoCommand extends VCommand
+public class ArenaMapInfoCommand extends SubCommand
 {
-    @Override
-    public boolean run(CommandSender cs, String[] arguments)
+    public ArenaMapInfoCommand()
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
+        super("map", ArenaAPI.getPlugin());
+    }
+    
+    @Override
+    public void run(CommandSender cs, String[] args)
+    {
         Player p = (Player) cs;
         
         ArenaSettings settings = null;
@@ -34,7 +38,7 @@ public class ArenaMapInfoCommand extends VCommand
             }else
             {
                 cs.sendMessage(ChatColor.RED+getUsage());
-                return true;
+                return;
             }
         }
         
@@ -43,7 +47,7 @@ public class ArenaMapInfoCommand extends VCommand
             if(!ArenaManager.mapExists(args[0].toLowerCase()))
             {
                 cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
-                return true;
+                return;
             }
             settings = ArenaManager.getArenaSettings(args[0].toLowerCase());
         }
@@ -65,31 +69,33 @@ public class ArenaMapInfoCommand extends VCommand
             }
         }
         cs.sendMessage(color+"Max Players: "+ChatColor.RED+settings.getMaxPlayers());
-        return true;
     }
 
     @Override
-    public String getName() {return "arena info";}
-
-    @Override
-    public String getUsage() {return "Usage: /arena info <map>";}
+    public String getUsage() {return "/arena info <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}
 
     @Override
-    public String[] getAliases()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setupSubCommands()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public String getPermission() {return "varenas.mapinfo";}
+
+    @Override
+    public String getDescription()
+    {
+        return "Gets some info about an arena";
+    }
+
+    @Override
+    public Integer getMinArgsLength()
+    {
+        return 0;
+    }
+
+    @Override
+    public Integer getMaxArgsLength()
+    {
+        return 1;
+    }
 
 }
