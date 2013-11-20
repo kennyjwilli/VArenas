@@ -1,9 +1,9 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.varenas.commands.VCommand;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -11,19 +11,16 @@ import org.bukkit.command.CommandSender;
  *
  * @author Kenny
  */
-public class ArenaForceStartCommand extends VCommand
+public class ArenaForceStartCommand extends SubCommand
 {
-
-    @Override
-    public boolean run(CommandSender cs, String[] arguments)
+    public ArenaForceStartCommand()
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
-        
-        if(args.length != 1)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return true;
-        }
+        super("forcestart", ArenaAPI.getPlugin());
+    }
+    
+    @Override
+    public void run(CommandSender cs, String[] args)
+    {
         
         if(!ArenaManager.isArenaQueued(args[0]))
         {
@@ -51,18 +48,10 @@ public class ArenaForceStartCommand extends VCommand
             
             cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0]+ChatColor.RED+" is not currently queued.");
             cs.sendMessage(ChatColor.BLUE+"Currently queued arenas: "+output);
-            return true;
+            return;
         }
         
         ArenaManager.getArena(args[0].toLowerCase()).start();
-        
-        return true;
-    }
-
-    @Override
-    public String getName()
-    {
-        return "arena forcestart";
     }
 
     @Override
@@ -78,18 +67,27 @@ public class ArenaForceStartCommand extends VCommand
     }
 
     @Override
-    public String[] getAliases()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setupSubCommands(){}
-
-    @Override
     public String getPermission()
     {
         return "varenas.forcestart";
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return "Force-starts a queued arena";
+    }
+
+    @Override
+    public Integer getMinArgsLength()
+    {
+        return 1;
+    }
+
+    @Override
+    public Integer getMaxArgsLength()
+    {
+        return 1;
     }
 
 }

@@ -1,10 +1,10 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.util.SLAPI;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -12,33 +12,28 @@ import org.bukkit.command.CommandSender;
  *
  * @author Kenny
  */
-public class ArenaLoadArenaCommand extends VCommand
+public class ArenaLoadArenaCommand extends SubCommand
 {
-
-    @Override
-    public boolean run(CommandSender cs, String[] arguments)
+    public ArenaLoadArenaCommand()
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
-        
-        if(args.length != 1)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return true;
-        }
-        
+        super("load", ArenaAPI.getPlugin());
+    }
+    
+    @Override
+    public void run(CommandSender cs, String[] args)
+    {
         if(ArenaManager.mapExists(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0].toLowerCase()+ChatColor.RED+" is already loaded!");
-            return true;
+            return;
         }
         
         if(!SLAPI.loadArena(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Could not load map. Files for map "+ChatColor.YELLOW+args[0].toLowerCase()+ChatColor.RED+" are either missing or do not exist.");
-            return true;
+            return;
         }
         cs.sendMessage(ChatColor.GREEN+"Successfully loaded map "+ChatColor.YELLOW+args[0].toLowerCase()+ChatColor.GREEN+" from the disk!");
-        return true;
     }
 
     @Override
@@ -51,17 +46,23 @@ public class ArenaLoadArenaCommand extends VCommand
     public boolean isPlayerOnlyCommand() {return false;}
 
     @Override
-    public String[] getAliases()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setupSubCommands()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public String getPermission(){return "varenas.loadarena";}
+
+    @Override
+    public String getDescription()
+    {
+        return "Loads a map from a world";
+    }
+
+    @Override
+    public Integer getMinArgsLength()
+    {
+        return 1;
+    }
+
+    @Override
+    public Integer getMaxArgsLength()
+    {
+        return 1;
+    }
 }

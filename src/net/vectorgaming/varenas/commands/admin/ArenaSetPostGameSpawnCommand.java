@@ -1,10 +1,10 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.util.SLAPI;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,29 +13,24 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public class ArenaSetPostGameSpawnCommand extends VCommand
+public class ArenaSetPostGameSpawnCommand extends SubCommand
 {
-
-    @Override
-    public boolean run(CommandSender cs, String[] arguments)
+    public ArenaSetPostGameSpawnCommand()
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
-        
-        if(args.length != 1)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return true;
-        }
-        
+        super("reload", ArenaAPI.getPlugin());
+    }
+    
+    @Override
+    public void run(CommandSender cs, String[] args)
+    {        
         if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
-            return true;
+            return;
         }
         
         ArenaManager.getArenaSettings(args[0].toLowerCase()).setPostGameSpawn(SLAPI.saveLocation(((Player) cs).getLocation()));
         cs.sendMessage(ChatColor.GREEN+"Successfully set post game spawn location for map "+args[0].toLowerCase());
-        return true;
     }
 
     @Override
@@ -48,15 +43,24 @@ public class ArenaSetPostGameSpawnCommand extends VCommand
     public boolean isPlayerOnlyCommand() {return true;}
 
     @Override
-    public String[] getAliases()
+    public String getPermission() {return "varenas.setpostgamespawn";}
+
+    @Override
+    public String getDescription()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "Sets the post game spawn for a map";
     }
 
     @Override
-    public void setupSubCommands(){}
+    public Integer getMinArgsLength()
+    {
+        return 1;
+    }
 
     @Override
-    public String getPermission() {return "varenas.setpostgamespawn";}
+    public Integer getMaxArgsLength()
+    {
+        return 1;
+    }
 
 }

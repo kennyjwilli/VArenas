@@ -4,12 +4,11 @@ package net.vectorgaming.varenas.commands.admin;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import info.jeppes.ZoneCore.TriggerBoxes.PolygonTriggerBox;
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.ArenaFramework;
-import net.vectorgaming.varenas.framework.config.ArenaConfig;
 import net.vectorgaming.varenas.framework.enums.ArenaYMLPath;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,25 +20,24 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public class ArenaSetRegion extends VCommand
+public class ArenaSetRegion extends SubCommand
 {
+    public ArenaSetRegion()
+    {
+        super("setregion", ArenaAPI.getPlugin());
+    }
+    
     /*
      * add ability to name trigger box region
      */
     @Override
-    public boolean run(CommandSender cs, String[] arguments) 
+    public void run(CommandSender cs, String[] args) 
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
-        if(args.length != 1)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return true;
-        }
         
         if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
-            return true;
+            return;
         }
         
         ArenaFramework framework = ArenaManager.getAreanFramework(args[0].toLowerCase());
@@ -55,7 +53,7 @@ public class ArenaSetRegion extends VCommand
         }catch(Exception e)
         {
             cs.sendMessage(ChatColor.RED+"Error: Two points must be selected to set the arena box.");
-            return true;
+            return;
         }
         
         try
@@ -65,16 +63,12 @@ public class ArenaSetRegion extends VCommand
         {
             e.printStackTrace();
             cs.sendMessage(ChatColor.RED+"Error: Could not create region");
-            return true;
+            return;
         }
         
         cs.sendMessage(ChatColor.GREEN+"Region "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+" for map "+ChatColor.YELLOW+WordUtils.capitalizeFully(args[0])+ChatColor.GREEN+" has been set.");
-        return true;
     }
-
-    @Override
-    public String getName() {return "arena setregion";}
-
+    
     @Override
     public String getUsage() {return "Usage: /arena setregion <map>";}
 
@@ -82,13 +76,23 @@ public class ArenaSetRegion extends VCommand
     public boolean isPlayerOnlyCommand() {return true;}
 
     @Override
-    public String[] getAliases() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getPermission() {return "varenas.setregion";}
+
+    @Override
+    public String getDescription()
+    {
+        return "Sets the region for the map";
     }
 
     @Override
-    public void setupSubCommands() {}
+    public Integer getMinArgsLength()
+    {
+        return 1;
+    }
 
     @Override
-    public String getPermission() {return "varenas.setregion";}
+    public Integer getMaxArgsLength()
+    {
+        return 1;
+    }
 }

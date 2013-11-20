@@ -1,10 +1,10 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.varenas.commands.VCommand;
 import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -12,24 +12,21 @@ import org.bukkit.command.CommandSender;
  *
  * @author Kenny
  */
-public class ArenaForceStopCommand extends VCommand
+public class ArenaForceStopCommand extends SubCommand
 {
-
-    @Override
-    public boolean run(CommandSender cs, String[] arguments)
+    public ArenaForceStopCommand()
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
-        
-        if(args.length != 1)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return true;
-        }
+        super("forcestop", ArenaAPI.getPlugin());
+    }
+    
+    @Override
+    public void run(CommandSender cs, String[] args)
+    {        
         
         if(!ArenaManager.isArenaRunning(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0].toLowerCase()+ChatColor.RED+" is not running or queued.");
-            return true;
+            return;
         }
         
         Arena arena = ArenaManager.getArena(args[0]);
@@ -37,13 +34,6 @@ public class ArenaForceStopCommand extends VCommand
         arena.forceStop();
         
         cs.sendMessage(ChatColor.GREEN+"Successfully force stopped arena "+ChatColor.YELLOW+arena.getName()+ChatColor.GREEN+".");
-        return true;
-    }
-
-    @Override
-    public String getName()
-    {
-        return "arena forcestop";
     }
 
     @Override
@@ -59,18 +49,27 @@ public class ArenaForceStopCommand extends VCommand
     }
 
     @Override
-    public String[] getAliases()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setupSubCommands(){}
-
-    @Override
     public String getPermission()
     {
         return "varenas.forcestop";
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return "Focibly stops an arena from running";
+    }
+
+    @Override
+    public Integer getMinArgsLength()
+    {
+        return 1;
+    }
+
+    @Override
+    public Integer getMaxArgsLength()
+    {
+        return 1;
     }
 
 }

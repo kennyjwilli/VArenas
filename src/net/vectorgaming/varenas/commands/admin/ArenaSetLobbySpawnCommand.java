@@ -1,10 +1,9 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.varenas.commands.VCommand;
-import net.vectorgaming.varenas.framework.Arena;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,20 +12,17 @@ import org.bukkit.entity.Player;
  *
  * @author Kenny
  */
-public class ArenaSetLobbySpawnCommand extends VCommand
+public class ArenaSetLobbySpawnCommand extends SubCommand
 {
-
-    @Override
-    public boolean run(CommandSender cs, String[] arguments) 
+    public ArenaSetLobbySpawnCommand()
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
+        super("setlobby", ArenaAPI.getPlugin());
+    }
+    
+    @Override
+    public void run(CommandSender cs, String[] args) 
+    {
         Player p = (Player) cs;
-        
-        if(args.length != 1)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return true;
-        }
         
         if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
@@ -36,27 +32,33 @@ public class ArenaSetLobbySpawnCommand extends VCommand
         ArenaManager.getAreanFramework(args[0].toLowerCase()).setLobbySpawn(p.getLocation());
         cs.sendMessage(ChatColor.GREEN+"Successfully set lobby location for map "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+".");
         //arena.checkArenaSetup(p);
-        return true;
     }
 
     @Override
-    public String getName() {return "arena setlobby";}
-
-    @Override
-    public String getUsage() {return "Usage: /arena setlobby <arena>";}
+    public String getUsage() {return "Usage: /arena setlobby <map>";}
 
     @Override
     public boolean isPlayerOnlyCommand() {return true;}
 
     @Override
-    public String[] getAliases() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getPermission() {return "varenas.setlobby";}
+
+    @Override
+    public String getDescription()
+    {
+        return "Sets the lobby spawn for a map";
     }
 
     @Override
-    public void setupSubCommands() {}
+    public Integer getMinArgsLength()
+    {
+        return 1;
+    }
 
     @Override
-    public String getPermission() {return "varenas.setlobby";}
+    public Integer getMaxArgsLength()
+    {
+        return 1;
+    }
 
 }

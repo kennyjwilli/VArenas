@@ -1,9 +1,9 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.Arrays;
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
-import net.vectorgaming.varenas.commands.VCommand;
+import net.vectorgaming.vcore.framework.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -11,32 +11,25 @@ import org.bukkit.command.CommandSender;
  *
  * @author Kenny
  */
-public class ArenaCreateMapCommand extends VCommand
+public class ArenaCreateMapCommand extends SubCommand
 {
-
-    @Override
-    public boolean run(CommandSender cs, String[] arguments)
+    public ArenaCreateMapCommand()
     {
-        String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
-        if(args.length != 1)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return true;
-        }
-        
+        super("createmap", ArenaAPI.getPlugin());
+    }
+    
+    @Override
+    public void run(CommandSender cs, String[] args)
+    {
         if(ArenaManager.mapExists(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" already exists!");
-            return true;
+            return;
         }
         
         ArenaManager.createMap(args[0].toLowerCase());
         cs.sendMessage(ChatColor.GREEN+"Successfully created map "+ChatColor.YELLOW+args[0].toLowerCase());
-        return true;
     }
-
-    @Override
-    public String getName(){return "arena createmap";}
 
     @Override
     public String getUsage() {return "Usage: /arena createmap <map>";}
@@ -45,15 +38,24 @@ public class ArenaCreateMapCommand extends VCommand
     public boolean isPlayerOnlyCommand() {return true;}
 
     @Override
-    public String[] getAliases()
+    public String getPermission(){return "varenas.createmap";}
+
+    @Override
+    public String getDescription()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "Creates a map for an arena";
     }
 
     @Override
-    public void setupSubCommands(){}
+    public Integer getMinArgsLength()
+    {
+        return 1;
+    }
 
     @Override
-    public String getPermission(){return "varenas.createmap";}
+    public Integer getMaxArgsLength()
+    {
+        return 1;
+    }
 
 }
