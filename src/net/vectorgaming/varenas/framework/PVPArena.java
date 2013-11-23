@@ -118,4 +118,10 @@ public class PVPArena extends TeamArena
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public void onJoin(Player player)
+    {
+        player.teleport(getLobby().getSpawn());
+    }
 }
