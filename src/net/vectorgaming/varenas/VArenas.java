@@ -25,7 +25,6 @@ import org.bukkit.plugin.PluginManager;
  */
 public class VArenas extends VertexPlugin
 {
-    private CommandManager cm = new CommandManager();
     private PlayerDamageListener edl = new PlayerDamageListener();
     private PlayerRespawnListener prl = new PlayerRespawnListener();
     private PlayerBlockBreakListener pbl = new PlayerBlockBreakListener();
