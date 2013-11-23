@@ -42,9 +42,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public abstract class Arena implements Listener
 {
     private String name;
-    private String type;
-    private String map;
-    private ArrayList<Player> players = new ArrayList();
+    private final String type;
+    private final String map;
+    private final ArrayList<Player> players = new ArrayList();
     private ZoneWorld world;
     private boolean isRunning = false;
     private int id;
@@ -58,11 +58,11 @@ public abstract class Arena implements Listener
     private Location postGameSpawn;
     private final TeamManager teamManager;
     private Kit spawnKit;
-    private Channel channel;
+    private final Channel channel;
     
-    private HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
+    private final HashMap<String, TriggerBox> triggerBoxMap = new HashMap<>();
     private HashMap<String, Location> locationMap = new HashMap<>();
-    private HashMap<Player, ArrayList<Channel>> oldChannels = new HashMap<>();
+    private final HashMap<Player, ArrayList<Channel>> oldChannels = new HashMap<>();
     
     /**
      * 
@@ -204,8 +204,7 @@ public abstract class Arena implements Listener
             {
                 p.setGameMode(GameMode.SURVIVAL);
             }
-            ArenaAPI.resetPlayerState(p);
-            p.teleport(this.getLobby().getSpawn());
+            
             /*
             Adds players to the arena chat channel and saves their old channels
             */
@@ -220,51 +219,46 @@ public abstract class Arena implements Listener
             ChatManager.focusChannel(p, channel);
             channel.sendChannelMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
         }
-        
-        this.getLobby().startLobbyTimer();
-                
+                        
         //Teleports all players into game once lobby duration is complete
         TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             @Override
             public void run()
             {
-                if(gameTime == getLobby().getLobbyDuration())
-                {
-                    /*
-                    * Teleport all players into the arena at each spawn point
-                    * Need some sort of check for if all the spawn points have been used.
-                    * Maybe like a max players per arena or a random spawn point in the arena
-                    */
-                   int i = 0;
-                   for(Player p : getPlayers())
+                /*
+                * Teleport all players into the arena at each spawn point
+                * Need some sort of check for if all the spawn points have been used.
+                * Maybe like a max players per arena or a random spawn point in the arena
+                */
+               int i = 0;
+               for(Player p : getPlayers())
+               {
+                   if(i > getSpawnPoints().size()) i = 0;
+                   p.teleport(getSpawnPoints().get(i));
+                   i++;
+                   //Give players their kits if needed
+                   if(KitManager.kitExists(getSettings().getSpawnKitName()))
                    {
-                       if(i > getSpawnPoints().size()) i = 0;
-                       p.teleport(getSpawnPoints().get(i));
-                       i++;
-                       //Give players their kits if needed
-                       if(KitManager.kitExists(getSettings().getSpawnKitName()))
-                       {
-                           Kit kit = ArenaPlayerManager.getKitFromPlayer(p);
-                            boolean clear = getSettings().isKitClearInventory();
-                            if(kit == getSpawnKit() && getSettings().isSpawnKitEnabled())
-                                kit.giveKit(p, clear);
-                            if(getSettings().isCustomKitsEnabled())
+                       Kit kit = ArenaPlayerManager.getKitFromPlayer(p);
+                        boolean clear = getSettings().isKitClearInventory();
+                        if(kit == getSpawnKit() && getSettings().isSpawnKitEnabled())
+                            kit.giveKit(p, clear);
+                        if(getSettings().isCustomKitsEnabled())
+                        {
+                            List<String> allowedKits = getSettings().getAllowedCustomKits();
+                            if(allowedKits.isEmpty())
                             {
-                                List<String> allowedKits = getSettings().getAllowedCustomKits();
-                                if(allowedKits.isEmpty())
-                                {
+                                kit.giveKit(p, clear);
+                            }else
+                            {
+                                if(allowedKits.contains(kit.getName()))
                                     kit.giveKit(p, clear);
-                                }else
-                                {
-                                    if(allowedKits.contains(kit.getName()))
-                                        kit.giveKit(p, clear);
-                                }
                             }
-                       }
+                        }
                    }
-                   world.setPVP(true);
-                }
+               }
+                world.setPVP(true);
                 if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() - 1 == gameTime)
                 {
                     end();
@@ -300,6 +294,16 @@ public abstract class Arena implements Listener
         ChatManager.deleteChannel(channel.getName());
         this.removeAllPlayers();
         unloadAndDeleteWorld();
+    }
+    
+    /**
+     * Called when a player joins the arena
+     * @param player Player who joins the arena
+     */
+    public void onJoin(Player player)
+    {
+        ArenaAPI.resetPlayerState(player);
+        ArenaPlayerManager.addPlayerToArena(getName(), player);
     }
     
     /**
