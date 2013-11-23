@@ -36,39 +36,47 @@ public class ArenaCommand extends VCommand
     }
     
     @Override
-    public void run(CommandSender cs, String[] args) {
+    public void run(CommandSender cs, String[] args) 
+    {
         cs.sendMessage(VCoreAPI.getColorScheme().getTitleBar("VArenas Help"));
         cs.sendMessage(ChatColor.GREEN+"Type "+VCoreAPI.getColorScheme().getArgumentColor()+"/arena help "+ChatColor.GREEN+"for a list of commands.");
     }
 
     @Override
-    public String getName() {return "arena";}
+    public String getUsage() 
+    {
+        return "Type /arena help for a list of commands.";
+    }
 
     @Override
-    public String getUsage() {return "Type /arena help for a list of commands.";}
+    public boolean isPlayerOnlyCommand() 
+    {
+        return false;
+    }
 
     @Override
-    public boolean isPlayerOnlyCommand() {return false;}
-
-    @Override
-    public String getPermission() {return "varena.help";}
+    public String getPermission() 
+    {
+        return "varena.help";
+    }
 
     @Override
     public String getDescription()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("desc ");
+        return "Arena base command";
     }
 
     @Override
     public Integer getMinArgsLength()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return 0;
     }
 
     @Override
     public Integer getMaxArgsLength()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return -1;
     }
 
 }
