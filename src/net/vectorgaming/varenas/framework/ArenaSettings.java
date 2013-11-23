@@ -2,7 +2,6 @@
 package net.vectorgaming.varenas.framework;
 
 import net.vectorgaming.varenas.framework.interfaces.Settings;
-import net.vectorgaming.varenas.framework.enums.ArenaType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class ArenaSettings implements Settings
 {
-    private String name;
+    private final String name;
     private boolean isBlockBreak;
     private boolean isBlockPlace;
     private boolean isTNT;
@@ -49,7 +48,7 @@ public class ArenaSettings implements Settings
         authors = "Arcane Realms";
         objective = "Default objective";
         setupDefaultInterval();
-        type = ArenaType.PVP_ARENA.name();
+        type = "PVP_ARENA";
         showRespawnScreen = true;
         winningKills = -1;
         gameDuration = 600;
