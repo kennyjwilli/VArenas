@@ -7,7 +7,3 @@ description: Player versus player arena manager
 
 depend: [ZoneCore, ZoneWorld, VCore, VChat]
 softdepend: [WorldInventories,MobArena,ArenaKits]
-
-commands:
-  arena:
-    description: arena command
