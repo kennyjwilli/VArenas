@@ -95,6 +95,7 @@ public class ArenaLobby extends VRegion
                     Bukkit.getScheduler().cancelTask(TASK_ID);
                     timeLeftLobby = duration;
                     isLobbyTimerRunning = false;
+                    arena.start();
                 }
             }
         }, 0L, 20L);
