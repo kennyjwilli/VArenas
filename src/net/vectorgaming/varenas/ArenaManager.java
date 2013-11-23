@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.arcanerealm.arenasigns.ArenaSignsAPI;
 import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.varenas.framework.enums.ArenaDirectory;
 import net.vectorgaming.varenas.framework.ArenaFramework;
@@ -30,17 +31,17 @@ import org.bukkit.Location;
  */
 public class ArenaManager 
 {
-    private static HashMap<String, Arena> arenas = new HashMap<>(); //{ArenaName, ArenaObject}
+    private static final HashMap<String, Arena> arenas = new HashMap<>(); //{ArenaName, ArenaObject}
     private static HashMap<String, ArenaSettings> arenaSettings = new HashMap<>(); // {MapName, ArenaSettings}
     private static HashMap<String, ArenaConfig> arenaConfigs = new HashMap<>(); // {MapName, ArenaConfig}
     private static HashMap<String, ArenaFramework> arenaFramework = new HashMap<>();
-    private static HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
-    private static HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
-    private static ArrayList<String> queuedArenas = new ArrayList<>();
-    private static ArrayList<String> runningArenasList = new ArrayList<>();
-    private static ArrayList<ZoneWorld> arenaWorlds = new ArrayList<>();
+    private static final HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
+    private static final HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
+    private static final ArrayList<String> queuedArenas = new ArrayList<>();
+    private static final ArrayList<String> runningArenasList = new ArrayList<>();
+    private static final ArrayList<ZoneWorld> arenaWorlds = new ArrayList<>();
     
-    private static VArenas plugin = ArenaAPI.getPlugin();
+    private static final VArenas plugin = ArenaAPI.getPlugin();
     
     /**
      * Creates a map with the given name
@@ -256,6 +257,9 @@ public class ArenaManager
         arena.setLobby(new ArenaLobby(arenaName, zWorld));
         arena.setSpectatorBox(new ArenaSpectatorBox(arenaName, zWorld));
         
+        //Updates the ArenaSign
+        ArenaSignsAPI.updateAllArenaSigns(arenaName);
+        
         //Starts the arena if required to
         if(start) 
         {
@@ -297,14 +301,12 @@ public class ArenaManager
     /**
      * Gets if the specified arena exists
      * NOTE: This will also return true for an arena that is in the process of being setup
-     * @param name String
+     * @param map
      * @return Boolean
      */
     public static boolean mapExists(String map)
     {
-        if(arenaSettings.containsKey(map))
-            return true;
-        return false;
+        return arenaSettings.containsKey(map);
     }
     
     /**
