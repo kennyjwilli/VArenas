@@ -58,10 +58,14 @@ public class VArenas extends VertexPlugin
     {
         for(Player p : ArenaPlayerManager.getAllArenaPlayers())
         {
-            p.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
+            p.teleport(ArenaAPI.getHubWorld().getSpawnLocation());
         }
         for(ZoneWorld world : ArenaManager.getArenaWorlds())
         {
+            for(Player p : world.getPlayers())
+            {
+                p.teleport(ArenaAPI.getHubWorld().getSpawnLocation());
+            }
             world.unloadWorld();
             world.deleteWorld();
         }
