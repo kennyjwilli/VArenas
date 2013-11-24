@@ -334,6 +334,7 @@ public abstract class Arena implements Listener
             allPlayers.add(player.getName());
         }
         ArenaAPI.resetPlayerState(player);
+        player.getInventory().clear();
         ArenaPlayerManager.addPlayerToArena(getName(), player);
         ArenaSignsAPI.updateAllArenaSigns(getName());
     }
