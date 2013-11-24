@@ -210,6 +210,7 @@ public abstract class Arena implements Listener
         setRunning(true);
         stats = new ArenaStats(this);
         this.setupWorldInventory();
+        world.setPVP(true);
         
         for(Player p : ArenaPlayerManager.getPlayersInArena(this)) 
         {
@@ -232,10 +233,34 @@ public abstract class Arena implements Listener
                 ArrayList<Channel> tempList = (ArrayList<Channel>) ChatManager.getJoinedChannels(p).clone();
                 oldChannels.put(p, tempList);
                 for(int i = 0; i < tempList.size(); i++) ChatManager.leaveChannel(p, tempList.get(i), true);
-                for(Channel chh : oldChannels.get(p)) System.out.println(chh.getName()+" oldch test2");
             }
             ChatManager.focusChannel(p, channel);
-            channel.sendChannelMessage("Arena starting in "+this.getLobby().getLobbyDuration()+" seconds.");
+            
+            //Teleport player to his/her spawn
+            p.teleport(getSpawnLocation(p));
+            
+            //Give players their kits if needed
+            if(KitManager.kitExists(getSettings().getSpawnKitName()))
+            {
+                Kit kit = ArenaPlayerManager.getKitFromPlayer(p);
+                boolean clear = getSettings().isKitClearInventory();
+                if(kit == getSpawnKit() && getSettings().isSpawnKitEnabled())
+                {
+                    kit.giveKit(p, clear);
+                }
+                if(getSettings().isCustomKitsEnabled())
+                {
+                    List<String> allowedKits = getSettings().getAllowedCustomKits();
+                    if(allowedKits.isEmpty())
+                    {
+                        kit.giveKit(p, clear);
+                    }else
+                    {
+                        if(allowedKits.contains(kit.getName()))
+                            kit.giveKit(p, clear);
+                    }
+                }
+            }
         }
                         
         //Teleports all players into game once lobby duration is complete
@@ -244,44 +269,10 @@ public abstract class Arena implements Listener
             @Override
             public void run()
             {
-                /*
-                * Teleport all players into the arena at each spawn point
-                * Need some sort of check for if all the spawn points have been used.
-                * Maybe like a max players per arena or a random spawn point in the arena
-                */
-               int i = 0;
-               for(Player p : getPlayers())
-               {
-                   if(i > getSpawnPoints().size()) i = 0;
-                   p.teleport(getSpawnPoints().get(i));
-                   i++;
-                   //Give players their kits if needed
-                   if(KitManager.kitExists(getSettings().getSpawnKitName()))
-                   {
-                       Kit kit = ArenaPlayerManager.getKitFromPlayer(p);
-                        boolean clear = getSettings().isKitClearInventory();
-                        if(kit == getSpawnKit() && getSettings().isSpawnKitEnabled())
-                            kit.giveKit(p, clear);
-                        if(getSettings().isCustomKitsEnabled())
-                        {
-                            List<String> allowedKits = getSettings().getAllowedCustomKits();
-                            if(allowedKits.isEmpty())
-                            {
-                                kit.giveKit(p, clear);
-                            }else
-                            {
-                                if(allowedKits.contains(kit.getName()))
-                                    kit.giveKit(p, clear);
-                            }
-                        }
-                   }
-               }
-                world.setPVP(true);
                 if(getSettings().getGameDuration() <= 0 && getSettings().getGameDuration() - 1 == gameTime)
                 {
                     end();
                 }
-                
                 gameTime++;
             }
         }, 0L, 20L);
