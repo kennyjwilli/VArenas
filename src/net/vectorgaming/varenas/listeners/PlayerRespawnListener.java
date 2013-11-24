@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.listeners;
 
+import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.Arena;
@@ -20,6 +21,12 @@ public class PlayerRespawnListener implements Listener
     public void onRespawn(PlayerRespawnEvent event)
     {
         Player p = event.getPlayer();
+        
+        if(event.getRespawnLocation().getWorld() == null)
+        {
+            event.setRespawnLocation(ArenaAPI.getHubWorld().getSpawnLocation());
+        }
+        
         if(!ArenaPlayerManager.isPlayerInArena(p))
             return;
         
