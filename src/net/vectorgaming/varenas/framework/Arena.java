@@ -349,6 +349,7 @@ public abstract class Arena implements Listener
     public void onQuit(PlayerQuitEvent event)
     {
         allPlayers.add(event.getPlayer().getName());
+        ArenaSignsAPI.updateAllArenaSigns(getName());
     }
     
     /**
@@ -421,6 +422,7 @@ public abstract class Arena implements Listener
         sendEndMessage();
         removeAllPlayers();
         HandlerList.unregisterAll(this);
+        ArenaSignsAPI.updateAllArenaSigns(getName());
        
         for(Entity entity : world.getEntities())
         {
