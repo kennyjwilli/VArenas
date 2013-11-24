@@ -80,9 +80,7 @@ public class ArenaManager
     public static boolean isMapSavedToConfig(String map)
     {
         List<String> list = plugin.getConfig().getStringList("enabled-arenas");
-        if(!list.isEmpty() && list.contains(map))
-            return true;
-        return false;
+        return !list.isEmpty() && list.contains(map);
     }
     
     /**
@@ -178,9 +176,7 @@ public class ArenaManager
      */
     public static boolean isArenaQueued(String arena)
     {
-        if(queuedArenas.contains(arena))
-            return true;
-        return false;
+        return queuedArenas.contains(arena);
     }
     
     /**
