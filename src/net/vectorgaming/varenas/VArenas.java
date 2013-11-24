@@ -25,14 +25,7 @@ import org.bukkit.plugin.PluginManager;
  */
 public class VArenas extends VertexPlugin
 {
-    private PlayerDamageListener edl = new PlayerDamageListener();
-    private PlayerRespawnListener prl = new PlayerRespawnListener();
-    private PlayerBlockBreakListener pbl = new PlayerBlockBreakListener();
-    private PlayerDeathListener pdl = new PlayerDeathListener();
-    private PlayerDropItemListener pdil = new PlayerDropItemListener();
-    private BlockPlaceListener bbl = new BlockPlaceListener();
-    private CommandPreprocess cp = new CommandPreprocess();
-    private SLAPI slapi = new SLAPI(this);
+    private final SLAPI slapi = new SLAPI(this);
     //private ArenaPlayerManager<ArenaPlayer> playerManager;
     private ArenaAPI arenaAPI;
     
@@ -87,14 +80,13 @@ public class VArenas extends VertexPlugin
     private void setupEvents()
     {
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(edl, this);
-        pm.registerEvents(prl, this);
-        pm.registerEvents(pbl, this);
-        pm.registerEvents(cp, this);
-        pm.registerEvents(pdl, this);
-        pm.registerEvents(pdil, this);
-        pm.registerEvents(bbl, this);
-        
+        pm.registerEvents(new PlayerDamageListener(), this);
+        pm.registerEvents(new PlayerRespawnListener(), this);
+        pm.registerEvents(new PlayerBlockBreakListener(), this);
+        pm.registerEvents(new CommandPreprocess(), this);
+        pm.registerEvents(new PlayerDeathListener(), this);
+        pm.registerEvents(new PlayerDropItemListener(), this);
+        pm.registerEvents(new BlockPlaceListener(), this);
         pm.registerEvents(new EntityDamageByEntityListener(), this);
         pm.registerEvents(new ProjectileLaunchListener(), this);
         pm.registerEvents(new PlayerQuitListener(), this);
