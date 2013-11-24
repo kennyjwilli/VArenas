@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
  */
 public class ArenaPlayerManager 
 {
-    private static HashMap<Player, String> players = new HashMap<>();
-    private static HashMap<Player,String> kits = new HashMap<>();
-    private static HashMap<String, ArrayList<Player>> arenas = new HashMap<>();
+    private static final HashMap<Player, String> players = new HashMap<>();
+    private static final HashMap<Player,String> kits = new HashMap<>();
+    private static final HashMap<String, ArrayList<Player>> arenas = new HashMap<>();
     
     /**
      * Adds a player to an arena
