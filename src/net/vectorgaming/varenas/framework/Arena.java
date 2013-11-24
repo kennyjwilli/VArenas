@@ -263,7 +263,7 @@ public abstract class Arena implements Listener
             }
         }
                         
-        //Teleports all players into game once lobby duration is complete
+        //Starts the game timer
         TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             @Override
@@ -289,7 +289,6 @@ public abstract class Arena implements Listener
         deleteWorldInventory();
         for(Player p : world.getPlayers())
         {
-            System.out.println("1");
             p.teleport(postGameSpawn);
             /*
             Add players back into their previous chat channels
@@ -700,7 +699,10 @@ public abstract class Arena implements Listener
      * Gets the spawn points HashMap
      * @return A HashMap of spawn points and their locations
      */
-    public HashMap<String, Location> getSpawnPointsMap(){return spawnPoints;}
+    public HashMap<String, Location> getSpawnPointsMap()
+    {
+        return spawnPoints;
+    }
     
     /**
      * Gets the spawn points for the respective arena
