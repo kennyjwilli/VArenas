@@ -156,34 +156,49 @@ public abstract class Arena implements Listener
     
     /**
      * Gets the name of the arena
-     * @return String
+     * @return Name of the arena
      */
-    public String getName(){return name;}
+    public String getName()
+    {
+        return name;
+    }
     
     /**
      * Sets the name of the arena
-     * @param name String
+     * @param name Name of the arena
      */
-    public void setName(String name){this.name = name;}
+    public void setName(String name)
+    {
+        this.name = name;
+    }
     
     /**
      * Gets the map the arena is based off
      * @return Map the arena is based off
      */
-    public String getMap() {return map;}
+    public String getMap() 
+    {
+        return map;
+    }
     
     /**
      * Gets the ID for the arena
-     * @return
+     * @return The ID of the running arena
      */
-    public Integer getId() {return id;}
+    public Integer getId() 
+    {
+        return id;
+    }
     
     /**
      * Sets the ID for the arena
      * This method should generally not be used
      * @param id New arena ID
      */
-    public void setId(int id) {this.id = id;}
+    public void setId(int id) 
+    {
+        this.id = id;
+    }
     
     /**
      * Starts the arena. Usually all players will be teleported to the lobby
@@ -434,80 +449,113 @@ public abstract class Arena implements Listener
     
     /**
      * Gets the kit the players spawn with
-     * @return Kit object
+     * @return Kit given to the players when they spawn
      */
-    public Kit getSpawnKit() {return spawnKit;}
+    public Kit getSpawnKit() 
+    {
+        return spawnKit;
+    }
     
     /**
      * Sets the spawn kit for the arena
-     * @param kit Kit object
+     * @param kit Kit given to the players when they spawn
      */
-    public void setSpawnKit(Kit kit) {spawnKit = kit;}
+    public void setSpawnKit(Kit kit) 
+    {
+        spawnKit = kit;
+    }
     
     /**
      * Gets the location of the post game spawn. 
-     * @return Bukkit location
+     * @return Location of the post game spawn
      */
-    public Location getPostGameSpawn() {return postGameSpawn;}
+    public Location getPostGameSpawn()
+    {
+        return postGameSpawn;
+    }
     
     /**
      * Sets the post game spawn.
      * 
      * NOTE: This value will NOT be saved to the map settings. To save the post game spawn to the
      * map use ArenaSettings.setPostGameSpawn
-     * @param location Bukkit location
+     * @param location Location of the post game spawn
      */
-    public void setPostGameSpawn(Location location) {postGameSpawn = location;}
+    public void setPostGameSpawn(Location location) 
+    {
+        postGameSpawn = location;
+    }
     
     /**
      * Gets the ArenaSettings for the arena
      * @return ArenaSettings object
      */
-    public final ArenaSettings getSettings() {return ArenaManager.getArenaSettings(this);}
+    public final ArenaSettings getSettings() 
+    {
+        return ArenaManager.getArenaSettings(this);
+    }
     
     /**
      * Gets the arena framework for the arena
      * @return ArenaFramework object
      */
-    public final ArenaFramework getFramework() {return ArenaManager.getArenaFramework(this);}
+    public final ArenaFramework getFramework() 
+    {
+        return ArenaManager.getArenaFramework(this);
+    }
     
     /**
      * Gets the current game time in seconds
      * @return Game time in seconds
      */
-    public Integer getGameTime(){return gameTime - getLobby().getLobbyDuration();}
+    public Integer getGameTime()
+    {
+        return gameTime;
+    }
     
     /**
      * Sets the arena running boolean value
-     * @param value Boolean
+     * @param value TRUE to set running, FALSE if not
      */
-    public void setRunning(boolean value) {isRunning = value;}
+    public void setRunning(boolean value) 
+    {
+        isRunning = value;
+    }
     
     /**
      * Gets if the arena is currently running
-     * @return boolean
+     * @return TRUE if is running, FALSE if not
      */
-    public boolean isRunning() {return isRunning;}
+    public boolean isRunning() 
+    {
+        return isRunning;
+    }
     
     
     /**
      * Gets the event type for the arena. This value should be in all caps and spaces should
      * be underscores
-     * @return String
+     * @return The type of arena the arena is
      */
-    public String getArenaType() {return type;}
+    public String getArenaType() 
+    {
+        return type;
+    }
     
     /**
      * Gets the stats for the arena
-     * @return
+     * @return The stats
      */
     public ArenaStats getStats() {return stats;}
     
-    public void setArenaStats(ArenaStats stats) {this.stats = stats;}
+    public void setArenaStats(ArenaStats stats) 
+    {
+        this.stats = stats;
+    }
             
     /**
      * Gets the result of the game
-     * @return EventResult
+     * @return Result of the game
      */
     public EventResult getResult()
     {
@@ -518,14 +566,14 @@ public abstract class Arena implements Listener
     
     /**
      * Gets the players in the arena
-     * @return ArrayList<Player>
+     * @return List of players in the arena
      */
     public ArrayList<Player> getPlayers(){return players;}
     
     /**
      * Adds a player directly to the arena. 
      * WARNING: To add a player the proper way ArenaManager.addPlayerToArena should be used
-     * @param p Player
+     * @param p Player to add
      */
     public void addPlayer(Player p)
     {
@@ -536,7 +584,7 @@ public abstract class Arena implements Listener
     /**
      * Removes a player directly from the Arena
      * WARNING: To removed a player the proper way ArenaManager.removePlayerFromArena should be used
-     * @param p Player
+     * @param p Player to remove
      */
     public void removePlayer(Player p)
     {
@@ -546,14 +594,12 @@ public abstract class Arena implements Listener
     
     /**
      * Gets if the player is joined to the arena
-     * @param p Player
-     * @return Boolean
+     * @param p Player to check
+     * @return TRUE if the player is joined to the arena, FALSE if not
      */
     public boolean isActivePlayer(Player p)
     {
-        if(players.contains(p))
-            return true;
-        return false;
+        return players.contains(p);
     }
     
     /**
@@ -671,7 +717,7 @@ public abstract class Arena implements Listener
     
     /**
      * Gets the names of all the spawn points for the arena
-     * @return ArrayList<String>
+     * @return List of spawn point names
      */
     public ArrayList<String> getSpawnPointsNames()
     {
@@ -710,15 +756,21 @@ public abstract class Arena implements Listener
     
     /**
      * Gets the HashMap of spawnpoints and their location
-     * @return HashMap<String, Location>
+     * @return Key: spawn point name, Value: spawn point location
      */
-    public HashMap<String,Location> getSpawnPointMap() {return spawnPoints;}
+    public HashMap<String,Location> getSpawnPointMap() 
+    {
+        return spawnPoints;
+    }
 
     /**
      * Get the world the arena is located in
      * @return The world the arena is located in
      */
-    public ZoneWorld getWorld() {return world;}
+    public ZoneWorld getWorld() 
+    {
+        return world;
+    }
 
     /**
      * Sets the world the arena is placed in
@@ -731,35 +783,53 @@ public abstract class Arena implements Listener
      * Sets the arena lobby object
      * @param lobby ArenaLobby
      */
-    public void setLobby(ArenaLobby lobby) {this.lobby = lobby;}
+    public void setLobby(ArenaLobby lobby) 
+    {
+        this.lobby = lobby;
+    }
     
     /**
      * Get the arena lobby object
      * @return ArenaLobby
      */
-    public ArenaLobby getLobby() {return lobby;}
+    public ArenaLobby getLobby() 
+    {
+        return lobby;
+    }
     
     /**
      * Sets the arena spectator box 
      * @param spectatorBox ArenaSpectatorBox
      */
-    public void setSpectatorBox(ArenaSpectatorBox spectatorBox) {this.spectatorBox = spectatorBox;}
+    public void setSpectatorBox(ArenaSpectatorBox spectatorBox) 
+    {
+        this.spectatorBox = spectatorBox;
+    }
     
     /**
      * Gets the spectator box object for the arena
      * @return ArenaSpectatorBox
      */
-    public ArenaSpectatorBox getSpectatorBox(){return this.spectatorBox;}
+    public ArenaSpectatorBox getSpectatorBox()
+    {
+        return this.spectatorBox;
+    }
     
     /**
      * Gets the entire area the arena is located in
-     * @return PolygonTriggerBox
+     * @return Box containing the arena
      */
-    public TriggerBox getArenaBox(){return arenaBox;}
+    public TriggerBox getArenaBox()
+    {
+        return arenaBox;
+    }
     
     /**
      * Sets the area for the arena
-     * @param polygon PloygonTriggerBox
+     * @param polygon Box containing the arena
      */
-    public void setArenaBox(TriggerBox polygon){arenaBox = polygon;}
+    public void setArenaBox(TriggerBox polygon)
+    {
+        arenaBox = polygon;
+    }
 }
