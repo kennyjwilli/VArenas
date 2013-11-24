@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import me.drayshak.WorldInventories.Group;
 import me.drayshak.WorldInventories.WorldInventories;
+import net.arcanerealm.arenasigns.ArenaSignsAPI;
 import net.vectorgaming.arenakits.KitManager;
 import net.vectorgaming.arenakits.framework.Kit;
 import net.vectorgaming.varenas.ArenaAPI;
@@ -304,6 +305,7 @@ public abstract class Arena implements Listener
     {
         ArenaAPI.resetPlayerState(player);
         ArenaPlayerManager.addPlayerToArena(getName(), player);
+        ArenaSignsAPI.updateAllArenaSigns(getName());
     }
     
     /**
@@ -682,8 +684,8 @@ public abstract class Arena implements Listener
     
     /**
      * Adds a spawn point to the arena
-     * @param name The name of the spawn point
-     * @param loc The location of the spawn point 
+     * @param name The name of the spawn point 
+     * @param point 3D location of the spawn point
      */
     public void addSpawnPoint(String name, Point3D point) 
     {
@@ -694,6 +696,7 @@ public abstract class Arena implements Listener
     /**
      * Deletes a spawn point from the arena
      * @param name The name of the spawn point
+     * @return Returns if the spawn point exists in the list
      */
     public boolean deleteSpawnPoint(String name) 
     {
