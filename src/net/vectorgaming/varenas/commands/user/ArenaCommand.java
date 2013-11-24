@@ -63,7 +63,6 @@ public class ArenaCommand extends VCommand
     @Override
     public String getDescription()
     {
-        System.out.println("desc ");
         return "Arena base command";
     }
 
