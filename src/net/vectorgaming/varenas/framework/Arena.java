@@ -24,6 +24,7 @@ import net.vectorgaming.varenas.util.SLAPI;
 import net.vectorgaming.vchat.ChatManager;
 import net.vectorgaming.vchat.framework.channel.Channel;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -46,6 +47,7 @@ public abstract class Arena implements Listener
     private final String type;
     private final String map;
     private final ArrayList<Player> players = new ArrayList();
+    private final ArrayList<String> allPlayers = new ArrayList<>();
     private ZoneWorld world;
     private boolean isRunning = false;
     private int id;
@@ -313,14 +315,49 @@ public abstract class Arena implements Listener
     }
     
     /**
+     * Checks to see if a player can join the arena. This method, by default, checks to see if the
+     * player crashed out of the game in which case they can automatically join even if 
+     * the max players has been reached. It also checks to see if the max amount of players 
+     * will be reached if the player joins. 
+     * @param p Player to check
+     * @return TRUE if the player can join, FALSE if not
+     */
+    public boolean canJoin(Player p)
+    {
+        return allPlayers.contains(p.getName()) || getPlayers().size() <= getSettings().getMaxPlayers();
+    }
+    
+    /**
      * Called when a player joins the arena
      * @param player Player who joins the arena
      */
     public void onJoin(Player player)
     {
+        if(!canJoin(player))
+        {
+            player.sendMessage(ChatColor.RED+"You cannot join at this time.");
+            return;
+        }
+        if(!allPlayers.contains(player.getName()))
+        {
+            allPlayers.add(player.getName());
+        }
         ArenaAPI.resetPlayerState(player);
         ArenaPlayerManager.addPlayerToArena(getName(), player);
         ArenaSignsAPI.updateAllArenaSigns(getName());
+    }
+    
+    /**
+     * Handles what happens when a player disconnects from the server when in an arena
+     * 
+     * By default it adds the player to the list so that they can join the game again if
+     * the crashed.
+     * 
+     * @param event PlayerQuitEvent
+     */
+    public void onQuit(PlayerQuitEvent event)
+    {
+        allPlayers.add(event.getPlayer().getName());
     }
     
     /**
@@ -343,12 +380,6 @@ public abstract class Arena implements Listener
      * @return Location that the player will respawn at
      */
     public abstract Location onRespawn(Player player);
-    
-    /**
-     * Handles what happens when a player disconnects from the server when in an arena
-     * @param event PlayerQuitEvent
-     */
-    public abstract void onQuit(PlayerQuitEvent event);
     
     /**
      * Called when a player places a block and if the block place is set to true in the settings
