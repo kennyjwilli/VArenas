@@ -229,6 +229,7 @@ public class ArenaManager
         WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), "arenas/"+arenaName);
         worldLoader.setGenerator("empty");
         ZoneWorld zWorld = worldLoader.loadZoneWorld();
+        zWorld.setPVP(false);
         
         //Increment the arena id by one
         arenaid++;
