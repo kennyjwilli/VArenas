@@ -1,6 +1,7 @@
 
 package net.vectorgaming.varenas.listeners;
 
+import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.Arena;
 import org.bukkit.entity.Player;
@@ -22,10 +23,12 @@ public class BlockPlaceListener implements Listener
         if(!ArenaPlayerManager.isPlayerInArena(p))
             return;
         
-        Arena arena = ArenaPlayerManager.getArenaFromPlayer(p);
+        String arenaName = ArenaPlayerManager.getArenaNameFromPlayer(p);
         
-        if(!arena.isRunning())
+        if(!ArenaManager.isArenaRunning(arenaName))
             return;
+        
+        Arena arena = ArenaManager.getArena(arenaName);
         
         if(!arena.getSettings().isBlockPlaceAllow())
         {
