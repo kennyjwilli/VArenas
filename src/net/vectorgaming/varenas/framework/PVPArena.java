@@ -116,7 +116,7 @@ public class PVPArena extends TeamArena
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
