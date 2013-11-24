@@ -67,7 +67,7 @@ public class PVPArena extends TeamArena
     @Override
     public void onQuit(PlayerQuitEvent event)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        super.onQuit(event);
     }
 
     @Override
@@ -122,6 +122,7 @@ public class PVPArena extends TeamArena
     @Override
     public void onJoin(Player player)
     {
+        super.onJoin(player);
         player.teleport(getLobby().getSpawn());
     }
 }
