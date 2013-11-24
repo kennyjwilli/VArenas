@@ -126,7 +126,7 @@ public class ArenaAPI extends VertexAPI
         for(PotionEffect effect : p.getActivePotionEffects())
             p.removePotionEffect(effect.getType());
         p.setFireTicks(0);
-        p.setVelocity(new Vector());
+        p.setVelocity(new Vector(0, 0, 0));
     }
 
 }
