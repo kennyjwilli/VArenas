@@ -348,7 +348,10 @@ public abstract class Arena implements Listener
      */
     public void onQuit(PlayerQuitEvent event)
     {
-        allPlayers.add(event.getPlayer().getName());
+        Player p = event.getPlayer();
+        allPlayers.add(p.getName());
+        getPlayers().remove(p.getPlayer());
+        ArenaPlayerManager.removePlayerFromArena(getName(), p);
         ArenaSignsAPI.updateAllArenaSigns(getName());
     }
     
