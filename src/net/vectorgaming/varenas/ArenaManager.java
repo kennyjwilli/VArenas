@@ -186,9 +186,7 @@ public class ArenaManager
      */
     public static boolean canArenaStart(Arena arena)
     {
-        if(ArenaPlayerManager.getPlayersInArena(arena).size() >= ArenaManager.getArenaSettings(arena).getMinPlayers())
-            return true;
-        return false;
+        return ArenaPlayerManager.getPlayersInArena(arena).size() >= ArenaManager.getArenaSettings(arena).getMinPlayers();
     }
     
     /**
@@ -199,24 +197,30 @@ public class ArenaManager
      */
     public static Arena createArena(String map, boolean start)
     {
-        if(!arenaIdMap.containsKey(map))
-            arenaIdMap.put(map, 1);
-        //Setup some initial variables
-        int arenaid = arenaIdMap.get(map);
-        String arenaName = map.toLowerCase()+"_"+arenaid;
-        
+        return createArena(map, map+"_"+getNextArenaId(map), start);
+    }
+    
+    /**
+     * Creates an arena with the given map and the given name. The name of the arena
+     * should be the map name followed by an underscore and the arena Id. 
+     * 
+     * If you need to generate an arena without a specific name then use the createArena(String map, boolean start)
+     * method.
+     * @param map Name of the map the arena is based off
+     * @param name Name given to the arena
+     * @param start If the arena should start once it has been created
+     * @return The created Arena
+     */
+    public static Arena createArena(String map, String name, boolean start)
+    {
         //Creates the world for the arena
-        ZoneWorld zWorld = createMapWorld(map, arenaName);
-        
-        //Increment the arena id by one
-        arenaid++;
-        arenaIdMap.put(map, arenaid);
+        ZoneWorld zWorld = createMapWorld(map, name);
 
         //Create new arena
-        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(arenaName, map, zWorld);
+        Arena arena = ArenaAPI.getArenaCreator(getArenaSettings(map).getType()).getNewArenaInstance(name, map, zWorld);
         
         //Add arena to maps
-        arenas.put(arenaName, arena);
+        arenas.put(name, arena);
         arenaWorlds.add(zWorld);
         if(!runningArenasMap.containsKey(map))
         {
@@ -232,11 +236,11 @@ public class ArenaManager
             runningArenasList.add(arena.getName());
         
         //Setup the lobby and spectator spawns
-        arena.setLobby(new ArenaLobby(arenaName, zWorld));
-        arena.setSpectatorBox(new ArenaSpectatorBox(arenaName, zWorld));
+        arena.setLobby(new ArenaLobby(name, zWorld));
+        arena.setSpectatorBox(new ArenaSpectatorBox(name, zWorld));
         
         //Updates the ArenaSign
-        ArenaSignsAPI.updateAllArenaSigns(arenaName);
+        ArenaSignsAPI.updateAllArenaSigns(name);
         
         //Starts the arena if required to
         if(start) 
@@ -289,14 +293,20 @@ public class ArenaManager
     public static ArrayList<ZoneWorld> getArenaWorlds() {return arenaWorlds;}
     
     /**
-     * Generates the next avaliable id for the map
-     * @param map String
-     * @return Integer
+     * Gets the next arena id for the given map
+     * @param map Name of the map
+     * @return The generated Id
      */
-    public static Integer createArenaId(String map)
+    public static Integer getNextArenaId(String map)
     {
-        int arenaid = arenaIdMap.get(map);
-        return arenaid++;
+        if(!arenaIdMap.containsKey(map))
+        {
+            arenaIdMap.put(map, 1);
+            return 1;
+        }else
+        {
+            return arenaIdMap.get(map) + 1;
+        }
     }
     
     
