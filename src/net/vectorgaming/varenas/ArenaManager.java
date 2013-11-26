@@ -193,7 +193,6 @@ public class ArenaManager
     
     /**
      * Creates an arena from the specified map.
-     * This will start the arena 
      * @param map Name of the map to start an arena off of
      * @param start If the match should start or not
      * @return Arena created
@@ -206,26 +205,8 @@ public class ArenaManager
         int arenaid = arenaIdMap.get(map);
         String arenaName = map.toLowerCase()+"_"+arenaid;
         
-        //Copy the map to the arenas
-        File mapFile = new File(ArenaDirectory.MAPS+File.separator+map.toLowerCase());
-        File arenaFile = new File(ArenaDirectory.ARENAS+File.separator+arenaName);
-        ZoneTools.deleteDirectory(arenaFile);
-        try {
-            FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
-                @Override
-                public boolean accept(File pathname) {
-                    return !pathname.getName().equals("uid.dat") && !pathname.getName().equalsIgnoreCase("session.lock");
-                }
-            });
-        } catch (IOException ex) {
-            Logger.getLogger(VArenas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        //Loads the world into ZoneWorld
-        WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), "arenas/"+arenaName);
-        worldLoader.setGenerator("empty");
-        ZoneWorld zWorld = worldLoader.loadZoneWorld();
-        zWorld.setPVP(false);
+        //Creates the world for the arena
+        ZoneWorld zWorld = createMapWorld(map, arenaName);
         
         //Increment the arena id by one
         arenaid++;
@@ -264,6 +245,38 @@ public class ArenaManager
         }
         
         return arena;
+    }
+    
+    /**
+     * Creates a world based off the given map name. This map must exist in the maps
+     * directory. This also sets all world settings to default arena world settings.
+     * @param map Name of the map
+     * @param worldName The name of the world that will be created
+     * @return The created world
+     */
+    public static ZoneWorld createMapWorld(String map, String worldName)
+    {
+        //Copy the map to the arenas
+        File mapFile = new File(ArenaDirectory.MAPS+File.separator+map.toLowerCase());
+        File arenaFile = new File(ArenaDirectory.ARENAS+File.separator+worldName);
+        ZoneTools.deleteDirectory(arenaFile);
+        try {
+            FileUtils.copyDirectory(mapFile, arenaFile, new FileFilter(){
+                @Override
+                public boolean accept(File pathname) {
+                    return !pathname.getName().equals("uid.dat") && !pathname.getName().equalsIgnoreCase("session.lock");
+                }
+            });
+        } catch (IOException ex) {
+            Logger.getLogger(VArenas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Loads the world into ZoneWorld
+        WorldLoader worldLoader = new WorldLoader(ZoneWorldAPI.getPlugin(), "arenas/"+worldName);
+        worldLoader.setGenerator("empty");
+        ZoneWorld zWorld = worldLoader.loadZoneWorld();
+        zWorld.setPVP(false);
+        return zWorld;
     }
     
     /**
@@ -333,9 +346,7 @@ public class ArenaManager
      */
     public static boolean isArenaRunning(String name) 
     {
-        if(runningArenasList.contains(name))
-            return true;
-        return false;
+        return runningArenasList.contains(name);
     }
     
     /**
