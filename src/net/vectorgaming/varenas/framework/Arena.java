@@ -24,7 +24,6 @@ import net.vectorgaming.varenas.util.SLAPI;
 import net.vectorgaming.vchat.ChatManager;
 import net.vectorgaming.vchat.framework.channel.Channel;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -187,7 +186,7 @@ public abstract class Arena implements Listener
      * Gets the ID for the arena
      * @return The ID of the running arena
      */
-    public Integer getId() 
+    public Integer getId()
     {
         return id;
     }
@@ -323,11 +322,6 @@ public abstract class Arena implements Listener
      */
     public void onJoin(Player player)
     {
-        if(!canJoin(player))
-        {
-            player.sendMessage(ChatColor.RED+"You cannot join at this time.");
-            return;
-        }
         if(!allPlayers.contains(player.getName()))
         {
             allPlayers.add(player.getName());
@@ -336,6 +330,11 @@ public abstract class Arena implements Listener
         player.getInventory().clear();
         ArenaPlayerManager.addPlayerToArena(getName(), player);
         ArenaSignsAPI.updateAllArenaSigns(getName());
+        
+        if(ArenaPlayerManager.getPlayersInArena(this).size() >= getSettings().getMinPlayers())
+        {
+            getLobby().startLobbyTimer();
+        }
     }
     
     /**
@@ -418,6 +417,7 @@ public abstract class Arena implements Listener
     {
         setRunning(false);
         endTeleportAction();
+        ArenaManager.deleteArena(this);
 //        deleteWorldInventory();
         //rewardPlayers(null);
         deleteAndResetChannels();
@@ -425,7 +425,6 @@ public abstract class Arena implements Listener
         sendEndMessage();
         removeAllPlayers();
         HandlerList.unregisterAll(this);
-        ArenaSignsAPI.updateAllArenaSigns(getName());
        
         for(Entity entity : world.getEntities())
         {
@@ -435,9 +434,10 @@ public abstract class Arena implements Listener
         {
             public void run()
             {
+                ArenaSignsAPI.updateAllArenaSigns(getName());
                 unloadAndDeleteWorld();
             }
-        }, 60L);
+        }, 1L);
     }
     
     private void deleteAndResetChannels()
@@ -447,15 +447,11 @@ public abstract class Arena implements Listener
             ChatManager.leaveChannel(p, channel, true);
             if(oldChannels.containsKey(p))
             {
-                System.out.println("1"+p.getName());
-                System.out.println(oldChannels.get(p).size()+"size for "+p.getName());
                 for(Channel ch : oldChannels.get(p))
                 {
-                    System.out.println(ch.getName()+"2");
                     ChatManager.focusChannel(p, ch);
                 }
             }
-            System.out.println("3"+p.getName());
         }
         ChatManager.deleteChannel(channel.getName());
     }
@@ -471,7 +467,23 @@ public abstract class Arena implements Listener
             {
                 ZoneTools.deleteDirectory(world.getWorldFolder());
             }
-        }, 60L);
+        }, 1L);
+    }
+    
+    /**
+     * Completely resets the arena to its default state
+     * @param delay Length of time in seconds until reload should happen
+     */
+    public void reloadArena(int delay)
+    {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(ArenaAPI.getPlugin(), new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                ArenaManager.createArena(getMap(), getName(), false);
+            }
+        }, delay * 20);
     }
     
     /**
