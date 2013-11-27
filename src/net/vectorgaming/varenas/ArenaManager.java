@@ -36,10 +36,7 @@ public class ArenaManager
     private static HashMap<String, ArenaConfig> arenaConfigs = new HashMap<>(); // {MapName, ArenaConfig}
     private static HashMap<String, ArenaFramework> arenaFramework = new HashMap<>();
     private static final HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
-    private static final HashMap<String, ArrayList<Arena>> runningArenasMap = new HashMap<>(); //{MapName, List of arenas}
     private static final ArrayList<String> queuedArenas = new ArrayList<>();
-    private static final ArrayList<String> runningArenasList = new ArrayList<>();
-    private static final ArrayList<ZoneWorld> arenaWorlds = new ArrayList<>();
     
     private static final VArenas plugin = ArenaAPI.getPlugin();
     
@@ -221,19 +218,6 @@ public class ArenaManager
         
         //Add arena to maps
         arenas.put(name, arena);
-        arenaWorlds.add(zWorld);
-        if(!runningArenasMap.containsKey(map))
-        {
-            runningArenasMap.put(map, new ArrayList<Arena>());
-        }
-        if(!runningArenasMap.get(map).contains(arena))
-        {
-            ArrayList<Arena> temp = runningArenasMap.get(map);
-            temp.add(arena);
-            runningArenasMap.put(map, temp);
-        }
-        if(!runningArenasList.contains(arena.getName()))
-            runningArenasList.add(arena.getName());
         
         //Setup the lobby and spectator spawns
         arena.setLobby(new ArenaLobby(name, zWorld));
@@ -249,6 +233,20 @@ public class ArenaManager
         }
         
         return arena;
+    }
+    
+    public static void deleteArena(Arena arena)
+    {
+        deleteArena(arena.getName());
+    }
+    
+    public static void deleteArena(String arena)
+    {
+        arenas.remove(arena);
+        if(queuedArenas.contains(arena))
+        {
+            queuedArenas.remove(arena);
+        }
     }
     
     /**
@@ -290,7 +288,15 @@ public class ArenaManager
      * It contains ALL worlds that arenas have ran in, are running in, or will run in.
      * @return A list of ZoneWorlds
      */
-    public static ArrayList<ZoneWorld> getArenaWorlds() {return arenaWorlds;}
+    public static ArrayList<ZoneWorld> getArenaWorlds() 
+    {
+        ArrayList<ZoneWorld> result = new ArrayList<>();
+        for(Arena arena : getArenas())
+        {
+            result.add(arena.getWorld());
+        }
+        return result;
+    }
     
     /**
      * Gets the next arena id for the given map
@@ -315,7 +321,20 @@ public class ArenaManager
      * @param name String
      * @return VArena
      */
-    public static Arena getArena(String name){return arenas.get(name);}
+    public static Arena getArena(String name)
+    {
+        return arenas.get(name);
+    }
+    
+    public static ArrayList<Arena> getArenas()
+    {
+        ArrayList<Arena> result = new ArrayList<>();
+        for(Arena a : arenas.values())
+        {
+            result.add(a);
+        }
+        return result;
+    }
     
     
     /**
@@ -327,16 +346,6 @@ public class ArenaManager
     public static boolean mapExists(String map)
     {
         return arenaSettings.containsKey(map);
-    }
-    
-    /**
-     * Gets all the arenas that are running the specified map
-     * @param map String
-     * @return ArrayList<Arena>
-     */
-    public static ArrayList<Arena> getRunningArenasFromMap(String map)
-    {
-        return runningArenasMap.get(map);
     }
     
     /**
@@ -356,7 +365,7 @@ public class ArenaManager
      */
     public static boolean isArenaRunning(String name) 
     {
-        return runningArenasList.contains(name);
+        return arenas.containsKey(name);
     }
     
     /**
