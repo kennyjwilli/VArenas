@@ -22,7 +22,6 @@ public class ArenaForceStopCommand extends SubCommand
     @Override
     public void run(CommandSender cs, String[] args)
     {        
-        
         if(!ArenaManager.isArenaRunning(args[0].toLowerCase()))
         {
             cs.sendMessage(ChatColor.RED+"Error: Arena "+ChatColor.YELLOW+args[0].toLowerCase()+ChatColor.RED+" is not running or queued.");
