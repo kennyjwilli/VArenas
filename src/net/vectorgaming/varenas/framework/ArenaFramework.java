@@ -176,7 +176,7 @@ public class ArenaFramework
      */
     public void setArenaTriggerBox(TriggerBox box)
     {
-        addTriggerBox(ArenaYMLPath.ARENA_REGION.toString(), box);
+        addTriggerBox(ArenaYMLPath.ARENA_REGION, box);
     }
     
     /**
@@ -195,7 +195,7 @@ public class ArenaFramework
      */
     public void addTriggerBox(String path, TriggerBox box)
     {
-        triggerBoxMap.put("regions."+path, box);
+        triggerBoxMap.put(path, box);
     }
     
     /**
