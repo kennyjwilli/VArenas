@@ -76,7 +76,6 @@ public class ArenaLobby extends VRegion
      */
     public void startLobbyTimer()
     {
-        //When VChat is done add sendChannelMessage method and use it here.
         TASK_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(ArenaAPI.getPlugin(), new Runnable()
         {
             public void run()
