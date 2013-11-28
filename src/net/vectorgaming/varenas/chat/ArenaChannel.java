@@ -2,6 +2,7 @@
 package net.vectorgaming.varenas.chat;
 
 import net.vectorgaming.varenas.ArenaManager;
+import net.vectorgaming.varenas.ArenaPlayerManager;
 import net.vectorgaming.varenas.framework.Arena;
 import net.vectorgaming.vchat.framework.channel.Channel;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ import org.bukkit.entity.Player;
  */
 public class ArenaChannel extends Channel
 {
-    private String arenaName;
+    private final String arenaName;
     /**
      *
      * @param arena Name of the arena that the channel will use
@@ -29,7 +30,7 @@ public class ArenaChannel extends Channel
         Arena arena = ArenaManager.getArena(arenaName);
         super.onChat(player, message);
         String formatted = getChatParser().replaceAll(getFormat());
-        for(Player p : arena.getPlayers())
+        for(Player p : ArenaPlayerManager.getPlayersInArena(arena))
         {
             p.sendMessage(formatted);
         }
