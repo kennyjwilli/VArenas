@@ -37,9 +37,6 @@ public class ArenaLoadArenaCommand extends SubCommand
     }
 
     @Override
-    public String getName() {return "arena load";}
-
-    @Override
     public String getUsage() {return "/arena load <map>";}
 
     @Override
