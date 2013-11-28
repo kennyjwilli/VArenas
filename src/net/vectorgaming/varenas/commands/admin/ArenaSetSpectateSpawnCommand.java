@@ -16,7 +16,7 @@ public class ArenaSetSpectateSpawnCommand extends SubCommand
 {
     public ArenaSetSpectateSpawnCommand()
     {
-        super("setregion", ArenaAPI.getPlugin());
+        super("setspectatorbox", ArenaAPI.getPlugin());
     }
     
     @Override
