@@ -43,10 +43,8 @@ public class PlayerDeathListener implements Listener
         arena.onDeath(dead, killer);
         if(!arena.isRunning())
         {
-            System.out.println("9");
             return;
         }
-        System.out.println("10");
         
         //Removes dropped items if needed
         if(!arena.getSettings().getAllowedItemDropTypes().contains("DEATH") && !arena.getSettings().getAllowedItemDropTypes().contains("ALL"))
