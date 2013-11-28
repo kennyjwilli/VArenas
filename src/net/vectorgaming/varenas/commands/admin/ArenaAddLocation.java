@@ -22,25 +22,16 @@ public class ArenaAddLocation extends SubCommand
     
     @Override
     public void run(CommandSender cs, String[] args)
-    {                
-        if(args.length != 2)
-        {
-            cs.sendMessage(ChatColor.RED+getUsage());
-            return;
-        }
-        
+    {
         if(!ArenaManager.mapExists(args[0].toLowerCase()))
         {
-            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[1]+ChatColor.RED+" does not exist.");
+            cs.sendMessage(ChatColor.RED+"Error: Map "+ChatColor.YELLOW+args[0]+ChatColor.RED+" does not exist.");
             return;
         }
         
         ArenaManager.getAreanFramework(args[0].toLowerCase()).addLocation(args[1].toLowerCase(), new Point3D(((Player) cs).getLocation()));
         cs.sendMessage(ChatColor.GREEN+"Successfully added new location for "+ChatColor.YELLOW+args[1].toLowerCase()+ChatColor.GREEN+" in map "+ChatColor.YELLOW+args[0].toLowerCase());
     }
-
-    @Override
-    public String getName() {return "arena addlocation";}
 
     @Override
     public String getUsage(){return "/arena addlocation <map> <locationName>";}
