@@ -1,7 +1,6 @@
 
 package net.vectorgaming.varenas.commands.admin;
 
-import java.util.Arrays;
 import net.vectorgaming.varenas.ArenaAPI;
 import net.vectorgaming.varenas.ArenaManager;
 import net.vectorgaming.vcore.framework.commands.SubCommand;
@@ -35,9 +34,6 @@ public class ArenaAddSpawnPointCommand extends SubCommand
         
         cs.sendMessage(ChatColor.GREEN+"Added spawn point "+ChatColor.YELLOW+args[1]+ChatColor.GREEN+" to map "+ChatColor.YELLOW+args[0]+ChatColor.GREEN+"!");
     }
-
-    @Override
-    public String getName() {return "arena addspawn";}
 
     @Override
     public String getUsage() {return "/arena addspawn <map> <spawn>";}
