@@ -223,18 +223,6 @@ public abstract class Arena implements Listener
                 p.setGameMode(GameMode.SURVIVAL);
             }
             
-            /*
-            Adds players to the arena chat channel and saves their old channels
-            */
-            if(ChatManager.getJoinedChannels(p) != null)
-            {
-                
-                ArrayList<Channel> tempList = (ArrayList<Channel>) ChatManager.getJoinedChannels(p).clone();
-                oldChannels.put(p, tempList);
-                for(int i = 0; i < tempList.size(); i++) ChatManager.leaveChannel(p, tempList.get(i), true);
-            }
-            ChatManager.focusChannel(p, channel);
-            
             //Teleport player to his/her spawn
             p.teleport(getSpawnLocation(p));
             
@@ -330,6 +318,17 @@ public abstract class Arena implements Listener
         player.getInventory().clear();
         ArenaPlayerManager.addPlayerToArena(getName(), player);
         ArenaSignsAPI.updateAllArenaSigns(getName());
+        
+        /*
+        Adds players to the arena chat channel and saves their old channels
+        */
+        if(ChatManager.getJoinedChannels(player) != null)
+        {
+            ArrayList<Channel> tempList = (ArrayList<Channel>) ChatManager.getJoinedChannels(player).clone();
+            oldChannels.put(player, tempList);
+            for(int i = 0; i < tempList.size(); i++) ChatManager.leaveChannel(player, tempList.get(i), true);
+        }
+        ChatManager.focusChannel(player, getChannel());
         
         if(ArenaPlayerManager.getPlayersInArena(this).size() >= getSettings().getMinPlayers())
         {
@@ -666,7 +665,6 @@ public abstract class Arena implements Listener
         
         for(Player p : players)
         {
-            System.out.println(p.getName());
             ArenaAPI.resetPlayerState(p);
             p.teleport(postGameSpawn);
         }
