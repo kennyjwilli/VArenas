@@ -58,7 +58,7 @@ public class ArenaSetRegion extends SubCommand
         
         try
         {
-            framework.setArenaTriggerBox(new PolygonTriggerBox(ArenaManager.getPolygonPoints(minY, maxY), ArenaYMLPath.ARENA_REGION.toString()));
+            framework.setArenaTriggerBox(new PolygonTriggerBox(ArenaManager.getPolygonPoints(minY, maxY), ArenaYMLPath.ARENA_REGION));
         }catch(Exception e)
         {
             e.printStackTrace();
