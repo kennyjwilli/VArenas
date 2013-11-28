@@ -284,6 +284,6 @@ public class ArenaConfig extends ZoneConfig{
     
     public Point3D getLocation(String path)
     {
-        return Point3D.toPoint3D(getString("locations."+path));
+        return Point3D.toPoint3D(getString(path));
     }
 }
