@@ -111,7 +111,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void addArenaSpawn(String spawnName, Point3D point)
     {
-        this.set(""+ArenaYMLPath.ARENA_SPAWNS+"."+spawnName.toLowerCase(), point.toSaveString());
+        this.set(ArenaYMLPath.ARENA_SPAWNS+"."+spawnName.toLowerCase(), point.toSaveString());
     }
     
     /**
@@ -160,7 +160,7 @@ public class ArenaConfig extends ZoneConfig{
      */
     public void setArenaBox(TriggerBox box)
     {
-        this.set(ArenaYMLPath.ARENA_REGION+"", box.toSaveString());
+        this.set(ArenaYMLPath.ARENA_REGION, box.toSaveString());
     }
     
     /**
@@ -185,7 +185,8 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Sets a trigger box to be saved into the arena framework
+     * Sets a trigger box to be saved into the arena framework. It is recommended 
+     * that you add the "regions." path prefix before you path for a cleaner looking YML file.
      * @param path Path in the YML to be saved
      * @param box TriggerBox
      */
@@ -195,7 +196,8 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Gets the TriggerBox from the specified path
+     * Gets the TriggerBox from the specified path. It is recommended that you add 
+     * the "regions." path prefix before you path for a cleaner looking YML file.
      * @param path Path saved in the YML
      * @return TriggerBox
      * @throws Exception
@@ -206,7 +208,9 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Gets the TriggerBox from the spcified path and sets the triggerbox event handler
+     * Gets the TriggerBox from the specified path and sets the triggerbox event handler.
+     * It is recommended that you add the "regions." path prefix before you path 
+     * for a cleaner looking YML file.
      * @param path Path saved in the YML
      * @param eventHandler TriggerBoxEventHandler
      * @return TriggerBox
@@ -262,7 +266,8 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Adds a location to the arena in the path 'location'
+     * Adds a location to the arena. It is recommended that you add the "locations."
+     * path prefix before you path for a cleaner looking YML file.
      * @param path Path to save the location
      * @param location Location of the spawn
      */
@@ -272,8 +277,8 @@ public class ArenaConfig extends ZoneConfig{
     }
     
     /**
-     * Adds a location to the arena. If it is a location then ensure you prefix the 
-     * path with 'location.'+path
+     * Adds a location to the arena. It is recommended that you add the "locations."
+     * path prefix before you path for a cleaner looking YML file.
      * @param path Path to save the location
      * @param point 3D location of the spawn
      */
