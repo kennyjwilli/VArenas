@@ -22,6 +22,7 @@ import net.vectorgaming.varenas.framework.ArenaLobby;
 import net.vectorgaming.varenas.framework.ArenaSettings;
 import net.vectorgaming.varenas.framework.ArenaSpectatorBox;
 import net.vectorgaming.varenas.framework.config.ArenaConfig;
+import net.vectorgaming.vcore.framework.VertexPlugin;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Location;
 
@@ -38,7 +39,7 @@ public class ArenaManager
     private static final HashMap<String, Integer> arenaIdMap = new HashMap<>(); // {MapName, nextIdForArena}
     private static final ArrayList<String> queuedArenas = new ArrayList<>();
     
-    private static final VArenas plugin = ArenaAPI.getPlugin();
+    private static final VertexPlugin plugin = ArenaAPI.getPlugin();
     
     /**
      * Creates a map with the given name
