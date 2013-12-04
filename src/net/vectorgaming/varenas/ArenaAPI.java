@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
-import net.vectorgaming.vcore.framework.VertexAPI;
+import net.vectorgaming.vcore.framework.VertexPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
  *
  * @author jeppe
  */
-public class ArenaAPI extends VertexAPI
+public class ArenaAPI
 {
     private static VArenas plugin;
     private static World hubWorld;
@@ -26,7 +26,6 @@ public class ArenaAPI extends VertexAPI
     
     public ArenaAPI(VArenas plugin)
     {
-        super(plugin);
         ArenaAPI.plugin = plugin;
         hubWorld = Bukkit.getWorld(plugin.getConfig().getString("hub-world"));
         if(hubWorld == null)
@@ -39,20 +38,16 @@ public class ArenaAPI extends VertexAPI
         allowedCommands = plugin.getConfig().getStringList("allowed-commands");
     }
     
+    public static VertexPlugin getPlugin()
+    {
+        return plugin;
+    }
+    
     /**
      * Checks to see if the plugin can enable
      * @return boolean value
      */
     public boolean canPluginStart(){return canStart;}
-
-    /**
-     * Gets the VArenas plugin
-     * @return VArenas
-     */
-    public static VArenas getPlugin() 
-    {
-        return plugin;
-    }
     
     /**
      * Gets the plugin data folder
