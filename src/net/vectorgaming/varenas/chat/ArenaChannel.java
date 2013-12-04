@@ -25,7 +25,7 @@ public class ArenaChannel extends Channel
     }
     
     @Override
-    public void onChat(Player player, String message)
+    public String onChat(Player player, String message)
     {
         Arena arena = ArenaManager.getArena(arenaName);
         super.onChat(player, message);
@@ -34,5 +34,6 @@ public class ArenaChannel extends Channel
         {
             p.sendMessage(formatted);
         }
+        return formatted;
     }
 }
